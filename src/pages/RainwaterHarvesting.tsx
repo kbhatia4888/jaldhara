@@ -184,9 +184,9 @@ export default function RainwaterHarvesting() {
         <div>
           <div className="flex items-center gap-2">
             <Droplets size={22} className="text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Rainwater Harvesting</h1>
+            <h1 className="text-2xl font-bold text-[#2C2820]">Rainwater Harvesting</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">Assess rooftop catchment potential and design RWH systems for buildings</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">Assess rooftop catchment potential and design RWH systems for buildings</p>
         </div>
         <Button onClick={openAdd} className="flex-shrink-0">
           <Plus size={15} className="mr-1" /> New Assessment
@@ -198,19 +198,19 @@ export default function RainwaterHarvesting() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <Card>
             <CardBody className="py-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wide">Annual Harvest Potential</p>
+              <p className="text-xs text-[#8C8062] uppercase tracking-wide">Annual Harvest Potential</p>
               <p className="text-xl font-bold text-blue-700 mt-1">{fmt(Math.round(totalHarvest / 1000))} KL</p>
             </CardBody>
           </Card>
           <Card>
             <CardBody className="py-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wide">Total Water Saving / yr</p>
-              <p className="text-xl font-bold text-[#0F6E56] mt-1">₹{fmt(totalSaving)}</p>
+              <p className="text-xs text-[#8C8062] uppercase tracking-wide">Total Water Saving / yr</p>
+              <p className="text-xl font-bold text-[#567C45] mt-1">₹{fmt(totalSaving)}</p>
             </CardBody>
           </Card>
           <Card>
             <CardBody className="py-4">
-              <p className="text-xs text-gray-500 uppercase tracking-wide">DJB Rebate Unlocked / yr</p>
+              <p className="text-xs text-[#8C8062] uppercase tracking-wide">DJB Rebate Unlocked / yr</p>
               <p className="text-xl font-bold text-amber-600 mt-1">₹{fmt(totalDjb)}</p>
             </CardBody>
           </Card>
@@ -225,8 +225,8 @@ export default function RainwaterHarvesting() {
               <Droplets size={16} className="text-blue-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 text-sm">How RWH assessments work</h3>
-              <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+              <h3 className="font-semibold text-[#2C2820] text-sm">How RWH assessments work</h3>
+              <p className="text-xs text-[#8C8062] mt-1 leading-relaxed">
                 Annual harvest = Roof area × Catchment % × Annual rainfall (mm) × 0.8 runoff coefficient.
                 Delhi gets ~790 mm/year (mostly Jul–Sep). A 500 m² rooftop can harvest ~240,000 litres/year.
                 DJB gives an additional <strong>10% annual bill rebate</strong> for RWH (15% if combined with greywater recycling).
@@ -242,8 +242,8 @@ export default function RainwaterHarvesting() {
         <Card>
           <CardBody className="py-12 text-center">
             <Droplets size={32} className="mx-auto text-blue-200 mb-3" />
-            <p className="text-gray-500 text-sm">No RWH assessments yet.</p>
-            <p className="text-gray-400 text-xs mt-1">Add an assessment to calculate harvest potential and DJB rebate eligibility.</p>
+            <p className="text-[#8C8062] text-sm">No RWH assessments yet.</p>
+            <p className="text-[#ADA082] text-xs mt-1">Add an assessment to calculate harvest potential and DJB rebate eligibility.</p>
             <Button onClick={openAdd} className="mt-4 mx-auto">
               <Plus size={14} className="mr-1" /> Add First Assessment
             </Button>
@@ -260,7 +260,7 @@ export default function RainwaterHarvesting() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-gray-900 text-sm">{building?.name ?? 'Unknown Building'}</p>
+                        <p className="font-semibold text-[#2C2820] text-sm">{building?.name ?? 'Unknown Building'}</p>
                         <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
                           {fmt(Math.round(a.annualHarvestPotentialLitres / 1000))} KL/yr harvest
                         </span>
@@ -271,53 +271,53 @@ export default function RainwaterHarvesting() {
                           <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-medium">Non-Compliant</span>
                         )}
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-[#8C8062] mt-0.5">
                         {a.totalRoofAreaSqm} m² roof · {a.roofMaterial} · {a.avgAnnualRainfallMm}mm rainfall · Assessed {a.assessmentDate}
                       </p>
                       <div className="flex gap-4 mt-2 text-xs">
-                        <span className="text-[#0F6E56] font-medium">₹{fmt(a.annualSavingInr)}/yr saving</span>
+                        <span className="text-[#567C45] font-medium">₹{fmt(a.annualSavingInr)}/yr saving</span>
                         <span className="text-amber-600 font-medium">₹{fmt(a.combinedDjbRebateInr)} DJB rebate</span>
-                        <span className="text-gray-500">{a.paybackMonths}mo payback</span>
+                        <span className="text-[#8C8062]">{a.paybackMonths}mo payback</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5 flex-shrink-0">
                       <button
                         onClick={() => setExpandedId(isExpanded ? null : a.id)}
-                        className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-[#EDE4D4] transition-colors"
                       >
                         {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                       </button>
-                      <button onClick={() => openEdit(a)} className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                      <button onClick={() => openEdit(a)} className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-[#EDE4D4] transition-colors">
                         <Edit2 size={13} />
                       </button>
-                      <button onClick={() => handleDelete(a.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                      <button onClick={() => handleDelete(a.id)} className="p-1.5 text-[#ADA082] hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
                         <Trash2 size={13} />
                       </button>
                     </div>
                   </div>
 
                   {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                    <div className="mt-4 pt-4 border-t border-[#EDE4D4] grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                       <div>
-                        <p className="text-gray-400 uppercase tracking-wide text-[10px]">Storage Recommended</p>
-                        <p className="font-semibold text-gray-900">{fmt(a.storageRecommendedLitres)} L</p>
+                        <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Storage Recommended</p>
+                        <p className="font-semibold text-[#2C2820]">{fmt(a.storageRecommendedLitres)} L</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 uppercase tracking-wide text-[10px]">Capex Range</p>
-                        <p className="font-semibold text-gray-900">₹{fmt(a.capexEstimateMin)} – {fmt(a.capexEstimateMax)}</p>
+                        <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Capex Range</p>
+                        <p className="font-semibold text-[#2C2820]">₹{fmt(a.capexEstimateMin)} – {fmt(a.capexEstimateMax)}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 uppercase tracking-wide text-[10px]">DJB Rebate %</p>
-                        <p className="font-semibold text-gray-900">{a.combinedDjbRebatePct}%</p>
+                        <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">DJB Rebate %</p>
+                        <p className="font-semibold text-[#2C2820]">{a.combinedDjbRebatePct}%</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 uppercase tracking-wide text-[10px]">System Type</p>
-                        <p className="font-semibold text-gray-900">{a.recommendedSystemType}</p>
+                        <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">System Type</p>
+                        <p className="font-semibold text-[#2C2820]">{a.recommendedSystemType}</p>
                       </div>
                       {a.notes && (
                         <div className="col-span-2 sm:col-span-4">
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Notes</p>
-                          <p className="text-gray-700">{a.notes}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Notes</p>
+                          <p className="text-[#463F2E]">{a.notes}</p>
                         </div>
                       )}
                     </div>
@@ -399,9 +399,9 @@ export default function RainwaterHarvesting() {
                   type="checkbox"
                   checked={form[key as keyof FormState] as boolean}
                   onChange={e => setForm({ ...form, [key]: e.target.checked })}
-                  className="rounded border-gray-300 text-[#0F6E56]"
+                  className="rounded border-gray-300 text-[#567C45]"
                 />
-                <span className="text-gray-700 text-xs">{label}</span>
+                <span className="text-[#463F2E] text-xs">{label}</span>
               </label>
             ))}
           </div>

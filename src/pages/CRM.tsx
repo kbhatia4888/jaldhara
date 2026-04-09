@@ -166,15 +166,15 @@ export default function CRM() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">CRM</h1>
-          <p className="text-gray-500 text-sm">Manage buildings and deals</p>
+          <h1 className="text-2xl font-bold text-[#2C2820]">CRM</h1>
+          <p className="text-[#8C8062] text-sm">Manage buildings and deals</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex bg-gray-100 rounded-lg p-1">
+          <div className="flex bg-[#EDE4D4] rounded-lg p-1">
             <button
               onClick={() => setView('list')}
               className={`px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors ${
-                view === 'list' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                view === 'list' ? 'bg-white shadow-sm text-[#2C2820]' : 'text-[#8C8062] hover:text-[#463F2E]'
               }`}
             >
               <List size={16} /> List
@@ -182,7 +182,7 @@ export default function CRM() {
             <button
               onClick={() => setView('map')}
               className={`px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1.5 transition-colors ${
-                view === 'map' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                view === 'map' ? 'bg-white shadow-sm text-[#2C2820]' : 'text-[#8C8062] hover:text-[#463F2E]'
               }`}
             >
               <Map size={16} /> Map
@@ -263,36 +263,36 @@ export default function CRM() {
                 return (
                   <TR key={building.id} onClick={() => setSelectedBuilding(building)}>
                     <TD>
-                      <div className="font-medium text-gray-900">{building.name}</div>
-                      <div className="text-xs text-gray-400">{(building.flats ?? 0) > 0 ? `${building.flats} flats` : `${building.floors ?? 0} floors`}</div>
+                      <div className="font-medium text-[#2C2820]">{building.name}</div>
+                      <div className="text-xs text-[#ADA082]">{(building.flats ?? 0) > 0 ? `${building.flats} flats` : `${building.floors ?? 0} floors`}</div>
                     </TD>
                     <TD>
                       <div>{getAreaName(building.areaId)}</div>
-                      <div className="text-xs text-gray-400">{getCityName(building.cityId)}</div>
+                      <div className="text-xs text-[#ADA082]">{getCityName(building.cityId)}</div>
                     </TD>
                     <TD><Badge>{building.type}</Badge></TD>
                     <TD><Badge variant={getBuildingStatusBadgeVariant(building.status)}>{building.status}</Badge></TD>
-                    <TD className="font-semibold text-gray-700">{fmtLakh(building.monthlyWaterSpend ? building.monthlyWaterSpend * 12 : (building.tankerCostAnnual ?? 0))}</TD>
+                    <TD className="font-semibold text-[#463F2E]">{fmtLakh(building.monthlyWaterSpend ? building.monthlyWaterSpend * 12 : (building.tankerCostAnnual ?? 0))}</TD>
                     <TD>
                       {latestDeal ? (
                         <Badge variant={getDealStageBadgeVariant(latestDeal.stage)}>{latestDeal.stage}</Badge>
                       ) : (
-                        <span className="text-gray-400 text-xs">—</span>
+                        <span className="text-[#ADA082] text-xs">—</span>
                       )}
                     </TD>
                     <TD>
                       <div className="text-sm">{building.contactName}</div>
-                      <div className="text-xs text-gray-400">{building.contactPhone}</div>
+                      <div className="text-xs text-[#ADA082]">{building.contactPhone}</div>
                     </TD>
                     <TD>
-                      <ChevronRight size={16} className="text-gray-400" />
+                      <ChevronRight size={16} className="text-[#ADA082]" />
                     </TD>
                   </TR>
                 );
               })}
               {filteredBuildings.length === 0 && (
                 <TR>
-                  <TD className="text-center text-gray-400 py-8" colSpan={8}>
+                  <TD className="text-center text-[#ADA082] py-8" colSpan={8}>
                     No buildings found. Adjust filters or add a building.
                   </TD>
                 </TR>
@@ -304,7 +304,7 @@ export default function CRM() {
 
       {/* Building Detail Side Panel */}
       {selectedBuilding && (
-        <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-white shadow-2xl z-50 flex flex-col overflow-hidden border-l border-gray-200">
+        <div className="fixed inset-y-0 right-0 w-full sm:w-[480px] bg-white shadow-2xl z-50 flex flex-col overflow-hidden border-l border-[#E2D5BE]">
           {/* Panel header */}
           <div className="bg-blue-900 text-white px-6 py-4 flex-shrink-0">
             <div className="flex items-start justify-between">
@@ -349,21 +349,21 @@ export default function CRM() {
 
               {/* Contact */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Contact</h3>
-                <div className="bg-gray-50 rounded-xl p-3 space-y-2">
+                <h3 className="text-sm font-semibold text-[#463F2E] mb-2">Contact</h3>
+                <div className="bg-[#F6F1EA] rounded-xl p-3 space-y-2">
                   <div className="flex items-center gap-2 text-sm">
-                    <Building2 size={14} className="text-gray-400" />
-                    <span className="font-medium text-gray-700">{selectedBuilding.contactName}</span>
+                    <Building2 size={14} className="text-[#ADA082]" />
+                    <span className="font-medium text-[#463F2E]">{selectedBuilding.contactName}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Phone size={14} className="text-gray-400" />
+                  <div className="flex items-center gap-2 text-sm text-[#5C5244]">
+                    <Phone size={14} className="text-[#ADA082]" />
                     <a href={`tel:${selectedBuilding.contactPhone}`} className="hover:text-blue-600">
                       {selectedBuilding.contactPhone}
                     </a>
                   </div>
                   {selectedBuilding.contactEmail && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Mail size={14} className="text-gray-400" />
+                    <div className="flex items-center gap-2 text-sm text-[#5C5244]">
+                      <Mail size={14} className="text-[#ADA082]" />
                       <a href={`mailto:${selectedBuilding.contactEmail}`} className="hover:text-blue-600 truncate">
                         {selectedBuilding.contactEmail}
                       </a>
@@ -374,15 +374,15 @@ export default function CRM() {
 
               {selectedBuilding.notes && (
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-700 mb-1">Notes</h3>
-                  <p className="text-sm text-gray-600 bg-yellow-50 rounded-xl p-3">{selectedBuilding.notes}</p>
+                  <h3 className="text-sm font-semibold text-[#463F2E] mb-1">Notes</h3>
+                  <p className="text-sm text-[#5C5244] bg-yellow-50 rounded-xl p-3">{selectedBuilding.notes}</p>
                 </div>
               )}
 
               {/* Deals */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-semibold text-gray-700">Deals</h3>
+                  <h3 className="text-sm font-semibold text-[#463F2E]">Deals</h3>
                   <Button
                     size="sm"
                     onClick={() => { setEditDeal(null); setShowAddDeal(true); }}
@@ -395,50 +395,50 @@ export default function CRM() {
                     {getBuildingDeals(selectedBuilding.id).map(deal => (
                       <div
                         key={deal.id}
-                        className="border border-gray-100 rounded-xl p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="border border-[#EDE4D4] rounded-xl p-3 cursor-pointer hover:bg-[#F6F1EA] transition-colors"
                         onClick={() => openEditDeal(deal)}
                       >
                         <div className="flex items-center justify-between">
                           <Badge variant={getDealStageBadgeVariant(deal.stage)}>{deal.stage}</Badge>
-                          <span className="text-sm font-bold text-gray-700">{fmtCurrency(deal.value)}</span>
+                          <span className="text-sm font-bold text-[#463F2E]">{fmtCurrency(deal.value)}</span>
                         </div>
-                        <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                        <div className="flex items-center justify-between mt-2 text-xs text-[#8C8062]">
                           <span>{deal.waterSavedKLD} KLD saved</span>
                           <span>{format(new Date(deal.createdAt), 'dd MMM yyyy')}</span>
                         </div>
-                        {deal.notes && <p className="text-xs text-gray-400 mt-1 truncate">{deal.notes}</p>}
+                        {deal.notes && <p className="text-xs text-[#ADA082] mt-1 truncate">{deal.notes}</p>}
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-xl">No deals yet.</p>
+                  <p className="text-sm text-[#ADA082] text-center py-4 bg-[#F6F1EA] rounded-xl">No deals yet.</p>
                 )}
               </div>
 
               {/* Audits */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Audits</h3>
+                <h3 className="text-sm font-semibold text-[#463F2E] mb-2">Audits</h3>
                 {getBuildingAudits(selectedBuilding.id).length > 0 ? (
                   <div className="space-y-2">
                     {getBuildingAudits(selectedBuilding.id).map(audit => (
-                      <div key={audit.id} className="border border-gray-100 rounded-xl p-3">
+                      <div key={audit.id} className="border border-[#EDE4D4] rounded-xl p-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium">{format(new Date(audit.date), 'dd MMM yyyy')}</span>
                           <span className="text-sm font-bold text-teal-700">{fmtCurrency(audit.potentialSavings)}/yr savings</span>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">TDS: {audit.tdsLevel} ppm · Borewell: {audit.borewellDepth}m</p>
-                        <p className="text-xs text-gray-400 mt-1 truncate">{audit.recommendedSystem}</p>
+                        <p className="text-xs text-[#8C8062] mt-1">TDS: {audit.tdsLevel} ppm · Borewell: {audit.borewellDepth}m</p>
+                        <p className="text-xs text-[#ADA082] mt-1 truncate">{audit.recommendedSystem}</p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-xl">No audits yet.</p>
+                  <p className="text-sm text-[#ADA082] text-center py-4 bg-[#F6F1EA] rounded-xl">No audits yet.</p>
                 )}
               </div>
 
               {/* Update building status */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Update Status</h3>
+                <h3 className="text-sm font-semibold text-[#463F2E] mb-2">Update Status</h3>
                 <div className="flex flex-wrap gap-2">
                   {BUILDING_STATUSES.map(s => (
                     <button
@@ -447,7 +447,7 @@ export default function CRM() {
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
                         selectedBuilding.status === s
                           ? 'bg-blue-800 text-white border-blue-800'
-                          : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'
+                          : 'bg-white text-[#5C5244] border-[#E2D5BE] hover:border-blue-300'
                       }`}
                     >
                       {s}
@@ -499,7 +499,7 @@ export default function CRM() {
         title={editDeal ? 'Edit Deal' : 'Add Deal'}
       >
         <div className="space-y-4">
-          <p className="text-sm text-gray-500">Building: <span className="font-medium text-gray-700">{selectedBuilding?.name}</span></p>
+          <p className="text-sm text-[#8C8062]">Building: <span className="font-medium text-[#463F2E]">{selectedBuilding?.name}</span></p>
           <Select label="Deal Stage" options={DEAL_STAGES.map(s => ({ value: s, label: s }))} value={dForm.stage} onChange={e => setDForm({ ...dForm, stage: e.target.value as Deal['stage'] })} />
           <Input label="Deal Value (₹)" type="number" value={dForm.value} onChange={e => setDForm({ ...dForm, value: e.target.value })} placeholder="e.g. 1500000" />
           <Input label="Water Saved (KLD)" type="number" value={dForm.waterSavedKLD} onChange={e => setDForm({ ...dForm, waterSavedKLD: e.target.value })} placeholder="e.g. 20" />
@@ -517,8 +517,8 @@ export default function CRM() {
 
 function InfoItem({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
-    <div className="bg-gray-50 rounded-xl p-3">
-      <div className="flex items-center gap-1.5 text-gray-500 mb-1">
+    <div className="bg-[#F6F1EA] rounded-xl p-3">
+      <div className="flex items-center gap-1.5 text-[#8C8062] mb-1">
         <Icon size={12} />
         <span className="text-xs font-medium">{label}</span>
       </div>

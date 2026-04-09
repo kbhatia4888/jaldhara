@@ -8,57 +8,69 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#e6f4f0',
-          100: '#cce9e0',
-          200: '#99d3c1',
-          300: '#66bda2',
-          400: '#33a783',
-          500: '#0F6E56',  // Primary teal
-          600: '#0c5844',
-          700: '#094232',
-          800: '#062c21',
-          900: '#031611',
+        // Warm parchment backgrounds
+        cream: {
+          50:  '#FDFAF4',
+          100: '#F6F1EA',   // page bg
+          200: '#EDE4D4',
+          300: '#E2D5BE',
+          400: '#D4C4A8',
+          500: '#BFB39E',
+          600: '#A69880',
+          700: '#877A63',
+          800: '#5C5244',
+          900: '#2C2820',
         },
-        amber: {
-          50: '#fef9ee',
-          100: '#fdf3dc',
-          200: '#fbe7b9',
-          300: '#f9db96',
-          400: '#f7cf73',
-          500: '#BA7517',  // Secondary amber
-          600: '#955e12',
-          700: '#70460e',
-          800: '#4a2f09',
-          900: '#251705',
+        // Muted sage / olive green — primary
+        sage: {
+          50:  '#F2F5F0',
+          100: '#E0EAD9',
+          200: '#C1D4B4',
+          300: '#9DBA8A',
+          400: '#7A9E63',
+          500: '#567C45',   // primary action
+          600: '#436036',
+          700: '#334928',
+          800: '#22301A',
+          900: '#11180D',
         },
-        accent: {
-          50: '#efeefc',
-          100: '#deddf9',
-          200: '#bdbaf3',
-          300: '#9c98ec',
-          400: '#7b75e6',
-          500: '#534AB7',  // Accent purple
-          600: '#423b92',
-          700: '#322c6e',
-          800: '#211d49',
-          900: '#110f25',
+        // Warm terracotta — secondary accent
+        terra: {
+          50:  '#FBF2EC',
+          100: '#F5E1D2',
+          200: '#EBC3A5',
+          300: '#DEA278',
+          400: '#CE7F4D',
+          500: '#A86030',   // secondary
+          600: '#864D26',
+          700: '#633A1C',
+          800: '#422612',
+          900: '#211308',
         },
-        teal: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
+        // Warm stone — neutrals
+        sand: {
+          50:  '#FDFAF4',
+          100: '#F6F1EA',
+          200: '#EDE4D4',
+          300: '#DDD0BC',
+          400: '#C8BAA0',
+          500: '#ADA082',
+          600: '#8C8062',
+          700: '#696047',
+          800: '#463F2E',
+          900: '#232017',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      boxShadow: {
+        card:    '0 1px 3px 0 rgba(44,40,32,0.06), 0 1px 2px -1px rgba(44,40,32,0.04)',
+        'card-md': '0 4px 16px 0 rgba(44,40,32,0.09), 0 2px 4px -1px rgba(44,40,32,0.05)',
+      },
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.25rem',
       },
     },
   },

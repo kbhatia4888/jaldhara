@@ -12,16 +12,16 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-[#0F6E56] text-white hover:bg-[#0c5844] focus:ring-[#0F6E56]',
-  secondary: 'bg-teal-600 text-white hover:bg-teal-700 focus:ring-teal-500',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-  ghost: 'bg-transparent text-gray-600 hover:bg-gray-100 focus:ring-gray-300',
-  outline: 'bg-white text-blue-800 border border-blue-800 hover:bg-blue-50 focus:ring-blue-500',
+  primary:   'bg-[#567C45] text-white hover:bg-[#436036] focus:ring-[#567C45]/30',
+  secondary: 'bg-[#5C5244] text-white hover:bg-[#463F2E] focus:ring-[#5C5244]/30',
+  danger:    'bg-[#A86030] text-white hover:bg-[#864D26] focus:ring-[#A86030]/30',
+  ghost:     'bg-transparent text-[#5C5244] hover:bg-[#EDE4D4] border border-[#D8CEBC] focus:ring-[#BFB39E]/40',
+  outline:   'bg-[#FDFAF4] text-[#567C45] border border-[#567C45]/30 hover:bg-[#567C45]/6 focus:ring-[#567C45]/20',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'px-3 py-1.5 text-xs rounded-md',
-  md: 'px-4 py-2 text-sm rounded-lg',
+  sm: 'px-3 py-1.5 text-xs rounded-lg',
+  md: 'px-4 py-2 text-sm rounded-xl',
   lg: 'px-6 py-3 text-base rounded-xl',
 };
 
@@ -37,7 +37,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        'inline-flex items-center justify-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed',
         variantClasses[variant],
         sizeClasses[size],
         className

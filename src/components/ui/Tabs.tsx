@@ -30,7 +30,7 @@ interface TabListProps {
 
 export function TabList({ children, className }: TabListProps) {
   return (
-    <div className={clsx('flex gap-1 border-b border-gray-200', className)}>
+    <div className={clsx('flex gap-1 border-b border-[#E2D5BE]', className)}>
       {children}
     </div>
   );
@@ -50,7 +50,7 @@ export function Tab({ value, children }: TabProps) {
         'px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px',
         active === value
           ? 'border-blue-800 text-blue-800'
-          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          : 'border-transparent text-[#8C8062] hover:text-[#463F2E] hover:border-gray-300'
       )}
     >
       {children}

@@ -102,7 +102,7 @@ export function Tooltip({ term, children, content, className = '' }: TooltipProp
           height="14"
           viewBox="0 0 14 14"
           fill="none"
-          className="text-gray-400 hover:text-[#0F6E56] transition-colors flex-shrink-0"
+          className="text-[#ADA082] hover:text-[#567C45] transition-colors flex-shrink-0"
         >
           <circle cx="7" cy="7" r="6.5" stroke="currentColor" strokeWidth="1"/>
           <text x="7" y="10.5" textAnchor="middle" fontSize="8" fill="currentColor" fontWeight="600">i</text>

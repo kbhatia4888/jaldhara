@@ -119,8 +119,8 @@ export default function Reports() {
   return (
     <div className="max-w-screen-2xl mx-auto px-4 py-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
-        <p className="text-gray-500 text-sm">Performance metrics and analytics</p>
+        <h1 className="text-2xl font-bold text-[#2C2820]">Reports</h1>
+        <p className="text-[#8C8062] text-sm">Performance metrics and analytics</p>
       </div>
 
       {/* Summary cards */}
@@ -134,7 +134,7 @@ export default function Reports() {
       {/* Revenue by month */}
       <Card>
         <CardHeader>
-          <h2 className="font-semibold text-gray-900">Revenue by Month (Last 12 Months)</h2>
+          <h2 className="font-semibold text-[#2C2820]">Revenue by Month (Last 12 Months)</h2>
         </CardHeader>
         <CardBody>
           <BarChart
@@ -152,7 +152,7 @@ export default function Reports() {
         {/* Water saved by month */}
         <Card>
           <CardHeader>
-            <h2 className="font-semibold text-gray-900">Water Saved by Month (KLD)</h2>
+            <h2 className="font-semibold text-[#2C2820]">Water Saved by Month (KLD)</h2>
           </CardHeader>
           <CardBody>
             <LineChart
@@ -167,7 +167,7 @@ export default function Reports() {
         {/* Conversion Funnel */}
         <Card>
           <CardHeader>
-            <h2 className="font-semibold text-gray-900">Conversion Funnel</h2>
+            <h2 className="font-semibold text-[#2C2820]">Conversion Funnel</h2>
           </CardHeader>
           <CardBody>
             <BarChart
@@ -183,7 +183,7 @@ export default function Reports() {
       {/* Top Areas Table */}
       <Card>
         <CardHeader>
-          <h2 className="font-semibold text-gray-900">Top Performing Areas</h2>
+          <h2 className="font-semibold text-[#2C2820]">Top Performing Areas</h2>
         </CardHeader>
         <Table>
           <THead>
@@ -201,13 +201,13 @@ export default function Reports() {
           <TBody>
             {areaStats.map(row => (
               <TR key={row.area.id}>
-                <TD className="font-medium text-gray-900">{row.area.name}</TD>
+                <TD className="font-medium text-[#2C2820]">{row.area.name}</TD>
                 <TD>{row.city}</TD>
                 <TD>{row.buildings}</TD>
                 <TD>{row.deals}</TD>
                 <TD>{row.wonDeals}</TD>
                 <TD>
-                  <span className={`font-semibold ${row.convRate >= 50 ? 'text-green-600' : row.convRate >= 25 ? 'text-yellow-600' : 'text-gray-500'}`}>
+                  <span className={`font-semibold ${row.convRate >= 50 ? 'text-green-600' : row.convRate >= 25 ? 'text-yellow-600' : 'text-[#8C8062]'}`}>
                     {row.convRate}%
                   </span>
                 </TD>
@@ -222,7 +222,7 @@ export default function Reports() {
       {/* City Comparison */}
       <Card>
         <CardHeader>
-          <h2 className="font-semibold text-gray-900">City Comparison</h2>
+          <h2 className="font-semibold text-[#2C2820]">City Comparison</h2>
         </CardHeader>
         <Table>
           <THead>
@@ -239,7 +239,7 @@ export default function Reports() {
           <TBody>
             {cityStats.map(row => (
               <TR key={row.city.id}>
-                <TD className="font-medium text-gray-900">{row.city.name}</TD>
+                <TD className="font-medium text-[#2C2820]">{row.city.name}</TD>
                 <TD>
                   <Badge variant={
                     row.city.stage === 'Scaling' ? 'success' :
@@ -280,9 +280,9 @@ function StatCard({ icon: Icon, label, value, sub, color }: {
           <Icon size={20} />
         </div>
         <div>
-          <p className="text-xs text-gray-500 font-medium">{label}</p>
-          <p className="text-xl font-bold text-gray-900">{value}</p>
-          <p className="text-xs text-gray-400">{sub}</p>
+          <p className="text-xs text-[#8C8062] font-medium">{label}</p>
+          <p className="text-xl font-bold text-[#2C2820]">{value}</p>
+          <p className="text-xs text-[#ADA082]">{sub}</p>
         </div>
       </CardBody>
     </Card>

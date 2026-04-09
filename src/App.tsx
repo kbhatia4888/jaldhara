@@ -23,7 +23,7 @@ function AppInner() {
     return <Onboarding />;
   }
   return (
-    <div className="min-h-screen bg-[#F9F9F7]">
+    <div className="min-h-screen bg-[#F6F1EA]">
       <Header />
       <main className="pb-20 md:pb-6">
         <Routes>

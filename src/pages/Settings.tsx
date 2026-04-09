@@ -141,18 +141,18 @@ export default function Settings() {
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
-          <SettingsIcon size={22} className="text-[#0F6E56]" />
-          <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+          <SettingsIcon size={22} className="text-[#567C45]" />
+          <h1 className="text-2xl font-bold text-[#2C2820]">Settings</h1>
         </div>
-        <p className="text-gray-500 text-sm mt-0.5">Configure your business profile and preferences</p>
+        <p className="text-[#8C8062] text-sm mt-0.5">Configure your business profile and preferences</p>
       </div>
 
       {/* Consultant Profile */}
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <User size={16} className="text-[#0F6E56]" />
-            <h2 className="font-semibold text-gray-900">Consultant Profile</h2>
+            <User size={16} className="text-[#567C45]" />
+            <h2 className="font-semibold text-[#2C2820]">Consultant Profile</h2>
           </div>
         </CardHeader>
         <CardBody className="space-y-4">
@@ -197,8 +197,8 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Building2 size={16} className="text-[#0F6E56]" />
-            <h2 className="font-semibold text-gray-900">Phase Settings</h2>
+            <Building2 size={16} className="text-[#567C45]" />
+            <h2 className="font-semibold text-[#2C2820]">Phase Settings</h2>
           </div>
         </CardHeader>
         <CardBody className="space-y-4">
@@ -212,7 +212,7 @@ export default function Settings() {
             value={localSettings.currentPhase.toString()}
             onChange={e => setLocalSettings({ ...localSettings, currentPhase: parseInt(e.target.value) as 1 | 2 | 3 })}
           />
-          <div className="bg-teal-50 border border-teal-100 rounded-xl p-4 text-sm text-teal-800">
+          <div className="bg-[#567C45]/5 border border-[#567C45]/10 rounded-xl p-4 text-sm text-[#567C45]">
             <strong>Phase 1:</strong> Conduct audits, refer buildings to manufacturers, earn 10–15% commission. Goal: ₹5L in commissions.<br />
             <strong>Phase 2:</strong> Own installations. Source components, manage civil contractors. Earn full margin + AMC.<br />
             <strong>Phase 3:</strong> Water-as-a-Service. Zero upfront cost to customer. Monthly fee or per-KL billing.
@@ -224,8 +224,8 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Map size={16} className="text-[#0F6E56]" />
-            <h2 className="font-semibold text-gray-900">Map Settings</h2>
+            <Map size={16} className="text-[#567C45]" />
+            <h2 className="font-semibold text-[#2C2820]">Map Settings</h2>
           </div>
         </CardHeader>
         <CardBody className="space-y-4">
@@ -249,7 +249,7 @@ export default function Settings() {
               onChange={e => setLocalSettings({ ...localSettings, defaultMapLng: parseFloat(e.target.value) })}
             />
           </div>
-          <p className="text-xs text-gray-400">Get a free Mapbox token at mapbox.com. Used for map pins in the CRM.</p>
+          <p className="text-xs text-[#ADA082]">Get a free Mapbox token at mapbox.com. Used for map pins in the CRM.</p>
         </CardBody>
       </Card>
 
@@ -257,8 +257,8 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <FileText size={16} className="text-[#0F6E56]" />
-            <h2 className="font-semibold text-gray-900">Report Settings</h2>
+            <FileText size={16} className="text-[#567C45]" />
+            <h2 className="font-semibold text-[#2C2820]">Report Settings</h2>
           </div>
         </CardHeader>
         <CardBody>
@@ -286,8 +286,8 @@ export default function Settings() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Building2 size={16} className="text-[#0F6E56]" />
-              <h2 className="font-semibold text-gray-900">Manufacturers</h2>
+              <Building2 size={16} className="text-[#567C45]" />
+              <h2 className="font-semibold text-[#2C2820]">Manufacturers</h2>
             </div>
             <Button size="sm" onClick={openAddMfr}>
               <Plus size={14} className="mr-1" /> Add
@@ -296,21 +296,21 @@ export default function Settings() {
         </CardHeader>
         <CardBody className="space-y-3">
           {manufacturers.map(m => (
-            <div key={m.id} className="flex items-start justify-between p-3 rounded-xl border border-gray-100 bg-gray-50">
+            <div key={m.id} className="flex items-start justify-between p-3 rounded-xl border border-[#EDE4D4] bg-[#F6F1EA]">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="font-semibold text-gray-900 text-sm">{m.name}</p>
-                  <span className="text-xs text-[#0F6E56] font-semibold">{m.commissionRatePct}%</span>
-                  {!m.active && <span className="text-xs text-gray-400 bg-gray-200 px-1.5 py-0.5 rounded">Inactive</span>}
+                  <p className="font-semibold text-[#2C2820] text-sm">{m.name}</p>
+                  <span className="text-xs text-[#567C45] font-semibold">{m.commissionRatePct}%</span>
+                  {!m.active && <span className="text-xs text-[#ADA082] bg-[#DDD0BC] px-1.5 py-0.5 rounded">Inactive</span>}
                 </div>
-                <p className="text-xs text-gray-500 mt-0.5">{m.city} · {m.contactName} · {m.contactPhone}</p>
-                <p className="text-xs text-gray-600 mt-0.5 truncate max-w-md">{m.speciality}</p>
+                <p className="text-xs text-[#8C8062] mt-0.5">{m.city} · {m.contactName} · {m.contactPhone}</p>
+                <p className="text-xs text-[#5C5244] mt-0.5 truncate max-w-md">{m.speciality}</p>
               </div>
               <div className="flex gap-1.5 flex-shrink-0 ml-3">
-                <button onClick={() => openEditMfr(m)} className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-white transition-colors">
+                <button onClick={() => openEditMfr(m)} className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-white transition-colors">
                   <Edit2 size={13} />
                 </button>
-                <button onClick={() => handleDeleteMfr(m.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                <button onClick={() => handleDeleteMfr(m.id)} className="p-1.5 text-[#ADA082] hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
                   <Trash2 size={13} />
                 </button>
               </div>
@@ -324,8 +324,8 @@ export default function Settings() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Heart size={16} className="text-[#0F6E56]" />
-              <h2 className="font-semibold text-gray-900">CSR Partners</h2>
+              <Heart size={16} className="text-[#567C45]" />
+              <h2 className="font-semibold text-[#2C2820]">CSR Partners</h2>
             </div>
             <Button size="sm" onClick={openAddCsr}>
               <Plus size={14} className="mr-1" /> Add
@@ -334,28 +334,28 @@ export default function Settings() {
         </CardHeader>
         <CardBody className="space-y-3">
           {csrPartners.length === 0 && (
-            <p className="text-sm text-gray-400 text-center py-4">No CSR partners yet. Add NGOs, foundations, and corporates who can co-fund environmental projects.</p>
+            <p className="text-sm text-[#ADA082] text-center py-4">No CSR partners yet. Add NGOs, foundations, and corporates who can co-fund environmental projects.</p>
           )}
           {csrPartners.map(c => (
-            <div key={c.id} className="flex items-start justify-between p-3 rounded-xl border border-gray-100 bg-gray-50">
+            <div key={c.id} className="flex items-start justify-between p-3 rounded-xl border border-[#EDE4D4] bg-[#F6F1EA]">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <p className="font-semibold text-gray-900 text-sm">{c.companyName}</p>
+                  <p className="font-semibold text-[#2C2820] text-sm">{c.companyName}</p>
                   <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-medium">{c.relationshipStatus}</span>
                 </div>
-                <p className="text-xs text-gray-500 mt-0.5">{c.contactName}{c.contactEmail ? ` · ${c.contactEmail}` : ''}</p>
+                <p className="text-xs text-[#8C8062] mt-0.5">{c.contactName}{c.contactEmail ? ` · ${c.contactEmail}` : ''}</p>
                 {c.csrFocusAreas.length > 0 && (
-                  <p className="text-xs text-gray-600 mt-0.5 truncate max-w-md">{c.csrFocusAreas.join(', ')}</p>
+                  <p className="text-xs text-[#5C5244] mt-0.5 truncate max-w-md">{c.csrFocusAreas.join(', ')}</p>
                 )}
                 {c.typicalBudgetInr && (
-                  <p className="text-xs text-[#0F6E56] mt-0.5">Budget: ₹{c.typicalBudgetInr.toLocaleString('en-IN')}</p>
+                  <p className="text-xs text-[#567C45] mt-0.5">Budget: ₹{c.typicalBudgetInr.toLocaleString('en-IN')}</p>
                 )}
               </div>
               <div className="flex gap-1.5 flex-shrink-0 ml-3">
-                <button onClick={() => openEditCsr(c)} className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-white transition-colors">
+                <button onClick={() => openEditCsr(c)} className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-white transition-colors">
                   <Edit2 size={13} />
                 </button>
-                <button onClick={() => { if (window.confirm('Delete this CSR partner?')) deleteCsrPartner(c.id); }} className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                <button onClick={() => { if (window.confirm('Delete this CSR partner?')) deleteCsrPartner(c.id); }} className="p-1.5 text-[#ADA082] hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
                   <Trash2 size={13} />
                 </button>
               </div>
@@ -368,8 +368,8 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Database size={16} className="text-[#0F6E56]" />
-            <h2 className="font-semibold text-gray-900">Data Management</h2>
+            <Database size={16} className="text-[#567C45]" />
+            <h2 className="font-semibold text-[#2C2820]">Data Management</h2>
           </div>
         </CardHeader>
         <CardBody className="space-y-3">
@@ -395,7 +395,7 @@ export default function Settings() {
               Reset to Seed Data
             </Button>
           </div>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-[#ADA082]">
             The anonymised CSV export strips contact names, phones, and GPS coordinates. Suitable for sharing with ESG lenders, developers, or government bodies.
           </p>
         </CardBody>
@@ -403,7 +403,7 @@ export default function Settings() {
 
       {/* Reset confirmation modal */}
       <Modal open={showResetConfirm} onClose={() => setShowResetConfirm(false)} title="Reset All Data?">
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-[#463F2E]">
           This will delete all your buildings, deals, audits, and referrals and restore the demo seed data. This cannot be undone.
         </p>
         <p className="text-sm font-semibold text-red-600 mt-2">Consider exporting a backup first.</p>
@@ -434,7 +434,7 @@ export default function Settings() {
           <Input label="Typical Annual Budget (₹)" type="number" value={csrForm.typicalBudgetInr?.toString() ?? ''} onChange={e => setCsrForm({ ...csrForm, typicalBudgetInr: parseFloat(e.target.value) || undefined })} placeholder="e.g. 500000" />
         </div>
         <div className="mt-4">
-          <p className="text-xs font-medium text-gray-700 mb-2">CSR Focus Areas</p>
+          <p className="text-xs font-medium text-[#463F2E] mb-2">CSR Focus Areas</p>
           <div className="grid grid-cols-2 gap-2">
             {CSR_FOCUS_OPTIONS.map(opt => (
               <label key={opt} className="flex items-center gap-2 cursor-pointer">
@@ -447,9 +447,9 @@ export default function Settings() {
                       : csrForm.csrFocusAreas.filter(a => a !== opt);
                     setCsrForm({ ...csrForm, csrFocusAreas: arr });
                   }}
-                  className="rounded border-gray-300 text-[#0F6E56]"
+                  className="rounded border-gray-300 text-[#567C45]"
                 />
-                <span className="text-xs text-gray-700">{opt}</span>
+                <span className="text-xs text-[#463F2E]">{opt}</span>
               </label>
             ))}
           </div>

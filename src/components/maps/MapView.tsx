@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
 });
 
 function getBuildingPinColor(building: Building): string {
-  if (['Won', 'Installed', 'WaaS'].includes(building.status)) return '#0F6E56';
+  if (['Won', 'Installed', 'WaaS'].includes(building.status)) return '#567C45';
   if (building.status === 'Hot') return '#dc2626';
   const monthly = building.monthlyWaterSpend || (building.tankerCostAnnual ? building.tankerCostAnnual / 12 : 0);
   if (monthly > 50000) return '#dc2626';
@@ -66,7 +66,7 @@ export function MapView({
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
 
   return (
-    <div className="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm" style={{ height: '500px' }}>
+    <div className="relative rounded-xl overflow-hidden border border-[#E2D5BE] shadow-sm" style={{ height: '500px' }}>
       {/* Heatmap toggle */}
       <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2">
         <button
@@ -74,7 +74,7 @@ export function MapView({
           className={`px-3 py-2 rounded-lg text-xs font-medium shadow-md border transition-colors ${
             showHeatmap
               ? 'bg-red-500 text-white border-red-500'
-              : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+              : 'bg-white text-[#463F2E] border-[#E2D5BE] hover:bg-[#F6F1EA]'
           }`}
         >
           {showHeatmap ? 'Hide Heatmap' : 'Show Heatmap'}
@@ -82,8 +82,8 @@ export function MapView({
       </div>
 
       {/* Legend */}
-      <div className="absolute bottom-4 left-4 z-[1000] bg-white rounded-lg p-3 shadow-md border border-gray-200 text-xs">
-        <p className="font-semibold text-gray-700 mb-2">Legend</p>
+      <div className="absolute bottom-4 left-4 z-[1000] bg-white rounded-lg p-3 shadow-md border border-[#E2D5BE] text-xs">
+        <p className="font-semibold text-[#463F2E] mb-2">Legend</p>
         <div className="flex flex-col gap-1.5">
           <LegendItem color="#16a34a" label="Won" />
           <LegendItem color="#dc2626" label="High tanker cost (>5L)" />
@@ -128,8 +128,8 @@ export function MapView({
               >
                 <Popup maxWidth={260}>
                   <div className="p-1">
-                    <p className="font-bold text-gray-900 text-sm mb-1">{building.name}</p>
-                    <div className="grid grid-cols-2 gap-1 text-xs text-gray-600">
+                    <p className="font-bold text-[#2C2820] text-sm mb-1">{building.name}</p>
+                    <div className="grid grid-cols-2 gap-1 text-xs text-[#5C5244]">
                       <span className="font-medium">Type:</span>
                       <span>{building.type}</span>
                       <span className="font-medium">Status:</span>
@@ -142,7 +142,7 @@ export function MapView({
                       <span>{building.contactName}</span>
                     </div>
                     {building.notes && (
-                      <p className="mt-2 text-xs text-gray-500 border-t pt-1">{building.notes}</p>
+                      <p className="mt-2 text-xs text-[#8C8062] border-t pt-1">{building.notes}</p>
                     )}
                   </div>
                 </Popup>
@@ -162,7 +162,7 @@ function LegendItem({ color, label }: { color: string; label: string }) {
         className="w-3 h-3 rounded-full flex-shrink-0"
         style={{ backgroundColor: color }}
       />
-      <span className="text-gray-600">{label}</span>
+      <span className="text-[#5C5244]">{label}</span>
     </div>
   );
 }

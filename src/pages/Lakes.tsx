@@ -19,11 +19,11 @@ const CONDITION_COLORS: Record<WaterBodyCondition, string> = {
   'Degraded': 'bg-amber-100 text-amber-700',
   'Heavily Encroached': 'bg-red-100 text-red-700',
   'Sewage Discharge': 'bg-red-200 text-red-800',
-  'Dry': 'bg-gray-100 text-gray-600',
+  'Dry': 'bg-[#EDE4D4] text-[#5C5244]',
   'Polluted': 'bg-orange-100 text-orange-700',
 };
 const STATUS_COLORS: Record<WaterBodyStatus, string> = {
-  'Identified': 'bg-gray-100 text-gray-600',
+  'Identified': 'bg-[#EDE4D4] text-[#5C5244]',
   'Assessment Done': 'bg-blue-100 text-blue-700',
   'Partner Engaged': 'bg-purple-100 text-purple-700',
   'Work Started': 'bg-amber-100 text-amber-700',
@@ -212,9 +212,9 @@ export default function Lakes() {
         <div>
           <div className="flex items-center gap-2">
             <Waves size={22} className="text-cyan-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Lakes & Water Bodies</h1>
+            <h1 className="text-2xl font-bold text-[#2C2820]">Lakes & Water Bodies</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">Map, assess, and track restoration of lakes, johads, ponds, and nalas</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">Map, assess, and track restoration of lakes, johads, ponds, and nalas</p>
         </div>
         <Button onClick={openAdd} className="flex-shrink-0 bg-cyan-700 hover:bg-cyan-800">
           <Plus size={15} className="mr-1" /> Map Water Body
@@ -225,14 +225,14 @@ export default function Lakes() {
       {waterBodies.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: 'Water Bodies Mapped', value: waterBodies.length.toString(), color: 'text-gray-900' },
+            { label: 'Water Bodies Mapped', value: waterBodies.length.toString(), color: 'text-[#2C2820]' },
             { label: 'Water Holding (KL)', value: fmt(Math.round(totalWaterHolding / 1000)), color: 'text-cyan-700' },
             { label: 'Needs Urgent Action', value: needsAttention.toString(), color: 'text-red-600' },
-            { label: 'Restoration Active', value: inProgress.toString(), color: 'text-[#0F6E56]' },
+            { label: 'Restoration Active', value: inProgress.toString(), color: 'text-[#567C45]' },
           ].map(k => (
             <Card key={k.label}>
               <CardBody className="py-4">
-                <p className="text-xs text-gray-500 uppercase tracking-wide">{k.label}</p>
+                <p className="text-xs text-[#8C8062] uppercase tracking-wide">{k.label}</p>
                 <p className={`text-xl font-bold mt-1 ${k.color}`}>{k.value}</p>
               </CardBody>
             </Card>
@@ -248,8 +248,8 @@ export default function Lakes() {
               <Waves size={16} className="text-cyan-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 text-sm">Why restore urban water bodies?</h3>
-              <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+              <h3 className="font-semibold text-[#2C2820] text-sm">Why restore urban water bodies?</h3>
+              <p className="text-xs text-[#8C8062] mt-1 leading-relaxed">
                 Delhi had 1,012 lakes and water bodies historically — fewer than 600 are traceable today, and only ~200 hold water year-round.
                 A restored johad or lake recharges groundwater (reducing borewell dependency), reduces urban flooding, hosts biodiversity,
                 and cuts surface temperature by 2–4°C in surrounding neighbourhoods.
@@ -266,8 +266,8 @@ export default function Lakes() {
         <Card>
           <CardBody className="py-12 text-center">
             <Waves size={32} className="mx-auto text-cyan-200 mb-3" />
-            <p className="text-gray-500 text-sm">No water bodies mapped yet.</p>
-            <p className="text-gray-400 text-xs mt-1">Start by mapping the water bodies in your operating area.</p>
+            <p className="text-[#8C8062] text-sm">No water bodies mapped yet.</p>
+            <p className="text-[#ADA082] text-xs mt-1">Start by mapping the water bodies in your operating area.</p>
             <Button onClick={openAdd} className="mt-4 mx-auto bg-cyan-700 hover:bg-cyan-800">
               <Plus size={14} className="mr-1" /> Map First Water Body
             </Button>
@@ -288,12 +288,12 @@ export default function Lakes() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         {isUrgent && <AlertTriangle size={12} className="text-red-500 flex-shrink-0" />}
-                        <p className="font-semibold text-gray-900 text-sm">{wb.name}</p>
-                        {wb.localName && <span className="text-xs text-gray-400">({wb.localName})</span>}
+                        <p className="font-semibold text-[#2C2820] text-sm">{wb.name}</p>
+                        {wb.localName && <span className="text-xs text-[#ADA082]">({wb.localName})</span>}
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${CONDITION_COLORS[wb.condition]}`}>{wb.condition}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_COLORS[wb.restorationStatus]}`}>{wb.restorationStatus}</span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-[#8C8062] mt-0.5">
                         {wb.type} · {area?.name ? `${area.name}, ` : ''}{city?.name ?? ''}
                         {wb.surfaceAreaSqm ? ` · ${fmt(wb.surfaceAreaSqm)} m²` : ''}
                       </p>
@@ -302,52 +302,52 @@ export default function Lakes() {
                           <span className="text-cyan-700 font-medium">{fmt(Math.round(wb.estimatedWaterHoldingLitres / 1000))} KL capacity</span>
                         )}
                         {wb.estimatedRestorationCostInr && (
-                          <span className="text-gray-500">₹{fmt(wb.estimatedRestorationCostInr)} est. cost</span>
+                          <span className="text-[#8C8062]">₹{fmt(wb.estimatedRestorationCostInr)} est. cost</span>
                         )}
                         {wb.restorationFeasibility && (
-                          <span className="text-gray-500">Feasibility: {wb.restorationFeasibility}</span>
+                          <span className="text-[#8C8062]">Feasibility: {wb.restorationFeasibility}</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5 flex-shrink-0">
                       <button
                         onClick={() => setExpandedId(isExpanded ? null : wb.id)}
-                        className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-[#EDE4D4] transition-colors"
                       >
                         {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                       </button>
-                      <button onClick={() => openEdit(wb)} className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                      <button onClick={() => openEdit(wb)} className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-[#EDE4D4] transition-colors">
                         <Edit2 size={13} />
                       </button>
-                      <button onClick={() => { if (window.confirm('Delete this water body?')) deleteWaterBody(wb.id); }} className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                      <button onClick={() => { if (window.confirm('Delete this water body?')) deleteWaterBody(wb.id); }} className="p-1.5 text-[#ADA082] hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
                         <Trash2 size={13} />
                       </button>
                     </div>
                   </div>
 
                   {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                    <div className="mt-4 pt-4 border-t border-[#EDE4D4] space-y-4">
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                         <div>
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Water Level</p>
-                          <p className="font-semibold text-gray-900">{wb.currentWaterLevel ?? '—'}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Water Level</p>
+                          <p className="font-semibold text-[#2C2820]">{wb.currentWaterLevel ?? '—'}</p>
                         </div>
                         {wb.lastKnownFunctionalYear && (
                           <div>
-                            <p className="text-gray-400 uppercase tracking-wide text-[10px]">Last Functional</p>
-                            <p className="font-semibold text-gray-900">{wb.lastKnownFunctionalYear}</p>
+                            <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Last Functional</p>
+                            <p className="font-semibold text-[#2C2820]">{wb.lastKnownFunctionalYear}</p>
                           </div>
                         )}
                         {wb.fundingSecuredInr !== undefined && wb.estimatedRestorationCostInr && (
                           <div>
-                            <p className="text-gray-400 uppercase tracking-wide text-[10px]">Funding</p>
-                            <p className="font-semibold text-gray-900">₹{fmt(wb.fundingSecuredInr)} / ₹{fmt(wb.estimatedRestorationCostInr)}</p>
+                            <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Funding</p>
+                            <p className="font-semibold text-[#2C2820]">₹{fmt(wb.fundingSecuredInr)} / ₹{fmt(wb.estimatedRestorationCostInr)}</p>
                           </div>
                         )}
                         {wb.ngoPartner && (
                           <div>
-                            <p className="text-gray-400 uppercase tracking-wide text-[10px]">NGO Partner</p>
-                            <p className="font-semibold text-gray-900">{wb.ngoPartner}</p>
+                            <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">NGO Partner</p>
+                            <p className="font-semibold text-[#2C2820]">{wb.ngoPartner}</p>
                           </div>
                         )}
                       </div>
@@ -362,37 +362,37 @@ export default function Lakes() {
 
                       {wb.traditionalUse && (
                         <div className="text-xs">
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Traditional Use</p>
-                          <p className="text-gray-700">{wb.traditionalUse}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Traditional Use</p>
+                          <p className="text-[#463F2E]">{wb.traditionalUse}</p>
                         </div>
                       )}
                       {wb.notes && (
                         <div className="text-xs">
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Notes</p>
-                          <p className="text-gray-700">{wb.notes}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Notes</p>
+                          <p className="text-[#463F2E]">{wb.notes}</p>
                         </div>
                       )}
 
                       {/* Restoration logs */}
                       <div>
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-xs font-semibold text-gray-700">Restoration Logs ({logs.length})</p>
+                          <p className="text-xs font-semibold text-[#463F2E]">Restoration Logs ({logs.length})</p>
                           <button
                             onClick={() => { setLogForm({ ...blankLog, logDate: new Date().toISOString().split('T')[0] }); setShowLogModal(wb.id); }}
                             className="text-xs text-cyan-700 hover:text-cyan-900 font-medium"
                           >+ Add log</button>
                         </div>
                         {logs.length === 0 ? (
-                          <p className="text-xs text-gray-400">No restoration logs yet.</p>
+                          <p className="text-xs text-[#ADA082]">No restoration logs yet.</p>
                         ) : (
                           <div className="space-y-2">
                             {logs.map(l => (
-                              <div key={l.id} className="flex items-start justify-between bg-gray-50 rounded-lg p-2.5 text-xs">
+                              <div key={l.id} className="flex items-start justify-between bg-[#F6F1EA] rounded-lg p-2.5 text-xs">
                                 <div>
                                   <p className="font-medium text-gray-800">{l.logDate}</p>
-                                  <p className="text-gray-700 mt-0.5">{l.workDone}</p>
+                                  <p className="text-[#463F2E] mt-0.5">{l.workDone}</p>
                                   {l.waterLevelChange && <p className="text-cyan-700 mt-0.5">Water level: {l.waterLevelChange}</p>}
-                                  {l.volunteersInvolved && <p className="text-gray-400">Volunteers: {l.volunteersInvolved}</p>}
+                                  {l.volunteersInvolved && <p className="text-[#ADA082]">Volunteers: {l.volunteersInvolved}</p>}
                                 </div>
                                 <button onClick={() => { if (window.confirm('Delete log?')) deleteLakeLog(l.id); }} className="text-gray-300 hover:text-red-500 ml-2">
                                   <Trash2 size={11} />
@@ -460,9 +460,9 @@ export default function Lakes() {
                   type="checkbox"
                   checked={form[key as keyof WbForm] as boolean}
                   onChange={e => setForm({ ...form, [key]: e.target.checked })}
-                  className="rounded border-gray-300 text-[#0F6E56]"
+                  className="rounded border-gray-300 text-[#567C45]"
                 />
-                <span className="text-xs text-gray-700">{label}</span>
+                <span className="text-xs text-[#463F2E]">{label}</span>
               </label>
             ))}
           </div>

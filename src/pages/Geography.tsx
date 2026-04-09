@@ -247,14 +247,14 @@ export default function Geography() {
         <div>
           <button
             onClick={() => setSelectedCity(null)}
-            className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-3 transition-colors"
+            className="flex items-center gap-1 text-sm text-[#8C8062] hover:text-[#2C2820] mb-3 transition-colors"
           >
             <ChevronRight size={14} className="rotate-180" /> Back to Geography
           </button>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl font-bold text-gray-900">{selectedCity.name}</h1>
+                <h1 className="text-2xl font-bold text-[#2C2820]">{selectedCity.name}</h1>
                 <Badge variant={getCityStageBadgeVariant(selectedCity.stage)}>{selectedCity.stage}</Badge>
                 {st?.waterStressLevel && (
                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${WATER_STRESS_COLORS[st.waterStressLevel]}`}>
@@ -262,7 +262,7 @@ export default function Geography() {
                   </span>
                 )}
               </div>
-              <p className="text-gray-500 text-sm mt-1">{st?.name} · {st?.code}</p>
+              <p className="text-[#8C8062] text-sm mt-1">{st?.name} · {st?.code}</p>
             </div>
             <div className="flex gap-2 flex-wrap">
               <Button size="sm" variant="ghost" onClick={() => openEditCity(selectedCity)}>
@@ -292,8 +292,8 @@ export default function Geography() {
                   <kpi.icon size={18} className={kpi.color} />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 font-medium">{kpi.label}</p>
-                  <p className="text-xl font-bold text-gray-900">{kpi.value}</p>
+                  <p className="text-xs text-[#8C8062] font-medium">{kpi.label}</p>
+                  <p className="text-xl font-bold text-[#2C2820]">{kpi.value}</p>
                 </div>
               </CardBody>
             </Card>
@@ -304,7 +304,7 @@ export default function Geography() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <h2 className="font-semibold text-gray-900">City Playbook</h2>
+              <h2 className="font-semibold text-[#2C2820]">City Playbook</h2>
               <Button size="sm" variant="ghost" onClick={() => openPlaybookEdit(selectedCity)}>
                 <Edit2 size={14} className="mr-1" /> Edit
               </Button>
@@ -313,42 +313,42 @@ export default function Geography() {
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide">
                   <LabelWithTooltip label="Water Cost per KL" term="KL" />
                 </p>
-                <p className="text-sm text-gray-900 mt-1">₹{selectedCity.playbook.waterCostPerKL}</p>
+                <p className="text-sm text-[#2C2820] mt-1">₹{selectedCity.playbook.waterCostPerKL}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide">
                   <LabelWithTooltip label="Tanker Cost Range" term="Tanker dependency" />
                 </p>
-                <p className="text-sm text-gray-900 mt-1">{selectedCity.playbook.tankerCostRange || '—'}</p>
+                <p className="text-sm text-[#2C2820] mt-1">{selectedCity.playbook.tankerCostRange || '—'}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Best Sales Months</p>
-                <p className="text-sm text-gray-900 mt-1">{selectedCity.playbook.bestMonthsForSales || '—'}</p>
+                <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide">Best Sales Months</p>
+                <p className="text-sm text-[#2C2820] mt-1">{selectedCity.playbook.bestMonthsForSales || '—'}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Key Customer Types</p>
-                <p className="text-sm text-gray-900 mt-1">{selectedCity.playbook.keyCustomerTypes || '—'}</p>
+                <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide">Key Customer Types</p>
+                <p className="text-sm text-[#2C2820] mt-1">{selectedCity.playbook.keyCustomerTypes || '—'}</p>
               </div>
             </div>
             <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Groundwater Situation</p>
-              <p className="text-sm text-gray-900 mt-1">{selectedCity.playbook.groundwaterSituation || '—'}</p>
+              <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide">Groundwater Situation</p>
+              <p className="text-sm text-[#2C2820] mt-1">{selectedCity.playbook.groundwaterSituation || '—'}</p>
             </div>
             {selectedCity.playbook.governmentIncentives && (
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide">
                   <LabelWithTooltip label="Government Incentives" term="DJB Rebate" />
                 </p>
-                <p className="text-sm text-gray-700 mt-1 bg-teal-50 rounded-xl p-3 border border-teal-100">{selectedCity.playbook.governmentIncentives}</p>
+                <p className="text-sm text-[#463F2E] mt-1 bg-teal-50 rounded-xl p-3 border border-teal-100">{selectedCity.playbook.governmentIncentives}</p>
               </div>
             )}
             {selectedCity.playbook.founderNotes && (
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Founder Notes</p>
-                <p className="text-sm text-gray-900 bg-amber-50 rounded-xl p-3 border border-amber-100">{selectedCity.playbook.founderNotes}</p>
+                <p className="text-xs font-semibold text-[#8C8062] uppercase tracking-wide mb-1">Founder Notes</p>
+                <p className="text-sm text-[#2C2820] bg-amber-50 rounded-xl p-3 border border-amber-100">{selectedCity.playbook.founderNotes}</p>
               </div>
             )}
           </CardBody>
@@ -358,7 +358,7 @@ export default function Geography() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <h2 className="font-semibold text-gray-900">Areas in {selectedCity.name}</h2>
+              <h2 className="font-semibold text-[#2C2820]">Areas in {selectedCity.name}</h2>
               <Button size="sm" onClick={() => openAddArea(selectedCity.id)}>
                 <Plus size={14} className="mr-1" /> Add Area
               </Button>
@@ -368,7 +368,7 @@ export default function Geography() {
             <CardBody>
               <div className="text-center py-8">
                 <MapPin size={32} className="mx-auto text-gray-300 mb-2" />
-                <p className="text-gray-500 text-sm">No areas added yet.</p>
+                <p className="text-[#8C8062] text-sm">No areas added yet.</p>
                 <Button size="sm" className="mt-3" onClick={() => openAddArea(selectedCity.id)}>Add first area</Button>
               </div>
             </CardBody>
@@ -388,20 +388,20 @@ export default function Geography() {
               <TBody>
                 {cityAreas.map(row => (
                   <TR key={row.area.id}>
-                    <TD className="font-medium text-gray-900">{row.area.name}</TD>
+                    <TD className="font-medium text-[#2C2820]">{row.area.name}</TD>
                     <TD>{row.buildings}</TD>
                     <TD>
-                      <span className={`font-semibold ${row.hotProspects > 0 ? 'text-red-600' : 'text-gray-400'}`}>{row.hotProspects}</span>
+                      <span className={`font-semibold ${row.hotProspects > 0 ? 'text-red-600' : 'text-[#ADA082]'}`}>{row.hotProspects}</span>
                     </TD>
                     <TD>
-                      <span className="font-semibold text-[#0F6E56]">{row.wonBuildings}</span>
+                      <span className="font-semibold text-[#567C45]">{row.wonBuildings}</span>
                     </TD>
                     <TD className="font-semibold text-blue-700">{fmtLakh(row.revenue)}</TD>
-                    <TD className="text-sm text-gray-600">
+                    <TD className="text-sm text-[#5C5244]">
                       {row.avgSpend > 0 ? `₹${row.avgSpend.toLocaleString('en-IN')}/mo` : '—'}
                     </TD>
                     <TD>
-                      <button onClick={() => openEditArea(row.area)} className="text-gray-400 hover:text-[#0F6E56] transition-colors p-1">
+                      <button onClick={() => openEditArea(row.area)} className="text-[#ADA082] hover:text-[#567C45] transition-colors p-1">
                         <Edit2 size={14} />
                       </button>
                     </TD>
@@ -501,10 +501,10 @@ export default function Geography() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <Globe size={22} className="text-[#0F6E56]" />
-            <h1 className="text-2xl font-bold text-gray-900">Geography</h1>
+            <Globe size={22} className="text-[#567C45]" />
+            <h1 className="text-2xl font-bold text-[#2C2820]">Geography</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">Manage states, cities, and areas for expansion</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">Manage states, cities, and areas for expansion</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button size="sm" variant="ghost" onClick={openAddState}>
@@ -519,27 +519,27 @@ export default function Geography() {
       {/* Active states (with cities) */}
       {statesWithCities.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Active — Cities Added</h2>
+          <h2 className="text-sm font-semibold text-[#8C8062] uppercase tracking-wide">Active — Cities Added</h2>
           {statesWithCities.map(({ state: s, cities: stateCities, totalBuildings, totalRevenue, totalWaterSaved }) => (
             <Card key={s.id}>
               <CardHeader>
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <h2 className="font-semibold text-gray-900 text-lg">{s.name}</h2>
-                    <span className="text-xs text-gray-400 font-mono bg-gray-100 px-1.5 py-0.5 rounded">{s.code}</span>
+                    <h2 className="font-semibold text-[#2C2820] text-lg">{s.name}</h2>
+                    <span className="text-xs text-[#ADA082] font-mono bg-[#EDE4D4] px-1.5 py-0.5 rounded">{s.code}</span>
                     {s.waterStressLevel && (
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${WATER_STRESS_COLORS[s.waterStressLevel]}`}>
                         <LabelWithTooltip label={`${s.waterStressLevel} Water Stress`} term="Water stress level" />
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <span><strong className="text-gray-900">{totalBuildings}</strong> bldgs</span>
+                  <div className="flex items-center gap-4 text-sm text-[#8C8062]">
+                    <span><strong className="text-[#2C2820]">{totalBuildings}</strong> bldgs</span>
                     <span className="font-semibold text-green-700">{fmtLakh(totalRevenue)}</span>
                     <span className="font-semibold text-teal-700">
                       <LabelWithTooltip label={`${totalWaterSaved} KLD`} term="KLD" /> saved
                     </span>
-                    <button onClick={() => openEditState(s)} className="text-gray-400 hover:text-[#0F6E56] transition-colors p-1">
+                    <button onClick={() => openEditState(s)} className="text-[#ADA082] hover:text-[#567C45] transition-colors p-1">
                       <Edit2 size={14} />
                     </button>
                     <Button size="sm" variant="ghost" onClick={() => openAddCity(s.id)}>
@@ -554,35 +554,35 @@ export default function Geography() {
                     <button
                       key={city.id}
                       onClick={() => setSelectedCity(city)}
-                      className="text-left p-4 rounded-xl border border-gray-100 hover:border-[#0F6E56]/30 hover:bg-[#0F6E56]/5 transition-all group"
+                      className="text-left p-4 rounded-xl border border-[#EDE4D4] hover:border-[#567C45]/30 hover:bg-[#567C45]/5 transition-all group"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="font-semibold text-gray-900 group-hover:text-[#0F6E56] transition-colors">{city.name}</p>
+                          <p className="font-semibold text-[#2C2820] group-hover:text-[#567C45] transition-colors">{city.name}</p>
                           <div className="mt-1">
                             <Badge variant={getCityStageBadgeVariant(city.stage)}>{city.stage}</Badge>
                           </div>
                         </div>
-                        <ChevronRight size={16} className="text-gray-300 group-hover:text-[#0F6E56] transition-colors mt-1 flex-shrink-0" />
+                        <ChevronRight size={16} className="text-gray-300 group-hover:text-[#567C45] transition-colors mt-1 flex-shrink-0" />
                       </div>
                       <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
                         <div>
-                          <p className="text-gray-400">Buildings</p>
-                          <p className="font-semibold text-gray-900">{cityBuildings.length}</p>
+                          <p className="text-[#ADA082]">Buildings</p>
+                          <p className="font-semibold text-[#2C2820]">{cityBuildings.length}</p>
                         </div>
                         <div>
-                          <p className="text-gray-400">Hot prospects</p>
-                          <p className={`font-semibold ${hotProspects > 0 ? 'text-red-600' : 'text-gray-400'}`}>{hotProspects}</p>
+                          <p className="text-[#ADA082]">Hot prospects</p>
+                          <p className={`font-semibold ${hotProspects > 0 ? 'text-red-600' : 'text-[#ADA082]'}`}>{hotProspects}</p>
                         </div>
                         <div>
-                          <p className="text-gray-400">Revenue</p>
+                          <p className="text-[#ADA082]">Revenue</p>
                           <p className="font-semibold text-green-700">{fmtLakh(revenue)}</p>
                         </div>
                         <div>
-                          <p className="text-gray-400">
+                          <p className="text-[#ADA082]">
                             <LabelWithTooltip label="Conversion" term="Conversion rate" />
                           </p>
-                          <p className="font-semibold text-gray-900">{convRate}%</p>
+                          <p className="font-semibold text-[#2C2820]">{convRate}%</p>
                         </div>
                       </div>
                     </button>
@@ -597,21 +597,21 @@ export default function Geography() {
       {/* All other states (no cities yet) */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">All States — No Cities Added Yet</h2>
-          <span className="text-xs text-gray-400">{statesWithoutCities.length} states</span>
+          <h2 className="text-sm font-semibold text-[#8C8062] uppercase tracking-wide">All States — No Cities Added Yet</h2>
+          <span className="text-xs text-[#ADA082]">{statesWithoutCities.length} states</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
           {statesWithoutCities.map(({ state: s }) => (
             <div
               key={s.id}
-              className="p-3 rounded-xl border border-gray-100 bg-white hover:border-gray-200 transition-all group"
+              className="p-3 rounded-xl border border-[#EDE4D4] bg-white hover:border-[#E2D5BE] transition-all group"
             >
               <div className="flex items-start justify-between gap-1">
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-gray-700 truncate">{s.name}</p>
-                  <span className="text-[10px] text-gray-400 font-mono">{s.code}</span>
+                  <p className="text-xs font-semibold text-[#463F2E] truncate">{s.name}</p>
+                  <span className="text-[10px] text-[#ADA082] font-mono">{s.code}</span>
                 </div>
-                <button onClick={() => openEditState(s)} className="text-gray-300 hover:text-[#0F6E56] transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100">
+                <button onClick={() => openEditState(s)} className="text-gray-300 hover:text-[#567C45] transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100">
                   <Edit2 size={11} />
                 </button>
               </div>
@@ -622,7 +622,7 @@ export default function Geography() {
               )}
               <button
                 onClick={() => openAddCity(s.id)}
-                className="mt-2 w-full text-[10px] text-[#0F6E56] font-medium border border-[#0F6E56]/20 rounded-lg py-1 hover:bg-[#0F6E56]/5 transition-colors opacity-0 group-hover:opacity-100"
+                className="mt-2 w-full text-[10px] text-[#567C45] font-medium border border-[#567C45]/20 rounded-lg py-1 hover:bg-[#567C45]/5 transition-colors opacity-0 group-hover:opacity-100"
               >
                 + Add city
               </button>
@@ -656,11 +656,11 @@ export default function Geography() {
             maxLength={2}
           />
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#463F2E] mb-1">
               <LabelWithTooltip label="Water Stress Level" term="Water stress level" />
             </label>
             <select
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20"
+              className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20"
               value={stateForm.waterStressLevel}
               onChange={e => setStateForm(f => ({ ...f, waterStressLevel: e.target.value as State['waterStressLevel'] }))}
             >
@@ -746,9 +746,9 @@ function CityModal({ mode, open, onClose, form, setForm, statesData, onSave }: {
       <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">State / UT <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-medium text-[#463F2E] mb-1">State / UT <span className="text-red-500">*</span></label>
             <select
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20"
+              className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20"
               value={form.stateId}
               onChange={e => setForm(f => ({ ...f, stateId: e.target.value }))}
             >
@@ -767,23 +767,23 @@ function CityModal({ mode, open, onClose, form, setForm, statesData, onSave }: {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#463F2E] mb-1">
               <LabelWithTooltip label="Water Cost per KL (₹)" term="KL" />
             </label>
             <input
               type="number"
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20"
+              className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20"
               value={form.waterCostPerKL || ''}
               onChange={e => setForm(f => ({ ...f, waterCostPerKL: parseFloat(e.target.value) || 0 }))}
               placeholder="e.g. 5"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#463F2E] mb-1">
               <LabelWithTooltip label="Expansion Stage" term="Expansion stage" />
             </label>
             <select
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20"
+              className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20"
               value={form.stage}
               onChange={e => setForm(f => ({ ...f, stage: e.target.value as City['stage'] }))}
             >
@@ -806,7 +806,7 @@ function CityModal({ mode, open, onClose, form, setForm, statesData, onSave }: {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Key Customer Types</label>
+          <label className="block text-sm font-medium text-[#463F2E] mb-2">Key Customer Types</label>
           <div className="flex flex-wrap gap-2">
             {KEY_CUSTOMER_TYPE_OPTIONS.map(t => (
               <button
@@ -815,8 +815,8 @@ function CityModal({ mode, open, onClose, form, setForm, statesData, onSave }: {
                 onClick={() => toggleType(t)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                   form.keyCustomerTypes.includes(t)
-                    ? 'bg-[#0F6E56] text-white border-[#0F6E56]'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-[#0F6E56]/50'
+                    ? 'bg-[#567C45] text-white border-[#567C45]'
+                    : 'bg-white text-[#5C5244] border-[#E2D5BE] hover:border-[#567C45]/50'
                 }`}
               >
                 {t}
@@ -872,9 +872,9 @@ function AreaModal({ open, mode, onClose, form, setForm, cities, onSave }: {
     <Modal open={open} onClose={onClose} title={mode === 'edit-area' ? 'Edit Area' : 'Add Area'} size="sm">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">City <span className="text-red-500">*</span></label>
+          <label className="block text-sm font-medium text-[#463F2E] mb-1">City <span className="text-red-500">*</span></label>
           <select
-            className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20"
+            className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20"
             value={form.cityId}
             onChange={e => setForm(f => ({ ...f, cityId: e.target.value }))}
           >

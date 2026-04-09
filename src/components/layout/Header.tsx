@@ -1,65 +1,63 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Droplets, Menu, X, LayoutDashboard, Building2, ClipboardList, FileText, Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves } from 'lucide-react';
+import {
+  Droplets, Menu, X,
+  LayoutDashboard, Building2, ClipboardList, FileText,
+  Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves,
+} from 'lucide-react';
 import clsx from 'clsx';
 
 const primaryNav = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/crm', label: 'CRM', icon: Building2 },
-  { to: '/audits', label: 'Audits', icon: ClipboardList },
-  { to: '/rwh', label: 'Rainwater', icon: Droplets },
-  { to: '/trees', label: 'Trees', icon: Leaf },
-  { to: '/lakes', label: 'Lakes', icon: Waves },
+  { to: '/',        label: 'Dashboard',  icon: LayoutDashboard },
+  { to: '/crm',     label: 'CRM',        icon: Building2 },
+  { to: '/audits',  label: 'Audits',     icon: ClipboardList },
+  { to: '/rwh',     label: 'Rainwater',  icon: Droplets },
+  { to: '/trees',   label: 'Trees',      icon: Leaf },
+  { to: '/lakes',   label: 'Lakes',      icon: Waves },
 ];
 
-const secondaryNav = [
+const moreNav = [
   { to: '/referrals', label: 'Referrals', icon: Users },
-  { to: '/scripts', label: 'Scripts', icon: BookOpen },
+  { to: '/scripts',   label: 'Scripts',   icon: BookOpen },
   { to: '/geography', label: 'Geography', icon: Globe },
   { to: '/expansion', label: 'Expansion', icon: Map },
-  { to: '/reports', label: 'Reports', icon: FileText },
+  { to: '/reports',   label: 'Reports',   icon: FileText },
   { to: '/reminders', label: 'Reminders', icon: Bell },
-  { to: '/settings', label: 'Settings', icon: Settings },
+  { to: '/settings',  label: 'Settings',  icon: Settings },
 ];
 
 const mobileNav = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/crm', label: 'CRM', icon: Building2 },
-  { to: '/audits', label: 'Audits', icon: ClipboardList },
-  { to: '/trees', label: 'Trees', icon: Leaf },
-  { to: '/lakes', label: 'Lakes', icon: Waves },
+  { to: '/',        label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/crm',     label: 'CRM',       icon: Building2 },
+  { to: '/audits',  label: 'Audits',    icon: ClipboardList },
+  { to: '/trees',   label: 'Trees',     icon: Leaf },
+  { to: '/lakes',   label: 'Lakes',     icon: Waves },
 ];
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const isCrisisMonth = new Date().getMonth() >= 3 && new Date().getMonth() <= 5; // April–June
 
   return (
     <>
-      {/* Seasonal crisis banner */}
-      {isCrisisMonth && (
-        <div className="bg-red-600 text-white text-center text-sm font-semibold py-2 px-4 sticky top-0 z-50">
-          🚨 Delhi water crisis season is active. Contact all Hot and Warm prospects NOW.
-        </div>
-      )}
+      {/* Main header */}
+      <header className="bg-[#FDFAF4] border-b border-[#E2D5BE] sticky top-0 z-40">
+        <div className="max-w-screen-2xl mx-auto px-6">
+          <div className="flex items-center justify-between h-16 gap-6">
 
-      <header className="bg-[#0F6E56] text-white shadow-lg sticky top-0 z-40">
-        <div className="max-w-screen-2xl mx-auto px-4">
-          <div className="flex items-center justify-between h-14">
             {/* Logo */}
-            <NavLink to="/" className="flex items-center gap-2 flex-shrink-0">
-              <div className="bg-white/20 rounded-full p-1.5">
-                <Droplets size={20} className="text-white" />
+            <NavLink to="/" className="flex items-center gap-2.5 flex-shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-[#567C45] flex items-center justify-center">
+                <Droplets size={16} className="text-white" />
               </div>
               <div className="flex flex-col leading-none">
-                <span className="font-bold text-base tracking-tight">JalDhara</span>
-                <span className="text-[9px] text-white/60 font-medium tracking-widest uppercase">Water Business OS</span>
+                <span className="font-semibold text-[#2C2820] text-sm tracking-tight">JalDhara</span>
+                <span className="text-[9px] text-[#ADA082] font-medium tracking-widest uppercase mt-px">Water OS</span>
               </div>
             </NavLink>
 
-            {/* Desktop Nav — primary */}
-            <nav className="hidden lg:flex items-center gap-0.5">
+            {/* Desktop — primary nav */}
+            <nav className="hidden lg:flex items-center gap-1 flex-1">
               {primaryNav.map(item => (
                 <NavLink
                   key={item.to}
@@ -67,50 +65,54 @@ export function Header() {
                   end={item.to === '/'}
                   className={({ isActive }) =>
                     clsx(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+                      'flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all',
                       isActive
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                        ? 'bg-[#567C45]/10 text-[#567C45]'
+                        : 'text-[#8C8062] hover:text-[#2C2820] hover:bg-[#EDE4D4]'
                     )
                   }
                 >
-                  <item.icon size={14} />
+                  <item.icon size={14} strokeWidth={2} />
                   {item.label}
                 </NavLink>
               ))}
-              <div className="w-px h-5 bg-white/20 mx-1" />
-              {secondaryNav.map(item => (
+            </nav>
+
+            {/* Desktop — secondary nav (icons + label on hover) */}
+            <nav className="hidden lg:flex items-center gap-0.5">
+              {moreNav.map(item => (
                 <NavLink
                   key={item.to}
                   to={item.to}
+                  title={item.label}
                   className={({ isActive }) =>
                     clsx(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+                      'flex items-center gap-1.5 px-2.5 py-2 rounded-xl text-xs font-medium transition-all',
                       isActive
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                        ? 'bg-[#567C45]/10 text-[#567C45]'
+                        : 'text-[#ADA082] hover:text-[#5C5244] hover:bg-[#EDE4D4]'
                     )
                   }
                 >
-                  <item.icon size={14} />
-                  {item.label}
+                  <item.icon size={15} strokeWidth={1.8} />
+                  <span className="hidden xl:inline">{item.label}</span>
                 </NavLink>
               ))}
             </nav>
 
             {/* Mobile menu button */}
             <button
-              className="lg:hidden p-2 rounded-lg text-white/70 hover:bg-white/10 transition-colors"
+              className="lg:hidden p-2 rounded-xl text-[#8C8062] hover:bg-[#EDE4D4] transition-colors"
               onClick={() => setMenuOpen(!menuOpen)}
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
 
-          {/* Mobile dropdown menu */}
+          {/* Mobile dropdown */}
           {menuOpen && (
-            <nav className="lg:hidden border-t border-white/20 py-2">
-              <p className="px-4 py-1 text-[10px] font-semibold uppercase tracking-widest text-white/40">Main</p>
+            <nav className="lg:hidden border-t border-[#EDE4D4] py-3 space-y-0.5">
+              <p className="px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#ADA082]">Main</p>
               {primaryNav.map(item => (
                 <NavLink
                   key={item.to}
@@ -119,33 +121,33 @@ export function Header() {
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
                     clsx(
-                      'flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors rounded-lg mx-1 mb-0.5',
+                      'flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-xl transition-all',
                       isActive
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                        ? 'bg-[#567C45]/10 text-[#567C45]'
+                        : 'text-[#5C5244] hover:bg-[#F6F1EA] hover:text-[#2C2820]'
                     )
                   }
                 >
-                  <item.icon size={16} />
+                  <item.icon size={16} strokeWidth={1.8} />
                   {item.label}
                 </NavLink>
               ))}
-              <p className="px-4 py-1 mt-2 text-[10px] font-semibold uppercase tracking-widest text-white/40">More</p>
-              {secondaryNav.map(item => (
+              <p className="px-3 py-1 mt-2 text-[10px] font-semibold uppercase tracking-widest text-[#ADA082]">More</p>
+              {moreNav.map(item => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
                     clsx(
-                      'flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors rounded-lg mx-1 mb-0.5',
+                      'flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-xl transition-all',
                       isActive
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                        ? 'bg-[#567C45]/10 text-[#567C45]'
+                        : 'text-[#5C5244] hover:bg-[#F6F1EA] hover:text-[#2C2820]'
                     )
                   }
                 >
-                  <item.icon size={16} />
+                  <item.icon size={16} strokeWidth={1.8} />
                   {item.label}
                 </NavLink>
               ))}
@@ -155,7 +157,7 @@ export function Header() {
       </header>
 
       {/* Mobile bottom nav */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 flex">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#FDFAF4] border-t border-[#E2D5BE] flex">
         {mobileNav.map(item => {
           const isActive = item.to === '/'
             ? location.pathname === '/'
@@ -164,13 +166,14 @@ export function Header() {
             <NavLink
               key={item.to}
               to={item.to}
-              className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5"
+              className="flex-1 flex flex-col items-center justify-center py-3 gap-1"
             >
               <item.icon
-                size={20}
-                className={isActive ? 'text-[#0F6E56]' : 'text-gray-400'}
+                size={19}
+                strokeWidth={isActive ? 2.2 : 1.8}
+                className={isActive ? 'text-[#567C45]' : 'text-[#ADA082]'}
               />
-              <span className={clsx('text-[10px] font-medium', isActive ? 'text-[#0F6E56]' : 'text-gray-400')}>
+              <span className={clsx('text-[10px] font-medium', isActive ? 'text-[#567C45]' : 'text-[#ADA082]')}>
                 {item.label}
               </span>
             </NavLink>

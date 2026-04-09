@@ -18,17 +18,17 @@ export function Select({ label, error, options, placeholder, className, id, ...p
   return (
     <div className="flex flex-col gap-1">
       {label && (
-        <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={inputId} className="text-sm font-medium text-[#463F2E]">
           {label}
         </label>
       )}
       <select
         id={inputId}
         className={clsx(
-          'w-full px-3 py-2 text-sm border rounded-lg outline-none transition-colors bg-white',
+          'w-full px-3 py-2 text-sm border rounded-lg outline-none transition-colors bg-[#FDFAF4] text-[#2C2820]',
           error
-            ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-            : 'border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
+            ? 'border-[#CE7F4D] focus:border-[#A86030] focus:ring-1 focus:ring-[#A86030]/30'
+            : 'border-[#D8CEBC] focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20',
           className
         )}
         {...props}

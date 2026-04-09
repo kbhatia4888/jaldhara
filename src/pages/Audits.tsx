@@ -231,32 +231,32 @@ export default function Audits() {
       case 0:
         return (
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">Search for an existing building or start typing to find it.</p>
+            <p className="text-sm text-[#5C5244]">Search for an existing building or start typing to find it.</p>
             <Input label="Search building" value={buildingSearch} onChange={e => setBuildingSearch(e.target.value)} placeholder="Type building name or area…" />
             {selectedBuilding ? (
-              <div className="p-4 rounded-xl border-2 border-[#0F6E56] bg-[#0F6E56]/5">
+              <div className="p-4 rounded-xl border-2 border-[#567C45] bg-[#567C45]/5">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-semibold text-gray-900">{selectedBuilding.name}</p>
-                    <p className="text-sm text-gray-500 mt-0.5">{selectedBuilding.type} · {areas.find(a => a.id === selectedBuilding.areaId)?.name}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">Contact: {selectedBuilding.contactName} · {selectedBuilding.contactDesignation}</p>
+                    <p className="font-semibold text-[#2C2820]">{selectedBuilding.name}</p>
+                    <p className="text-sm text-[#8C8062] mt-0.5">{selectedBuilding.type} · {areas.find(a => a.id === selectedBuilding.areaId)?.name}</p>
+                    <p className="text-xs text-[#ADA082] mt-0.5">Contact: {selectedBuilding.contactName} · {selectedBuilding.contactDesignation}</p>
                     {selectedBuilding.monthlyWaterSpend && (
                       <p className="text-xs text-amber-700 mt-1 font-medium">Known monthly water spend: {fmtINR(selectedBuilding.monthlyWaterSpend)}</p>
                     )}
                   </div>
-                  <button onClick={() => setSelectedBuilding(null)} className="text-gray-400 hover:text-red-500 text-xs mt-1 transition-colors">Change</button>
+                  <button onClick={() => setSelectedBuilding(null)} className="text-[#ADA082] hover:text-red-500 text-xs mt-1 transition-colors">Change</button>
                 </div>
               </div>
             ) : (
-              <div className="divide-y divide-gray-50 rounded-xl border border-gray-100 overflow-hidden">
+              <div className="divide-y divide-gray-50 rounded-xl border border-[#EDE4D4] overflow-hidden">
                 {matchingBuildings.length === 0 && (
-                  <p className="text-sm text-gray-400 text-center py-6">No buildings found. Add one in CRM first.</p>
+                  <p className="text-sm text-[#ADA082] text-center py-6">No buildings found. Add one in CRM first.</p>
                 )}
                 {matchingBuildings.map(b => (
                   <button key={b.id} onClick={() => { setSelectedBuilding(b); setS3(s => ({ ...s, beds: b.occupancyCount || 0 })); }}
-                    className="w-full text-left px-4 py-3 hover:bg-[#0F6E56]/5 transition-colors">
-                    <p className="text-sm font-medium text-gray-900">{b.name}</p>
-                    <p className="text-xs text-gray-400">{b.type} · {areas.find(a => a.id === b.areaId)?.name || '—'}</p>
+                    className="w-full text-left px-4 py-3 hover:bg-[#567C45]/5 transition-colors">
+                    <p className="text-sm font-medium text-[#2C2820]">{b.name}</p>
+                    <p className="text-xs text-[#ADA082]">{b.type} · {areas.find(a => a.id === b.areaId)?.name || '—'}</p>
                   </button>
                 ))}
               </div>
@@ -277,14 +277,14 @@ export default function Audits() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1"><LabelWithTooltip label="DJB bill shown?" term="DJB" /></label>
-                <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20" value={s1.djbBillShown} onChange={e => setS1(s => ({ ...s, djbBillShown: e.target.value as typeof s1.djbBillShown }))}>
+                <label className="block text-sm font-medium text-[#463F2E] mb-1"><LabelWithTooltip label="DJB bill shown?" term="DJB" /></label>
+                <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20" value={s1.djbBillShown} onChange={e => setS1(s => ({ ...s, djbBillShown: e.target.value as typeof s1.djbBillShown }))}>
                   <option>Yes</option><option>No</option><option>Partially</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Walked the premises?</label>
-                <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F6E56]/20" value={s1.walkedPremises} onChange={e => setS1(s => ({ ...s, walkedPremises: e.target.value as typeof s1.walkedPremises }))}>
+                <label className="block text-sm font-medium text-[#463F2E] mb-1">Walked the premises?</label>
+                <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#567C45]/20" value={s1.walkedPremises} onChange={e => setS1(s => ({ ...s, walkedPremises: e.target.value as typeof s1.walkedPremises }))}>
                   <option>Yes</option><option>No</option>
                 </select>
               </div>
@@ -297,70 +297,70 @@ export default function Audits() {
         return (
           <div className="space-y-4">
             {/* Municipal */}
-            <div className="p-4 rounded-xl border border-gray-100 space-y-3">
+            <div className="p-4 rounded-xl border border-[#EDE4D4] space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={s2.hasMunicipal} onChange={e => setS2(s => ({ ...s, hasMunicipal: e.target.checked }))} className="w-4 h-4 accent-[#0F6E56]" />
-                <span className="font-medium text-gray-900"><LabelWithTooltip label="DJB / Municipal connection" term="Municipal supply" /></span>
+                <input type="checkbox" checked={s2.hasMunicipal} onChange={e => setS2(s => ({ ...s, hasMunicipal: e.target.checked }))} className="w-4 h-4 accent-[#567C45]" />
+                <span className="font-medium text-[#2C2820]"><LabelWithTooltip label="DJB / Municipal connection" term="Municipal supply" /></span>
               </label>
               {s2.hasMunicipal && (
                 <div className="grid grid-cols-2 gap-3 ml-6">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Avg hours of supply per day</label>
-                    <input type="number" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.municipalHrs} onChange={e => setS2(s => ({ ...s, municipalHrs: +e.target.value }))} min={0} max={24} />
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1">Avg hours of supply per day</label>
+                    <input type="number" className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.municipalHrs} onChange={e => setS2(s => ({ ...s, municipalHrs: +e.target.value }))} min={0} max={24} />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Is supply adequate?</label>
-                    <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.municipalAdequacy} onChange={e => setS2(s => ({ ...s, municipalAdequacy: e.target.value }))}>
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1">Is supply adequate?</label>
+                    <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.municipalAdequacy} onChange={e => setS2(s => ({ ...s, municipalAdequacy: e.target.value }))}>
                       {['Never', 'Rarely', 'Sometimes', 'Usually', 'Always'].map(o => <option key={o}>{o}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1"><LabelWithTooltip label="DJB monthly bill (₹)" term="DJB" /></label>
-                    <input type="number" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.djbBill || ''} onChange={e => setS2(s => ({ ...s, djbBill: +e.target.value }))} placeholder="e.g. 12000" />
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1"><LabelWithTooltip label="DJB monthly bill (₹)" term="DJB" /></label>
+                    <input type="number" className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.djbBill || ''} onChange={e => setS2(s => ({ ...s, djbBill: +e.target.value }))} placeholder="e.g. 12000" />
                   </div>
                 </div>
               )}
             </div>
             {/* OHT */}
-            <div className="p-4 rounded-xl border border-gray-100 space-y-3">
+            <div className="p-4 rounded-xl border border-[#EDE4D4] space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={s2.hasOHT} onChange={e => setS2(s => ({ ...s, hasOHT: e.target.checked }))} className="w-4 h-4 accent-[#0F6E56]" />
-                <span className="font-medium text-gray-900"><LabelWithTooltip label="Overhead Tank (OHT)" term="OHT" /></span>
+                <input type="checkbox" checked={s2.hasOHT} onChange={e => setS2(s => ({ ...s, hasOHT: e.target.checked }))} className="w-4 h-4 accent-[#567C45]" />
+                <span className="font-medium text-[#2C2820]"><LabelWithTooltip label="Overhead Tank (OHT)" term="OHT" /></span>
               </label>
               {s2.hasOHT && (
                 <div className="grid grid-cols-2 gap-3 ml-6">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Tank capacity (litres)</label>
-                    <input type="number" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.ohtCapacity} onChange={e => setS2(s => ({ ...s, ohtCapacity: +e.target.value }))} />
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1">Tank capacity (litres)</label>
+                    <input type="number" className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.ohtCapacity} onChange={e => setS2(s => ({ ...s, ohtCapacity: +e.target.value }))} />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Does it overflow?</label>
-                    <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.ohtOverflows} onChange={e => setS2(s => ({ ...s, ohtOverflows: e.target.value }))}>
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1">Does it overflow?</label>
+                    <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.ohtOverflows} onChange={e => setS2(s => ({ ...s, ohtOverflows: e.target.value }))}>
                       {['Yes, regularly', 'Occasionally', 'Never', 'Unknown'].map(o => <option key={o}>{o}</option>)}
                     </select>
                   </div>
                   <label className="flex items-center gap-2 cursor-pointer col-span-2">
-                    <input type="checkbox" checked={s2.ohtSensor} onChange={e => setS2(s => ({ ...s, ohtSensor: e.target.checked }))} className="w-4 h-4 accent-[#0F6E56]" />
-                    <span className="text-xs text-gray-700">Has overflow sensor</span>
+                    <input type="checkbox" checked={s2.ohtSensor} onChange={e => setS2(s => ({ ...s, ohtSensor: e.target.checked }))} className="w-4 h-4 accent-[#567C45]" />
+                    <span className="text-xs text-[#463F2E]">Has overflow sensor</span>
                   </label>
                 </div>
               )}
             </div>
             {/* Borewell */}
-            <div className="p-4 rounded-xl border border-gray-100 space-y-3">
+            <div className="p-4 rounded-xl border border-[#EDE4D4] space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={s2.hasBorewell} onChange={e => setS2(s => ({ ...s, hasBorewell: e.target.checked }))} className="w-4 h-4 accent-[#0F6E56]" />
-                <span className="font-medium text-gray-900">Borewell / Tubewell</span>
+                <input type="checkbox" checked={s2.hasBorewell} onChange={e => setS2(s => ({ ...s, hasBorewell: e.target.checked }))} className="w-4 h-4 accent-[#567C45]" />
+                <span className="font-medium text-[#2C2820]">Borewell / Tubewell</span>
               </label>
               {s2.hasBorewell && (
                 <div className="grid grid-cols-2 gap-3 ml-6">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Depth (feet)</label>
-                    <input type="number" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.borewellDepth} onChange={e => setS2(s => ({ ...s, borewellDepth: +e.target.value }))} />
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1">Depth (feet)</label>
+                    <input type="number" className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.borewellDepth} onChange={e => setS2(s => ({ ...s, borewellDepth: +e.target.value }))} />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Water quality</label>
-                    <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.borewellQuality} onChange={e => setS2(s => ({ ...s, borewellQuality: e.target.value }))}>
+                    <label className="block text-xs font-medium text-[#5C5244] mb-1">Water quality</label>
+                    <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.borewellQuality} onChange={e => setS2(s => ({ ...s, borewellQuality: e.target.value }))}>
                       {['Good', 'Needs treatment', 'Not suitable for use'].map(o => <option key={o}>{o}</option>)}
                     </select>
                   </div>
@@ -368,21 +368,21 @@ export default function Audits() {
               )}
             </div>
             {/* Tankers */}
-            <div className="p-4 rounded-xl border border-gray-100 space-y-3">
+            <div className="p-4 rounded-xl border border-[#EDE4D4] space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={s2.usesTankers} onChange={e => setS2(s => ({ ...s, usesTankers: e.target.checked }))} className="w-4 h-4 accent-[#0F6E56]" />
-                <span className="font-medium text-gray-900"><LabelWithTooltip label="Water tankers" term="Tanker dependency" /></span>
+                <input type="checkbox" checked={s2.usesTankers} onChange={e => setS2(s => ({ ...s, usesTankers: e.target.checked }))} className="w-4 h-4 accent-[#567C45]" />
+                <span className="font-medium text-[#2C2820]"><LabelWithTooltip label="Water tankers" term="Tanker dependency" /></span>
               </label>
               {s2.usesTankers && (
                 <div className="space-y-3 ml-6">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Tankers per month</label>
-                      <input type="number" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.tankerCount || ''} onChange={e => setS2(s => ({ ...s, tankerCount: +e.target.value }))} />
+                      <label className="block text-xs font-medium text-[#5C5244] mb-1">Tankers per month</label>
+                      <input type="number" className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.tankerCount || ''} onChange={e => setS2(s => ({ ...s, tankerCount: +e.target.value }))} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Capacity per tanker</label>
-                      <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.tankerCapacity} onChange={e => setS2(s => ({ ...s, tankerCapacity: +e.target.value }))}>
+                      <label className="block text-xs font-medium text-[#5C5244] mb-1">Capacity per tanker</label>
+                      <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.tankerCapacity} onChange={e => setS2(s => ({ ...s, tankerCapacity: +e.target.value }))}>
                         <option value={5000}>5,000 L</option>
                         <option value={6000}>6,000 L</option>
                         <option value={8000}>8,000 L</option>
@@ -391,8 +391,8 @@ export default function Audits() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Cost per tanker (₹)</label>
-                      <input type="number" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s2.tankerCost || ''} onChange={e => setS2(s => ({ ...s, tankerCost: +e.target.value }))} />
+                      <label className="block text-xs font-medium text-[#5C5244] mb-1">Cost per tanker (₹)</label>
+                      <input type="number" className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s2.tankerCost || ''} onChange={e => setS2(s => ({ ...s, tankerCost: +e.target.value }))} />
                     </div>
                   </div>
                   {tankerMonthlySpend > 0 && (
@@ -428,8 +428,8 @@ export default function Audits() {
                 <Input label="Bed occupancy %" type="number" value={s3.bedOccupancyPct.toString()} onChange={e => setS3(s => ({ ...s, bedOccupancyPct: +e.target.value }))} />
                 <Input label="OPD patients per day" type="number" value={s3.opdPerDay.toString()} onChange={e => setS3(s => ({ ...s, opdPerDay: +e.target.value }))} />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Laundry on-site?</label>
-                  <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s3.hasLaundry ? 'Yes' : 'No'} onChange={e => setS3(s => ({ ...s, hasLaundry: e.target.value === 'Yes' }))}>
+                  <label className="block text-sm font-medium text-[#463F2E] mb-1">Laundry on-site?</label>
+                  <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s3.hasLaundry ? 'Yes' : 'No'} onChange={e => setS3(s => ({ ...s, hasLaundry: e.target.value === 'Yes' }))}>
                     <option>Yes</option><option>No</option>
                   </select>
                 </div>
@@ -440,8 +440,8 @@ export default function Audits() {
                 <Input label="Number of students" type="number" value={s3.students.toString()} onChange={e => setS3(s => ({ ...s, students: +e.target.value }))} />
                 <Input label="Staff count" type="number" value={s3.schoolStaff.toString()} onChange={e => setS3(s => ({ ...s, schoolStaff: +e.target.value }))} />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Residential hostel?</label>
-                  <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s3.hasHostel ? 'Yes' : 'No'} onChange={e => setS3(s => ({ ...s, hasHostel: e.target.value === 'Yes' }))}>
+                  <label className="block text-sm font-medium text-[#463F2E] mb-1">Residential hostel?</label>
+                  <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s3.hasHostel ? 'Yes' : 'No'} onChange={e => setS3(s => ({ ...s, hasHostel: e.target.value === 'Yes' }))}>
                     <option>Yes</option><option>No</option>
                   </select>
                 </div>
@@ -459,8 +459,8 @@ export default function Audits() {
               <div className="grid grid-cols-2 gap-4">
                 <Input label="Number of residents" type="number" value={s3.residents.toString()} onChange={e => setS3(s => ({ ...s, residents: +e.target.value }))} />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Bathroom type</label>
-                  <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s3.bathroomType} onChange={e => setS3(s => ({ ...s, bathroomType: e.target.value }))}>
+                  <label className="block text-sm font-medium text-[#463F2E] mb-1">Bathroom type</label>
+                  <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s3.bathroomType} onChange={e => setS3(s => ({ ...s, bathroomType: e.target.value }))}>
                     <option>Common</option><option>Attached</option><option>Mix</option>
                   </select>
                 </div>
@@ -477,8 +477,8 @@ export default function Audits() {
                 <Input label="Number of flats" type="number" value={s3.flats.toString()} onChange={e => setS3(s => ({ ...s, flats: +e.target.value }))} />
                 <Input label="Avg residents per flat" type="number" value={s3.residentsPerFlat.toString()} onChange={e => setS3(s => ({ ...s, residentsPerFlat: +e.target.value }))} />
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1"><LabelWithTooltip label="Existing STP?" term="STP" /></label>
-                  <select className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" value={s3.hasSTP ? 'Yes' : 'No'} onChange={e => setS3(s => ({ ...s, hasSTP: e.target.value === 'Yes' }))}>
+                  <label className="block text-sm font-medium text-[#463F2E] mb-1"><LabelWithTooltip label="Existing STP?" term="STP" /></label>
+                  <select className="w-full border border-[#E2D5BE] rounded-xl px-3 py-2 text-sm" value={s3.hasSTP ? 'Yes' : 'No'} onChange={e => setS3(s => ({ ...s, hasSTP: e.target.value === 'Yes' }))}>
                     <option>Yes</option><option>No</option>
                   </select>
                 </div>
@@ -493,7 +493,7 @@ export default function Audits() {
             {!isHospital && !isSchool && !isBanquet && !isHostel && !isHotel && !isSociety && !isIndustrial && (
               <Input label="Estimated occupancy count" type="number" value={s3.beds.toString()} onChange={e => setS3(s => ({ ...s, beds: +e.target.value }))} placeholder="Number of regular occupants" />
             )}
-            <div className="bg-teal-50 rounded-xl p-3 text-xs text-teal-800">
+            <div className="bg-teal-50 rounded-xl p-3 text-xs text-brand-700">
               <strong>Effective occupancy calculated:</strong> {effectiveOccupancy} persons
             </div>
           </div>
@@ -503,29 +503,29 @@ export default function Audits() {
       case 4:
         return (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600">Check every waste item you found during the site visit. Estimate daily litres lost for each.</p>
+            <p className="text-sm text-[#5C5244]">Check every waste item you found during the site visit. Estimate daily litres lost for each.</p>
             {WASTE_ITEMS.map(item => {
               const w = wasteMap[item.id];
               return (
-                <div key={item.id} className={`p-3 rounded-xl border transition-all ${w.found ? 'border-red-200 bg-red-50' : 'border-gray-100 bg-white'}`}>
+                <div key={item.id} className={`p-3 rounded-xl border transition-all ${w.found ? 'border-red-200 bg-red-50' : 'border-[#EDE4D4] bg-white'}`}>
                   <label className="flex items-start gap-3 cursor-pointer">
                     <input type="checkbox" checked={w.found} onChange={e => setWasteMap(m => ({ ...m, [item.id]: { ...m[item.id], found: e.target.checked } }))} className="w-4 h-4 mt-0.5 accent-red-500 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-[#2C2820]">
                         {item.tooltip ? <LabelWithTooltip label={item.label} term={item.tooltip} /> : item.label}
                       </span>
-                      {!w.found && <p className="text-xs text-gray-400 mt-0.5">{item.tip}</p>}
+                      {!w.found && <p className="text-xs text-[#ADA082] mt-0.5">{item.tip}</p>}
                     </div>
                   </label>
                   {w.found && (
                     <div className="mt-2 ml-7 grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1">Daily litres lost (estimate)</label>
-                        <input type="number" className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-sm" value={w.dailyLitres || ''} onChange={e => setWasteMap(m => ({ ...m, [item.id]: { ...m[item.id], dailyLitres: +e.target.value } }))} placeholder="e.g. 500" />
+                        <label className="block text-xs font-medium text-[#5C5244] mb-1">Daily litres lost (estimate)</label>
+                        <input type="number" className="w-full border border-[#E2D5BE] rounded-lg px-2 py-1.5 text-sm" value={w.dailyLitres || ''} onChange={e => setWasteMap(m => ({ ...m, [item.id]: { ...m[item.id], dailyLitres: +e.target.value } }))} placeholder="e.g. 500" />
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1">Description (optional)</label>
-                        <input type="text" className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-sm" value={w.description} onChange={e => setWasteMap(m => ({ ...m, [item.id]: { ...m[item.id], description: e.target.value } }))} placeholder="Where / how observed" />
+                        <label className="block text-xs font-medium text-[#5C5244] mb-1">Description (optional)</label>
+                        <input type="text" className="w-full border border-[#E2D5BE] rounded-lg px-2 py-1.5 text-sm" value={w.description} onChange={e => setWasteMap(m => ({ ...m, [item.id]: { ...m[item.id], description: e.target.value } }))} placeholder="Where / how observed" />
                       </div>
                     </div>
                   )}
@@ -547,16 +547,16 @@ export default function Audits() {
           <div className="space-y-4">
             <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 space-y-2 text-sm">
               <p className="font-semibold text-teal-900"><LabelWithTooltip label="Greywater calculation" term="Greywater recycling" /></p>
-              <p className="text-teal-800">Based on <strong>{effectiveOccupancy} persons</strong> at <strong>{greyRate} L/person/day</strong> = <strong>{greywaterPotentialLpd.toLocaleString('en-IN')} litres of <LabelWithTooltip label="greywater" term="Greywater" /> generated daily.</strong></p>
+              <p className="text-brand-700">Based on <strong>{effectiveOccupancy} persons</strong> at <strong>{greyRate} L/person/day</strong> = <strong>{greywaterPotentialLpd.toLocaleString('en-IN')} litres of <LabelWithTooltip label="greywater" term="Greywater" /> generated daily.</strong></p>
               <p className="text-teal-700">Of this, <strong>75% is recoverable</strong> = <strong>{recoverableLpd.toLocaleString('en-IN')} L/day ({(recoverableLpd / 1000).toFixed(1)} <LabelWithTooltip label="KLD" term="KLD" />).</strong></p>
               <p className="text-teal-700">At current water costs, this recovered water is worth <strong>{fmtINR(monthlyValueINR)}/month.</strong></p>
             </div>
-            <div className="bg-white border border-gray-100 rounded-xl p-4">
-              <p className="text-sm font-semibold text-gray-700 mb-3">Sources → Treatment → Reuse</p>
+            <div className="bg-white border border-[#EDE4D4] rounded-xl p-4">
+              <p className="text-sm font-semibold text-[#463F2E] mb-3">Sources → Treatment → Reuse</p>
               <div className="flex flex-wrap gap-2 items-start text-xs">
                 <div className="bg-blue-50 rounded-lg p-2 text-blue-800 space-y-0.5"><p className="font-semibold">Sources</p><p>• Bathroom sinks & showers</p><p>• Washing machines</p><p>• Handwash basins</p></div>
                 <ChevronRight size={14} className="text-gray-300 mt-3" />
-                <div className="bg-gray-50 rounded-lg p-2 text-gray-700 space-y-0.5"><p className="font-semibold">Treatment</p><p>• <LabelWithTooltip label="UF Membrane" term="UF Membrane" /></p><p>• <LabelWithTooltip label="UV Disinfection" term="UV Disinfection" /></p></div>
+                <div className="bg-[#F6F1EA] rounded-lg p-2 text-[#463F2E] space-y-0.5"><p className="font-semibold">Treatment</p><p>• <LabelWithTooltip label="UF Membrane" term="UF Membrane" /></p><p>• <LabelWithTooltip label="UV Disinfection" term="UV Disinfection" /></p></div>
                 <ChevronRight size={14} className="text-gray-300 mt-3" />
                 <div className="bg-green-50 rounded-lg p-2 text-green-800 space-y-0.5"><p className="font-semibold">Reuse</p><p>• Toilet flushing (30–40%)</p><p>• Garden irrigation</p><p>• Floor cleaning</p></div>
               </div>
@@ -567,42 +567,42 @@ export default function Audits() {
       case 6:
         return (
           <div className="space-y-4">
-            <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Section A — Current Situation</p>
+            <div className="p-4 rounded-xl bg-[#F6F1EA] border border-[#EDE4D4]">
+              <p className="text-xs font-bold text-[#8C8062] uppercase tracking-wide mb-2">Section A — Current Situation</p>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <span className="text-gray-600"><LabelWithTooltip label="Monthly DJB bill" term="DJB" /></span><span className="font-semibold text-right">{fmtINR(s2.djbBill)}</span>
-                <span className="text-gray-600">Monthly tanker spend</span><span className="font-semibold text-right">{fmtINR(tankerMonthlySpend)}</span>
-                <span className="font-semibold text-gray-900 border-t pt-2">Total monthly</span><span className="font-bold text-amber-700 border-t pt-2 text-right">{fmtINR(totalMonthlyWaterSpend)}</span>
+                <span className="text-[#5C5244]"><LabelWithTooltip label="Monthly DJB bill" term="DJB" /></span><span className="font-semibold text-right">{fmtINR(s2.djbBill)}</span>
+                <span className="text-[#5C5244]">Monthly tanker spend</span><span className="font-semibold text-right">{fmtINR(tankerMonthlySpend)}</span>
+                <span className="font-semibold text-[#2C2820] border-t pt-2">Total monthly</span><span className="font-bold text-amber-700 border-t pt-2 text-right">{fmtINR(totalMonthlyWaterSpend)}</span>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-teal-50 border border-teal-200">
               <p className="text-xs font-bold text-teal-700 uppercase tracking-wide mb-2"><LabelWithTooltip label="Section B — DJB Rebate" term="DJB Rebate" /></p>
               <div className="mb-2">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Building area (sq metres)</label>
-                <input type="number" className="w-32 border border-gray-200 rounded-xl px-3 py-1.5 text-sm" value={s6BuildingAreaSqM} onChange={e => setS6BuildingAreaSqM(+e.target.value)} />
+                <label className="block text-xs font-medium text-[#463F2E] mb-1">Building area (sq metres)</label>
+                <input type="number" className="w-32 border border-[#E2D5BE] rounded-xl px-3 py-1.5 text-sm" value={s6BuildingAreaSqM} onChange={e => setS6BuildingAreaSqM(+e.target.value)} />
               </div>
               {djbRebateEligible
-                ? <><p className="text-sm text-teal-800 font-medium">✓ Eligible for 10% DJB rebate</p><p className="text-lg font-bold text-teal-900 mt-1">Annual rebate: {fmtINR(djbRebateAnnual)}</p><p className="text-xs text-teal-700 mt-1">Applied automatically when DJB certifies the system — no separate approval needed.</p></>
+                ? <><p className="text-sm text-brand-700 font-medium">✓ Eligible for 10% DJB rebate</p><p className="text-lg font-bold text-teal-900 mt-1">Annual rebate: {fmtINR(djbRebateAnnual)}</p><p className="text-xs text-teal-700 mt-1">Applied automatically when DJB certifies the system — no separate approval needed.</p></>
                 : <p className="text-sm text-orange-700">Building area below 500 sq m — may not qualify. Confirm with DJB.</p>
               }
             </div>
             <div className="p-4 rounded-xl bg-blue-50 border border-blue-100">
               <p className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-2">Section C — Recommended System</p>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <span className="text-gray-600">Recommended size</span><span className="font-semibold text-right"><LabelWithTooltip label={`${recommendedKLD} KLD`} term="KLD" /></span>
-                <span className="text-gray-600"><LabelWithTooltip label="Capex range" term="Capex" /></span><span className="font-semibold text-right">{fmtINR(capexRange[0])} – {fmtINR(capexRange[1])}</span>
-                <span className="text-gray-600"><LabelWithTooltip label="Annual AMC" term="AMC" /></span><span className="font-semibold text-right">{fmtINR(annualAMC)}</span>
+                <span className="text-[#5C5244]">Recommended size</span><span className="font-semibold text-right"><LabelWithTooltip label={`${recommendedKLD} KLD`} term="KLD" /></span>
+                <span className="text-[#5C5244]"><LabelWithTooltip label="Capex range" term="Capex" /></span><span className="font-semibold text-right">{fmtINR(capexRange[0])} – {fmtINR(capexRange[1])}</span>
+                <span className="text-[#5C5244]"><LabelWithTooltip label="Annual AMC" term="AMC" /></span><span className="font-semibold text-right">{fmtINR(annualAMC)}</span>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-green-50 border border-green-200">
               <p className="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Section D — Returns</p>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <span className="text-gray-700">Annual water saving (35%)</span><span className="font-semibold text-green-800 text-right">{fmtINR(annualWaterSaving)}</span>
-                <span className="text-gray-700">DJB rebate/year</span><span className="font-semibold text-green-800 text-right">{fmtINR(djbRebateAnnual)}</span>
+                <span className="text-[#463F2E]">Annual water saving (35%)</span><span className="font-semibold text-green-800 text-right">{fmtINR(annualWaterSaving)}</span>
+                <span className="text-[#463F2E]">DJB rebate/year</span><span className="font-semibold text-green-800 text-right">{fmtINR(djbRebateAnnual)}</span>
                 <span className="font-bold text-green-900 border-t border-green-200 pt-2">Total annual benefit</span><span className="font-bold text-green-900 border-t border-green-200 pt-2 text-right">{fmtINR(totalAnnualBenefit)}</span>
-                <span className="text-gray-700"><LabelWithTooltip label="Payback period" term="Payback period" /></span><span className="font-semibold text-right">{paybackMonths > 0 ? `${paybackMonths} months` : '—'}</span>
-                <span className="text-gray-700">5-year net benefit</span><span className={`font-semibold text-right ${fiveYearNet >= 0 ? 'text-green-700' : 'text-red-600'}`}>{fmtINR(fiveYearNet)}</span>
-                <span className="text-gray-700">10-year net benefit</span><span className={`font-semibold text-right ${tenYearNet >= 0 ? 'text-green-700' : 'text-red-600'}`}>{fmtINR(tenYearNet)}</span>
+                <span className="text-[#463F2E]"><LabelWithTooltip label="Payback period" term="Payback period" /></span><span className="font-semibold text-right">{paybackMonths > 0 ? `${paybackMonths} months` : '—'}</span>
+                <span className="text-[#463F2E]">5-year net benefit</span><span className={`font-semibold text-right ${fiveYearNet >= 0 ? 'text-green-700' : 'text-red-600'}`}>{fmtINR(fiveYearNet)}</span>
+                <span className="text-[#463F2E]">10-year net benefit</span><span className={`font-semibold text-right ${tenYearNet >= 0 ? 'text-green-700' : 'text-red-600'}`}>{fmtINR(tenYearNet)}</span>
               </div>
             </div>
           </div>
@@ -611,21 +611,21 @@ export default function Audits() {
       case 7:
         return (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600">Auto-suggested based on your audit findings.</p>
+            <p className="text-sm text-[#5C5244]">Auto-suggested based on your audit findings.</p>
             {allRecs.length === 0 && (
-              <p className="text-gray-400 text-sm text-center py-6">No recommendations yet. Go back and fill the waste checklist or enter occupancy data.</p>
+              <p className="text-[#ADA082] text-sm text-center py-6">No recommendations yet. Go back and fill the waste checklist or enter occupancy data.</p>
             )}
             {allRecs.map((rec, i) => (
               <div key={i} className={`p-4 rounded-xl border ${rec.urgency === 'Quick win' ? 'border-green-200 bg-green-50' : rec.urgency === 'Medium' ? 'border-amber-200 bg-amber-50' : 'border-blue-100 bg-blue-50'}`}>
                 <div className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center text-xs font-bold text-gray-600 flex-shrink-0">{i + 1}</span>
+                  <span className="w-6 h-6 rounded-full bg-white border border-[#E2D5BE] flex items-center justify-center text-xs font-bold text-[#5C5244] flex-shrink-0">{i + 1}</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="font-semibold text-gray-900 text-sm">{rec.title}</p>
+                      <p className="font-semibold text-[#2C2820] text-sm">{rec.title}</p>
                       <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold flex-shrink-0 ${rec.urgency === 'Quick win' ? 'bg-green-200 text-green-800' : rec.urgency === 'Medium' ? 'bg-amber-200 text-amber-800' : 'bg-blue-200 text-blue-800'}`}>{rec.urgency}</span>
                     </div>
-                    <p className="text-xs text-gray-600 mt-1 leading-relaxed">{rec.description}</p>
-                    <div className="flex gap-4 mt-2 text-xs text-gray-500">
+                    <p className="text-xs text-[#5C5244] mt-1 leading-relaxed">{rec.description}</p>
+                    <div className="flex gap-4 mt-2 text-xs text-[#8C8062]">
                       <span>Cost: {fmtINR(rec.costMin)} – {fmtINR(rec.costMax)}</span>
                       <span>Saves: {fmtINR(rec.monthlySaving)}/mo</span>
                     </div>
@@ -639,21 +639,21 @@ export default function Audits() {
       case 8:
         return (
           <div className="space-y-4">
-            <div className="bg-[#0F6E56]/5 border border-[#0F6E56]/20 rounded-xl p-4">
-              <p className="font-bold text-[#0F6E56] mb-3">Audit Summary — {selectedBuilding?.name}</p>
+            <div className="bg-[#567C45]/5 border border-[#567C45]/20 rounded-xl p-4">
+              <p className="font-bold text-[#567C45] mb-3">Audit Summary — {selectedBuilding?.name}</p>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
-                <span className="text-gray-500">Audit date</span><span className="font-medium">{s1.auditDate}</span>
-                <span className="text-gray-500">Auditor</span><span className="font-medium">{s1.auditorName}</span>
-                <span className="text-gray-500">Monthly water cost</span><span className="font-medium text-amber-700">{fmtINR(totalMonthlyWaterSpend)}</span>
-                <span className="text-gray-500"><LabelWithTooltip label="Greywater potential" term="Greywater potential" /></span><span className="font-medium text-teal-700">{(greywaterPotentialLpd / 1000).toFixed(1)} <LabelWithTooltip label="KLD" term="KLD" /></span>
-                <span className="text-gray-500"><LabelWithTooltip label="DJB Rebate" term="DJB Rebate" /></span><span className="font-medium text-green-700">{fmtINR(djbRebateAnnual)}/yr</span>
-                <span className="text-gray-500"><LabelWithTooltip label="Payback" term="Payback period" /></span><span className="font-medium">{paybackMonths > 0 ? `${paybackMonths} months` : '—'}</span>
-                <span className="text-gray-500 font-semibold">Total annual benefit</span><span className="font-bold text-green-800">{fmtINR(totalAnnualBenefit)}</span>
-                <span className="text-gray-500">Waste items found</span><span className="font-medium text-red-700">{Object.values(wasteMap).filter(w => w.found).length}</span>
-                <span className="text-gray-500">Recommendations</span><span className="font-medium">{allRecs.length}</span>
+                <span className="text-[#8C8062]">Audit date</span><span className="font-medium">{s1.auditDate}</span>
+                <span className="text-[#8C8062]">Auditor</span><span className="font-medium">{s1.auditorName}</span>
+                <span className="text-[#8C8062]">Monthly water cost</span><span className="font-medium text-amber-700">{fmtINR(totalMonthlyWaterSpend)}</span>
+                <span className="text-[#8C8062]"><LabelWithTooltip label="Greywater potential" term="Greywater potential" /></span><span className="font-medium text-teal-700">{(greywaterPotentialLpd / 1000).toFixed(1)} <LabelWithTooltip label="KLD" term="KLD" /></span>
+                <span className="text-[#8C8062]"><LabelWithTooltip label="DJB Rebate" term="DJB Rebate" /></span><span className="font-medium text-green-700">{fmtINR(djbRebateAnnual)}/yr</span>
+                <span className="text-[#8C8062]"><LabelWithTooltip label="Payback" term="Payback period" /></span><span className="font-medium">{paybackMonths > 0 ? `${paybackMonths} months` : '—'}</span>
+                <span className="text-[#8C8062] font-semibold">Total annual benefit</span><span className="font-bold text-green-800">{fmtINR(totalAnnualBenefit)}</span>
+                <span className="text-[#8C8062]">Waste items found</span><span className="font-medium text-red-700">{Object.values(wasteMap).filter(w => w.found).length}</span>
+                <span className="text-[#8C8062]">Recommendations</span><span className="font-medium">{allRecs.length}</span>
               </div>
             </div>
-            <p className="text-sm text-gray-500">Click "Save Audit" to record this audit permanently.</p>
+            <p className="text-sm text-[#8C8062]">Click "Save Audit" to record this audit permanently.</p>
           </div>
         );
 
@@ -678,10 +678,10 @@ export default function Audits() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <ClipboardList size={22} className="text-[#0F6E56]" />
-            <h1 className="text-2xl font-bold text-gray-900">Water Audits</h1>
+            <ClipboardList size={22} className="text-[#567C45]" />
+            <h1 className="text-2xl font-bold text-[#2C2820]">Water Audits</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">India-specific 8-step building water audit</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">India-specific 8-step building water audit</p>
         </div>
         <Button onClick={() => { resetForm(); setShowForm(true); }}>
           <Plus size={15} className="mr-1.5" /> New Audit
@@ -695,7 +695,7 @@ export default function Audits() {
           { label: 'Total Potential Savings', value: fmtLakh(audits.reduce((s, a) => s + a.potentialSavings, 0)) },
           { label: 'Greywater Potential', value: `${(audits.reduce((s, a) => s + (a.greywaterPotentialLpd || 0), 0) / 1000).toFixed(0)} KLD` },
         ].map(kpi => (
-          <Card key={kpi.label}><CardBody className="py-4"><p className="text-xs text-gray-500 font-medium">{kpi.label}</p><p className="text-xl font-bold text-gray-900 mt-0.5">{kpi.value}</p></CardBody></Card>
+          <Card key={kpi.label}><CardBody className="py-4"><p className="text-xs text-[#8C8062] font-medium">{kpi.label}</p><p className="text-xl font-bold text-[#2C2820] mt-0.5">{kpi.value}</p></CardBody></Card>
         ))}
       </div>
 
@@ -716,22 +716,22 @@ export default function Audits() {
           </THead>
           <TBody>
             {auditRows.length === 0 && (
-              <TR><TD colSpan={9} className="text-center text-gray-400 py-10">No audits yet. Click "New Audit" to start your first one.</TD></TR>
+              <TR><TD colSpan={9} className="text-center text-[#ADA082] py-10">No audits yet. Click "New Audit" to start your first one.</TD></TR>
             )}
             {auditRows.map(({ audit: a, building: b, area, city }) => (
               <TR key={a.id} onClick={() => setViewAudit(a)}>
-                <TD className="font-medium text-gray-900">{b?.name || '—'}</TD>
-                <TD className="text-gray-500">{area?.name || '—'} · {city?.name || '—'}</TD>
+                <TD className="font-medium text-[#2C2820]">{b?.name || '—'}</TD>
+                <TD className="text-[#8C8062]">{area?.name || '—'} · {city?.name || '—'}</TD>
                 <TD>{format(new Date(a.date), 'd MMM yy')}</TD>
                 <TD className="font-semibold text-amber-700">{fmtINR(a.currentWaterBill + a.tankerSpend)}</TD>
                 <TD className="text-teal-700 font-semibold">{a.greywaterPotentialLpd ? `${(a.greywaterPotentialLpd / 1000).toFixed(1)} KLD` : '—'}</TD>
                 <TD className="text-green-700 font-semibold">{a.djbRebateAnnual ? fmtINR(a.djbRebateAnnual) + '/yr' : '—'}</TD>
                 <TD>{a.paybackMonths ? `${a.paybackMonths} mo` : '—'}</TD>
-                <TD className="text-xs text-gray-600 max-w-[160px] truncate">{a.priorityActions?.[0]?.description.slice(0, 50) || '—'}</TD>
+                <TD className="text-xs text-[#5C5244] max-w-[160px] truncate">{a.priorityActions?.[0]?.description.slice(0, 50) || '—'}</TD>
                 <TD onClick={e => e.stopPropagation()}>
                   <div className="flex gap-2">
-                    <button onClick={() => setViewAudit(a)} className="text-gray-400 hover:text-[#0F6E56] transition-colors p-1"><Eye size={14} /></button>
-                    <button onClick={() => { if (window.confirm('Delete this audit?')) deleteAudit(a.id); }} className="text-gray-400 hover:text-red-500 transition-colors p-1"><Trash2 size={14} /></button>
+                    <button onClick={() => setViewAudit(a)} className="text-[#ADA082] hover:text-[#567C45] transition-colors p-1"><Eye size={14} /></button>
+                    <button onClick={() => { if (window.confirm('Delete this audit?')) deleteAudit(a.id); }} className="text-[#ADA082] hover:text-red-500 transition-colors p-1"><Trash2 size={14} /></button>
                   </div>
                 </TD>
               </TR>
@@ -750,7 +750,7 @@ export default function Audits() {
         <div className="flex gap-1 mb-5 flex-wrap">
           {STEP_LABELS.map((label, i) => (
             <button key={i} onClick={() => { if (i <= step) setStep(i); }}
-              className={`flex-1 min-w-[50px] py-1.5 rounded-lg text-[10px] font-semibold transition-all ${i === step ? 'bg-[#0F6E56] text-white' : i < step ? 'bg-[#0F6E56]/20 text-[#0F6E56]' : 'bg-gray-100 text-gray-400'}`}>
+              className={`flex-1 min-w-[50px] py-1.5 rounded-lg text-[10px] font-semibold transition-all ${i === step ? 'bg-[#567C45] text-white' : i < step ? 'bg-[#567C45]/20 text-[#567C45]' : 'bg-[#EDE4D4] text-[#ADA082]'}`}>
               {i + 1}
             </button>
           ))}
@@ -758,7 +758,7 @@ export default function Audits() {
         <div className="max-h-[55vh] overflow-y-auto pr-1">
           {renderStep()}
         </div>
-        <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
+        <div className="flex items-center justify-between pt-4 mt-4 border-t border-[#EDE4D4]">
           <Button variant="ghost" onClick={() => { if (step > 0) setStep(s => s - 1); else { setShowForm(false); resetForm(); } }} className="flex items-center gap-1.5">
             <ChevronLeft size={15} /> {step === 0 ? 'Cancel' : 'Back'}
           </Button>
@@ -783,31 +783,31 @@ export default function Audits() {
               return (
                 <>
                   <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div><span className="text-gray-400 text-xs">Building</span><p className="font-semibold">{b?.name || '—'}</p></div>
-                    <div><span className="text-gray-400 text-xs">Date</span><p className="font-semibold">{format(new Date(viewAudit.date), 'd MMM yyyy')}</p></div>
-                    <div><span className="text-gray-400 text-xs">Monthly water bill</span><p className="font-semibold text-amber-700">{fmtINR(viewAudit.currentWaterBill)}</p></div>
-                    <div><span className="text-gray-400 text-xs">Monthly tanker spend</span><p className="font-semibold text-amber-700">{fmtINR(viewAudit.tankerSpend)}</p></div>
-                    <div><span className="text-gray-400 text-xs">Greywater potential</span><p className="font-semibold text-teal-700">{((viewAudit.greywaterPotentialLpd || 0) / 1000).toFixed(1)} KLD/day</p></div>
-                    <div><span className="text-gray-400 text-xs">DJB rebate/year</span><p className="font-semibold text-green-700">{viewAudit.djbRebateAnnual ? fmtINR(viewAudit.djbRebateAnnual) : '—'}</p></div>
-                    <div><span className="text-gray-400 text-xs">Capex estimate</span><p className="font-semibold">{viewAudit.capexEstimate ? fmtINR(viewAudit.capexEstimate) : '—'}</p></div>
-                    <div><span className="text-gray-400 text-xs">Payback</span><p className="font-semibold">{viewAudit.paybackMonths ? `${viewAudit.paybackMonths} months` : '—'}</p></div>
-                    <div><span className="text-gray-400 text-xs">Annual potential savings</span><p className="font-bold text-green-800">{fmtINR(viewAudit.potentialSavings)}</p></div>
-                    <div><span className="text-gray-400 text-xs">Conducted by</span><p className="font-semibold">{viewAudit.conductedBy}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Building</span><p className="font-semibold">{b?.name || '—'}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Date</span><p className="font-semibold">{format(new Date(viewAudit.date), 'd MMM yyyy')}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Monthly water bill</span><p className="font-semibold text-amber-700">{fmtINR(viewAudit.currentWaterBill)}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Monthly tanker spend</span><p className="font-semibold text-amber-700">{fmtINR(viewAudit.tankerSpend)}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Greywater potential</span><p className="font-semibold text-teal-700">{((viewAudit.greywaterPotentialLpd || 0) / 1000).toFixed(1)} KLD/day</p></div>
+                    <div><span className="text-[#ADA082] text-xs">DJB rebate/year</span><p className="font-semibold text-green-700">{viewAudit.djbRebateAnnual ? fmtINR(viewAudit.djbRebateAnnual) : '—'}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Capex estimate</span><p className="font-semibold">{viewAudit.capexEstimate ? fmtINR(viewAudit.capexEstimate) : '—'}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Payback</span><p className="font-semibold">{viewAudit.paybackMonths ? `${viewAudit.paybackMonths} months` : '—'}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Annual potential savings</span><p className="font-bold text-green-800">{fmtINR(viewAudit.potentialSavings)}</p></div>
+                    <div><span className="text-[#ADA082] text-xs">Conducted by</span><p className="font-semibold">{viewAudit.conductedBy}</p></div>
                   </div>
                   {viewAudit.wasteChecklist && viewAudit.wasteChecklist.length > 0 && (
                     <div>
-                      <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Waste Found</p>
+                      <p className="text-xs font-bold text-[#8C8062] uppercase tracking-wide mb-2">Waste Found</p>
                       <div className="flex flex-wrap gap-2">{viewAudit.wasteChecklist.map(w => <span key={w} className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">{w}</span>)}</div>
                     </div>
                   )}
                   {viewAudit.priorityActions && viewAudit.priorityActions.length > 0 && (
                     <div>
-                      <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Priority Recommendations</p>
+                      <p className="text-xs font-bold text-[#8C8062] uppercase tracking-wide mb-2">Priority Recommendations</p>
                       <div className="space-y-2">
                         {viewAudit.priorityActions.map((a, i) => (
-                          <div key={i} className="p-3 bg-gray-50 rounded-xl text-sm">
-                            <p className="font-medium text-gray-900">{i + 1}. {a.description}</p>
-                            <div className="flex gap-4 text-xs text-gray-500 mt-1">
+                          <div key={i} className="p-3 bg-[#F6F1EA] rounded-xl text-sm">
+                            <p className="font-medium text-[#2C2820]">{i + 1}. {a.description}</p>
+                            <div className="flex gap-4 text-xs text-[#8C8062] mt-1">
                               <span>Cost: {fmtINR(a.estimatedCost)}</span>
                               <span>Saves: {fmtINR(a.monthlySaving)}/mo</span>
                               <span className={`font-semibold ${a.urgency === 'Quick win' ? 'text-green-700' : a.urgency === 'Medium' ? 'text-amber-700' : 'text-blue-700'}`}>{a.urgency}</span>
@@ -819,8 +819,8 @@ export default function Audits() {
                   )}
                   {viewAudit.notes && (
                     <div>
-                      <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Notes</p>
-                      <p className="text-sm text-gray-700 bg-gray-50 rounded-xl p-3">{viewAudit.notes}</p>
+                      <p className="text-xs font-bold text-[#8C8062] uppercase tracking-wide mb-1">Notes</p>
+                      <p className="text-sm text-[#463F2E] bg-[#F6F1EA] rounded-xl p-3">{viewAudit.notes}</p>
                     </div>
                   )}
                 </>

@@ -12,7 +12,7 @@ export function Input({ label, error, helpText, className, id, ...props }: Input
   return (
     <div className="flex flex-col gap-1">
       {label && (
-        <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={inputId} className="text-sm font-medium text-[#463F2E]">
           {label}
         </label>
       )}
@@ -20,16 +20,16 @@ export function Input({ label, error, helpText, className, id, ...props }: Input
         id={inputId}
         className={clsx(
           'w-full px-3 py-2 text-sm border rounded-lg outline-none transition-colors',
-          'placeholder-gray-400 bg-white',
+          'placeholder-[#BFB39E] bg-[#FDFAF4] text-[#2C2820]',
           error
-            ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-            : 'border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
+            ? 'border-[#CE7F4D] focus:border-[#A86030] focus:ring-1 focus:ring-[#A86030]/30'
+            : 'border-[#D8CEBC] focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20',
           className
         )}
         {...props}
       />
       {error && <p className="text-xs text-red-500">{error}</p>}
-      {helpText && !error && <p className="text-xs text-gray-500">{helpText}</p>}
+      {helpText && !error && <p className="text-xs text-[#8C8062]">{helpText}</p>}
     </div>
   );
 }
@@ -44,7 +44,7 @@ export function TextArea({ label, error, className, id, ...props }: TextAreaProp
   return (
     <div className="flex flex-col gap-1">
       {label && (
-        <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
+        <label htmlFor={inputId} className="text-sm font-medium text-[#463F2E]">
           {label}
         </label>
       )}
@@ -52,10 +52,10 @@ export function TextArea({ label, error, className, id, ...props }: TextAreaProp
         id={inputId}
         className={clsx(
           'w-full px-3 py-2 text-sm border rounded-lg outline-none transition-colors resize-none',
-          'placeholder-gray-400 bg-white',
+          'placeholder-[#BFB39E] bg-[#FDFAF4] text-[#2C2820]',
           error
-            ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-            : 'border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
+            ? 'border-[#CE7F4D] focus:border-[#A86030] focus:ring-1 focus:ring-[#A86030]/30'
+            : 'border-[#D8CEBC] focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20',
           className
         )}
         rows={3}

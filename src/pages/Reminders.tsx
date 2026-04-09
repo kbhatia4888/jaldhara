@@ -85,7 +85,7 @@ export default function Reminders() {
     const d = new Date(dueDate + 'T00:00:00');
     if (isToday(d)) return <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Due today</span>;
     if (isPast(d)) return <span className="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">Overdue</span>;
-    return <span className="text-xs text-gray-500">{format(d, 'dd MMM')}</span>;
+    return <span className="text-xs text-[#8C8062]">{format(d, 'dd MMM')}</span>;
   }
 
   return (
@@ -94,10 +94,10 @@ export default function Reminders() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <Bell size={22} className="text-[#0F6E56]" />
-            <h1 className="text-2xl font-bold text-gray-900">Reminders</h1>
+            <Bell size={22} className="text-[#567C45]" />
+            <h1 className="text-2xl font-bold text-[#2C2820]">Reminders</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">Follow-up actions and scheduled tasks</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">Follow-up actions and scheduled tasks</p>
         </div>
         <Button onClick={() => setShowModal(true)} size="sm">
           <Plus size={16} className="mr-1" /> Add Reminder
@@ -108,7 +108,7 @@ export default function Reminders() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
           { label: 'Due Today', value: counts.today, color: 'bg-amber-100 text-amber-700', icon: Clock },
-          { label: 'Overdue', value: counts.overdue, color: counts.overdue > 0 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500', icon: AlertTriangle },
+          { label: 'Overdue', value: counts.overdue, color: counts.overdue > 0 ? 'bg-red-100 text-red-700' : 'bg-[#EDE4D4] text-[#8C8062]', icon: AlertTriangle },
           { label: 'Upcoming', value: counts.upcoming, color: 'bg-blue-100 text-blue-700', icon: Bell },
           { label: 'Completed', value: counts.completed, color: 'bg-green-100 text-green-700', icon: CheckCircle2 },
         ].map(stat => (
@@ -118,8 +118,8 @@ export default function Reminders() {
                 <stat.icon size={18} />
               </div>
               <div>
-                <p className="text-xs text-gray-500 font-medium">{stat.label}</p>
-                <p className="text-xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-xs text-[#8C8062] font-medium">{stat.label}</p>
+                <p className="text-xl font-bold text-[#2C2820]">{stat.value}</p>
               </div>
             </CardBody>
           </Card>
@@ -134,8 +134,8 @@ export default function Reminders() {
             onClick={() => setFilter(f)}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${
               filter === f
-                ? 'bg-[#0F6E56] text-white'
-                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                ? 'bg-[#567C45] text-white'
+                : 'bg-white border border-[#E2D5BE] text-[#5C5244] hover:bg-[#F6F1EA]'
             }`}
           >
             {f}
@@ -147,7 +147,7 @@ export default function Reminders() {
       <div className="space-y-2">
         {filtered.length === 0 && (
           <Card>
-            <CardBody className="text-center py-10 text-gray-400">
+            <CardBody className="text-center py-10 text-[#ADA082]">
               {filter === 'today' ? 'No follow-ups due today. 🎉' : 'No reminders found.'}
             </CardBody>
           </Card>
@@ -156,12 +156,12 @@ export default function Reminders() {
           <Card key={r.id} className={r.completed ? 'opacity-60' : ''}>
             <CardBody className="flex items-start gap-4">
               <div className={`flex-shrink-0 mt-0.5 p-2 rounded-xl ${
-                r.completed ? 'bg-gray-100' :
+                r.completed ? 'bg-[#EDE4D4]' :
                 isPast(new Date(r.dueDate + 'T00:00:00')) && !isToday(new Date(r.dueDate + 'T00:00:00')) ? 'bg-red-100' :
                 isToday(new Date(r.dueDate + 'T00:00:00')) ? 'bg-amber-100' : 'bg-blue-100'
               }`}>
                 {r.completed
-                  ? <Check size={16} className="text-gray-500" />
+                  ? <Check size={16} className="text-[#8C8062]" />
                   : <Bell size={16} className={
                       isPast(new Date(r.dueDate + 'T00:00:00')) && !isToday(new Date(r.dueDate + 'T00:00:00')) ? 'text-red-600' :
                       isToday(new Date(r.dueDate + 'T00:00:00')) ? 'text-amber-600' : 'text-blue-600'
@@ -172,18 +172,18 @@ export default function Reminders() {
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   {getDueBadge(r.dueDate, r.completed)}
-                  <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{r.type}</span>
+                  <span className="text-xs text-[#ADA082] bg-[#EDE4D4] px-2 py-0.5 rounded-full">{r.type}</span>
                 </div>
-                <p className={`text-sm font-medium ${r.completed ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                <p className={`text-sm font-medium ${r.completed ? 'line-through text-[#ADA082]' : 'text-[#2C2820]'}`}>
                   {r.message}
                 </p>
                 {building && (
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="text-xs text-[#8C8062] mt-0.5">
                     {building.name} · {building.contactName} · {building.contactPhone}
                   </p>
                 )}
                 {r.completedAt && (
-                  <p className="text-xs text-gray-400 mt-0.5">
+                  <p className="text-xs text-[#ADA082] mt-0.5">
                     Completed {format(new Date(r.completedAt), 'dd MMM yyyy')}
                   </p>
                 )}
@@ -203,7 +203,7 @@ export default function Reminders() {
                 {!r.completed && (
                   <button
                     onClick={() => markDone(r)}
-                    className="flex items-center gap-1 px-2 py-1.5 bg-[#0F6E56]/10 text-[#0F6E56] rounded-lg text-xs font-medium hover:bg-[#0F6E56]/20 transition-colors"
+                    className="flex items-center gap-1 px-2 py-1.5 bg-[#567C45]/10 text-[#567C45] rounded-lg text-xs font-medium hover:bg-[#567C45]/20 transition-colors"
                   >
                     <CheckCircle2 size={12} /> Done
                   </button>

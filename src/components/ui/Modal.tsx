@@ -42,11 +42,11 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
         )}
       >
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
-            <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#EDE4D4] flex-shrink-0">
+            <h2 className="text-lg font-semibold text-[#2C2820]">{title}</h2>
             <button
               onClick={onClose}
-              className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-1.5 text-[#8C8062] hover:text-[#463F2E] hover:bg-[#EDE4D4] rounded-lg transition-colors"
             >
               <X size={18} />
             </button>

@@ -10,7 +10,7 @@ import { Leaf, Plus, Edit2, Trash2, ChevronDown, ChevronUp, BarChart2 } from 'lu
 
 const STATUS_OPTIONS: TreeProjectStatus[] = ['Planning', 'Site Ready', 'Plantation Done', 'Monitoring', 'Established'];
 const STATUS_COLORS: Record<TreeProjectStatus, string> = {
-  'Planning': 'bg-gray-100 text-gray-600',
+  'Planning': 'bg-[#EDE4D4] text-[#5C5244]',
   'Site Ready': 'bg-amber-100 text-amber-700',
   'Plantation Done': 'bg-blue-100 text-blue-700',
   'Monitoring': 'bg-purple-100 text-purple-700',
@@ -227,9 +227,9 @@ export default function UrbanTrees() {
         <div>
           <div className="flex items-center gap-2">
             <Leaf size={22} className="text-green-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Urban Tree Plantation</h1>
+            <h1 className="text-2xl font-bold text-[#2C2820]">Urban Tree Plantation</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">Track Miyawaki forests, avenue plantation, and community green space projects</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">Track Miyawaki forests, avenue plantation, and community green space projects</p>
         </div>
         <Button onClick={openAddProj} className="flex-shrink-0 bg-green-700 hover:bg-green-800">
           <Plus size={15} className="mr-1" /> New Project
@@ -240,14 +240,14 @@ export default function UrbanTrees() {
       {treeProjects.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: 'Trees Planned', value: fmt(totalPlanned), color: 'text-gray-900' },
+            { label: 'Trees Planned', value: fmt(totalPlanned), color: 'text-[#2C2820]' },
             { label: 'Trees Planted', value: fmt(totalPlanted), color: 'text-green-700' },
-            { label: 'Surviving', value: fmt(totalSurviving), color: 'text-[#0F6E56]' },
+            { label: 'Surviving', value: fmt(totalSurviving), color: 'text-[#567C45]' },
             { label: 'CO₂ Seq/yr (kg)', value: fmt(totalCo2), color: 'text-amber-600' },
           ].map(k => (
             <Card key={k.label}>
               <CardBody className="py-4">
-                <p className="text-xs text-gray-500 uppercase tracking-wide">{k.label}</p>
+                <p className="text-xs text-[#8C8062] uppercase tracking-wide">{k.label}</p>
                 <p className={`text-xl font-bold mt-1 ${k.color}`}>{k.value}</p>
               </CardBody>
             </Card>
@@ -263,8 +263,8 @@ export default function UrbanTrees() {
               <Leaf size={16} className="text-green-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 text-sm">Miyawaki Method</h3>
-              <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+              <h3 className="font-semibold text-[#2C2820] text-sm">Miyawaki Method</h3>
+              <p className="text-xs text-[#8C8062] mt-1 leading-relaxed">
                 Plant 3–4 native trees per m² in 4 layers (canopy, sub-canopy, shrub, ground cover).
                 Grows 10× faster than conventional plantation. 30× denser. Self-sustaining after 3 years.
                 Each surviving tree sequesters ~21 kg CO₂/year. 400 m² = ~1,200 trees = 25 tonnes CO₂/yr.
@@ -280,8 +280,8 @@ export default function UrbanTrees() {
         <Card>
           <CardBody className="py-12 text-center">
             <Leaf size={32} className="mx-auto text-green-200 mb-3" />
-            <p className="text-gray-500 text-sm">No tree projects yet.</p>
-            <p className="text-gray-400 text-xs mt-1">Add a Miyawaki urban forest or plantation project to start tracking.</p>
+            <p className="text-[#8C8062] text-sm">No tree projects yet.</p>
+            <p className="text-[#ADA082] text-xs mt-1">Add a Miyawaki urban forest or plantation project to start tracking.</p>
             <Button onClick={openAddProj} className="mt-4 mx-auto bg-green-700 hover:bg-green-800">
               <Plus size={14} className="mr-1" /> Add First Project
             </Button>
@@ -300,19 +300,19 @@ export default function UrbanTrees() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-semibold text-gray-900 text-sm">{p.projectName}</p>
+                        <p className="font-semibold text-[#2C2820] text-sm">{p.projectName}</p>
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_COLORS[p.status]}`}>{p.status}</span>
                         {p.isMiyawakiMethod && (
                           <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Miyawaki</span>
                         )}
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-[#8C8062] mt-0.5">
                         {area?.name ? `${area.name}, ` : ''}{city?.name ?? ''} · {p.availableLandSqm} m² · {p.projectType}
                       </p>
                       <div className="flex gap-4 mt-2 text-xs">
-                        <span className="text-gray-600">Planned: <strong>{fmt(p.treesPlanned)}</strong></span>
+                        <span className="text-[#5C5244]">Planned: <strong>{fmt(p.treesPlanned)}</strong></span>
                         <span className="text-green-700">Planted: <strong>{fmt(p.treesPlanted)}</strong></span>
-                        <span className="text-[#0F6E56]">Surviving: <strong>{fmt(p.tresSurviving)}</strong></span>
+                        <span className="text-[#567C45]">Surviving: <strong>{fmt(p.tresSurviving)}</strong></span>
                         {p.treesPlanted > 0 && (
                           <span className="text-amber-600">Survival: <strong>{p.survivalRatePct}%</strong></span>
                         )}
@@ -321,60 +321,60 @@ export default function UrbanTrees() {
                     <div className="flex items-center gap-1.5 flex-shrink-0">
                       <button
                         onClick={() => setExpandedId(isExpanded ? null : p.id)}
-                        className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-[#EDE4D4] transition-colors"
                       >
                         {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                       </button>
-                      <button onClick={() => openEditProj(p)} className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                      <button onClick={() => openEditProj(p)} className="p-1.5 text-[#ADA082] hover:text-[#463F2E] rounded-lg hover:bg-[#EDE4D4] transition-colors">
                         <Edit2 size={13} />
                       </button>
-                      <button onClick={() => { if (window.confirm('Delete this project?')) deleteTreeProject(p.id); }} className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                      <button onClick={() => { if (window.confirm('Delete this project?')) deleteTreeProject(p.id); }} className="p-1.5 text-[#ADA082] hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
                         <Trash2 size={13} />
                       </button>
                     </div>
                   </div>
 
                   {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                    <div className="mt-4 pt-4 border-t border-[#EDE4D4] space-y-4">
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                         <div>
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">CO₂/yr</p>
-                          <p className="font-semibold text-gray-900">{fmt(p.estimatedCo2PerYearKg)} kg</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">CO₂/yr</p>
+                          <p className="font-semibold text-[#2C2820]">{fmt(p.estimatedCo2PerYearKg)} kg</p>
                         </div>
                         <div>
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Project Cost</p>
-                          <p className="font-semibold text-gray-900">₹{fmt(p.totalProjectCostInr)}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Project Cost</p>
+                          <p className="font-semibold text-[#2C2820]">₹{fmt(p.totalProjectCostInr)}</p>
                         </div>
                         {p.ngoPartner && (
                           <div>
-                            <p className="text-gray-400 uppercase tracking-wide text-[10px]">NGO Partner</p>
-                            <p className="font-semibold text-gray-900">{p.ngoPartner}</p>
+                            <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">NGO Partner</p>
+                            <p className="font-semibold text-[#2C2820]">{p.ngoPartner}</p>
                           </div>
                         )}
                         {p.csrSponsor && (
                           <div>
-                            <p className="text-gray-400 uppercase tracking-wide text-[10px]">CSR Sponsor</p>
-                            <p className="font-semibold text-gray-900">{p.csrSponsor}</p>
+                            <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">CSR Sponsor</p>
+                            <p className="font-semibold text-[#2C2820]">{p.csrSponsor}</p>
                           </div>
                         )}
                       </div>
                       {p.nativeSpeciesList && (
                         <div className="text-xs">
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Native Species</p>
-                          <p className="text-gray-700 mt-0.5">{p.nativeSpeciesList}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Native Species</p>
+                          <p className="text-[#463F2E] mt-0.5">{p.nativeSpeciesList}</p>
                         </div>
                       )}
                       {p.notes && (
                         <div className="text-xs">
-                          <p className="text-gray-400 uppercase tracking-wide text-[10px]">Notes</p>
-                          <p className="text-gray-700">{p.notes}</p>
+                          <p className="text-[#ADA082] uppercase tracking-wide text-[10px]">Notes</p>
+                          <p className="text-[#463F2E]">{p.notes}</p>
                         </div>
                       )}
 
                       {/* Monitoring logs */}
                       <div>
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-xs font-semibold text-gray-700 flex items-center gap-1.5">
+                          <p className="text-xs font-semibold text-[#463F2E] flex items-center gap-1.5">
                             <BarChart2 size={12} /> Monitoring Logs ({logs.length})
                           </p>
                           <button
@@ -383,15 +383,15 @@ export default function UrbanTrees() {
                           >+ Add log</button>
                         </div>
                         {logs.length === 0 ? (
-                          <p className="text-xs text-gray-400">No monitoring logs yet.</p>
+                          <p className="text-xs text-[#ADA082]">No monitoring logs yet.</p>
                         ) : (
                           <div className="space-y-2">
                             {logs.map(l => (
-                              <div key={l.id} className="flex items-start justify-between bg-gray-50 rounded-lg p-2.5 text-xs">
+                              <div key={l.id} className="flex items-start justify-between bg-[#F6F1EA] rounded-lg p-2.5 text-xs">
                                 <div>
                                   <p className="font-medium text-gray-800">{l.logDate} · {l.treesSurviving}/{l.treesCounted} surviving</p>
-                                  {l.healthNotes && <p className="text-gray-500 mt-0.5">{l.healthNotes}</p>}
-                                  <p className="text-gray-400 mt-0.5">By: {l.monitoredBy}</p>
+                                  {l.healthNotes && <p className="text-[#8C8062] mt-0.5">{l.healthNotes}</p>}
+                                  <p className="text-[#ADA082] mt-0.5">By: {l.monitoredBy}</p>
                                 </div>
                                 <button onClick={() => { if (window.confirm('Delete log?')) deleteTreeLog(l.id); }} className="text-gray-300 hover:text-red-500 ml-2">
                                   <Trash2 size={11} />
@@ -448,9 +448,9 @@ export default function UrbanTrees() {
               type="checkbox"
               checked={projForm.isMiyawakiMethod}
               onChange={e => setProjForm({ ...projForm, isMiyawakiMethod: e.target.checked })}
-              className="rounded border-gray-300 text-[#0F6E56]"
+              className="rounded border-gray-300 text-[#567C45]"
             />
-            <span className="text-sm text-gray-700">Using Miyawaki method</span>
+            <span className="text-sm text-[#463F2E]">Using Miyawaki method</span>
           </label>
 
           <TextArea

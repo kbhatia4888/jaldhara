@@ -18,7 +18,7 @@ export function Table({ children, className }: TableProps) {
 
 export function THead({ children }: { children: React.ReactNode }) {
   return (
-    <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+    <thead className="bg-[#F6F1EA] text-[#5C5244] uppercase text-xs">
       {children}
     </thead>
   );
@@ -40,7 +40,7 @@ export function TR({
   return (
     <tr
       className={clsx(
-        'hover:bg-gray-50 transition-colors',
+        'hover:bg-[#F6F1EA] transition-colors',
         onClick && 'cursor-pointer',
         className
       )}
@@ -71,7 +71,7 @@ export function TD({
   onClick?: (e: React.MouseEvent) => void;
 }) {
   return (
-    <td className={clsx('px-4 py-3 text-gray-700', className)} colSpan={colSpan} onClick={onClick}>
+    <td className={clsx('px-4 py-3 text-[#463F2E]', className)} colSpan={colSpan} onClick={onClick}>
       {children}
     </td>
   );

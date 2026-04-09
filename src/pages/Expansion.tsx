@@ -17,7 +17,7 @@ const fmtLakh = (n: number) => {
 const STAGE_ORDER: City['stage'][] = ['Not Started', 'Researching', 'First Visits', 'First Revenue', 'Scaling'];
 
 const STAGE_COLORS: Record<City['stage'], string> = {
-  'Not Started': 'bg-gray-100 text-gray-600',
+  'Not Started': 'bg-[#EDE4D4] text-[#5C5244]',
   'Researching': 'bg-amber-100 text-amber-700',
   'First Visits': 'bg-blue-100 text-blue-700',
   'First Revenue': 'bg-purple-100 text-purple-700',
@@ -86,10 +86,10 @@ export default function Expansion() {
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
-          <Map size={22} className="text-[#0F6E56]" />
-          <h1 className="text-2xl font-bold text-gray-900">Expansion Tracker</h1>
+          <Map size={22} className="text-[#567C45]" />
+          <h1 className="text-2xl font-bold text-[#2C2820]">Expansion Tracker</h1>
         </div>
-        <p className="text-gray-500 text-sm mt-0.5">Strategic view for scaling city by city across India</p>
+        <p className="text-[#8C8062] text-sm mt-0.5">Strategic view for scaling city by city across India</p>
       </div>
 
       {/* Header metrics */}
@@ -106,8 +106,8 @@ export default function Expansion() {
                 <kpi.icon size={18} className={kpi.color} />
               </div>
               <div>
-                <p className="text-xs text-gray-500 font-medium">{kpi.label}</p>
-                <p className="text-xl font-bold text-gray-900">{kpi.value}</p>
+                <p className="text-xs text-[#8C8062] font-medium">{kpi.label}</p>
+                <p className="text-xl font-bold text-[#2C2820]">{kpi.value}</p>
               </div>
             </CardBody>
           </Card>
@@ -120,7 +120,7 @@ export default function Expansion() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <Star size={16} className="text-amber-500" />
-              <h2 className="font-semibold text-gray-900">Recommended Next Cities</h2>
+              <h2 className="font-semibold text-[#2C2820]">Recommended Next Cities</h2>
             </div>
           </CardHeader>
           <CardBody className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -128,8 +128,8 @@ export default function Expansion() {
               <div key={city.id} className="p-4 rounded-xl bg-amber-50 border border-amber-100">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="font-semibold text-gray-900">{city.name}</p>
-                    <p className="text-xs text-gray-500">{s?.name}</p>
+                    <p className="font-semibold text-[#2C2820]">{city.name}</p>
+                    <p className="text-xs text-[#8C8062]">{s?.name}</p>
                   </div>
                   {s?.waterStressLevel && (
                     <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
@@ -139,8 +139,8 @@ export default function Expansion() {
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-600 mt-2 line-clamp-2">{city.playbook.founderNotes}</p>
-                <Link to="/geography" className="text-xs text-[#0F6E56] font-medium hover:underline flex items-center gap-1 mt-2">
+                <p className="text-xs text-[#5C5244] mt-2 line-clamp-2">{city.playbook.founderNotes}</p>
+                <Link to="/geography" className="text-xs text-[#567C45] font-medium hover:underline flex items-center gap-1 mt-2">
                   View playbook <ChevronRight size={11} />
                 </Link>
               </div>
@@ -152,7 +152,7 @@ export default function Expansion() {
       {/* City pipeline table */}
       <Card>
         <CardHeader>
-          <h2 className="font-semibold text-gray-900">City Pipeline</h2>
+          <h2 className="font-semibold text-[#2C2820]">City Pipeline</h2>
         </CardHeader>
         <Table>
           <THead>
@@ -172,11 +172,11 @@ export default function Expansion() {
             {cityStats.map(({ city, state: s, buildings: cb, wonBuildings, convRate, revenue, pipeline, waterSaved, computedStage }) => (
               <TR key={city.id}>
                 <TD>
-                  <Link to="/geography" className="font-medium text-[#0F6E56] hover:underline">
+                  <Link to="/geography" className="font-medium text-[#567C45] hover:underline">
                     {city.name}
                   </Link>
                 </TD>
-                <TD className="text-sm text-gray-600">{s?.name || '—'}</TD>
+                <TD className="text-sm text-[#5C5244]">{s?.name || '—'}</TD>
                 <TD>
                   <div className="flex items-center gap-1">
                     <Badge variant={getCityStageBadgeVariant(city.stage)}>{city.stage}</Badge>
@@ -186,9 +186,9 @@ export default function Expansion() {
                   </div>
                 </TD>
                 <TD>{cb.length}</TD>
-                <TD className="font-semibold text-[#0F6E56]">{wonBuildings}</TD>
+                <TD className="font-semibold text-[#567C45]">{wonBuildings}</TD>
                 <TD>
-                  <span className={`font-semibold ${convRate >= 40 ? 'text-green-600' : convRate >= 20 ? 'text-amber-600' : 'text-gray-500'}`}>
+                  <span className={`font-semibold ${convRate >= 40 ? 'text-green-600' : convRate >= 20 ? 'text-amber-600' : 'text-[#8C8062]'}`}>
                     {convRate}%
                   </span>
                 </TD>
@@ -204,7 +204,7 @@ export default function Expansion() {
       {/* Stage progression guide */}
       <Card>
         <CardHeader>
-          <h2 className="font-semibold text-gray-900">Stage Progression Guide</h2>
+          <h2 className="font-semibold text-[#2C2820]">Stage Progression Guide</h2>
         </CardHeader>
         <CardBody>
           <div className="flex flex-wrap gap-3">
@@ -217,8 +217,8 @@ export default function Expansion() {
               </div>
             ))}
           </div>
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-gray-600">
-            <div className="bg-gray-50 rounded-lg p-3">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-[#5C5244]">
+            <div className="bg-[#F6F1EA] rounded-lg p-3">
               <strong>Not Started → Researching:</strong> Manual — decide to investigate this city
             </div>
             <div className="bg-blue-50 rounded-lg p-3">

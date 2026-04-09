@@ -52,19 +52,19 @@ function ScriptCard({ script, onEdit, onDelete }: {
             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mb-1 ${CATEGORY_COLORS[script.category]}`}>
               {script.category}
             </span>
-            <h3 className="font-semibold text-gray-900 text-sm">{script.title}</h3>
+            <h3 className="font-semibold text-[#2C2820] text-sm">{script.title}</h3>
           </div>
           <div className="flex gap-1 flex-shrink-0">
             <button
               onClick={() => onEdit(script)}
-              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-1.5 text-[#ADA082] hover:text-[#463F2E] hover:bg-[#EDE4D4] rounded-lg transition-colors"
               title="Edit"
             >
               <Edit2 size={14} />
             </button>
             <button
               onClick={() => onDelete(script.id)}
-              className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              className="p-1.5 text-[#ADA082] hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
               title="Delete"
             >
               <Trash2 size={14} />
@@ -72,14 +72,14 @@ function ScriptCard({ script, onEdit, onDelete }: {
           </div>
         </div>
 
-        <pre className="text-sm text-gray-700 whitespace-pre-wrap font-sans leading-relaxed bg-gray-50 rounded-xl p-4 max-h-48 overflow-y-auto">
+        <pre className="text-sm text-[#463F2E] whitespace-pre-wrap font-sans leading-relaxed bg-[#F6F1EA] rounded-xl p-4 max-h-48 overflow-y-auto">
           {script.content}
         </pre>
 
         <div className="flex gap-2 pt-1">
           <button
             onClick={copyToClipboard}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2D5BE] text-[#463F2E] rounded-lg text-xs font-medium hover:bg-[#F6F1EA] transition-colors"
           >
             {copied ? <Check size={13} className="text-green-500" /> : <Copy size={13} />}
             {copied ? 'Copied!' : 'Copy'}
@@ -155,10 +155,10 @@ export default function Scripts() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <BookOpen size={22} className="text-[#0F6E56]" />
-            <h1 className="text-2xl font-bold text-gray-900">Scripts Library</h1>
+            <BookOpen size={22} className="text-[#567C45]" />
+            <h1 className="text-2xl font-bold text-[#2C2820]">Scripts Library</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-0.5">Phone scripts, objection handlers, and WhatsApp templates</p>
+          <p className="text-[#8C8062] text-sm mt-0.5">Phone scripts, objection handlers, and WhatsApp templates</p>
         </div>
         <Button onClick={openAdd} size="sm">
           <Plus size={16} className="mr-1" /> Add Script
@@ -173,12 +173,12 @@ export default function Scripts() {
             onClick={() => setActiveCategory(cat as Script['category'] | 'All')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               activeCategory === cat
-                ? 'bg-[#0F6E56] text-white'
-                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                ? 'bg-[#567C45] text-white'
+                : 'bg-white border border-[#E2D5BE] text-[#5C5244] hover:bg-[#F6F1EA]'
             }`}
           >
             {cat}
-            <span className={`ml-1.5 text-xs ${activeCategory === cat ? 'text-white/70' : 'text-gray-400'}`}>
+            <span className={`ml-1.5 text-xs ${activeCategory === cat ? 'text-white/70' : 'text-[#ADA082]'}`}>
               {categoryCount[cat] || 0}
             </span>
           </button>
@@ -196,7 +196,7 @@ export default function Scripts() {
           />
         ))}
         {filtered.length === 0 && (
-          <div className="lg:col-span-2 text-center py-12 text-gray-400">
+          <div className="lg:col-span-2 text-center py-12 text-[#ADA082]">
             No scripts in this category yet. Click "Add Script" to add one.
           </div>
         )}

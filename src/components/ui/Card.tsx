@@ -11,8 +11,8 @@ export function Card({ children, className, onClick }: CardProps) {
   return (
     <div
       className={clsx(
-        'bg-white rounded-xl shadow-sm border border-gray-100',
-        onClick && 'cursor-pointer hover:shadow-md transition-shadow',
+        'bg-[#FDFAF4] rounded-2xl border border-[#E2D5BE] shadow-card',
+        onClick && 'cursor-pointer hover:shadow-card-md transition-shadow',
         className
       )}
       onClick={onClick}
@@ -29,7 +29,7 @@ interface CardHeaderProps {
 
 export function CardHeader({ children, className }: CardHeaderProps) {
   return (
-    <div className={clsx('px-6 py-4 border-b border-gray-100', className)}>
+    <div className={clsx('px-6 py-5 border-b border-[#EDE4D4]', className)}>
       {children}
     </div>
   );
@@ -42,7 +42,7 @@ interface CardBodyProps {
 
 export function CardBody({ children, className }: CardBodyProps) {
   return (
-    <div className={clsx('px-6 py-4', className)}>
+    <div className={clsx('px-6 py-5', className)}>
       {children}
     </div>
   );

@@ -166,8 +166,8 @@ export default function Referrals() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Referrals & Commissions</h1>
-          <p className="text-gray-500 text-sm">Track manufacturer referrals and commission payments</p>
+          <h1 className="text-2xl font-bold text-[#2C2820]">Referrals & Commissions</h1>
+          <p className="text-[#8C8062] text-sm">Track manufacturer referrals and commission payments</p>
         </div>
         <Button onClick={openAdd} size="sm">
           <Plus size={16} className="mr-1" /> Log Referral
@@ -180,8 +180,8 @@ export default function Referrals() {
           <CardBody className="flex items-center gap-3 py-4">
             <div className="bg-blue-100 p-2.5 rounded-xl"><Clock size={18} className="text-blue-700" /></div>
             <div>
-              <p className="text-xs text-gray-500 font-medium">Active Referrals</p>
-              <p className="text-xl font-bold text-gray-900">{stats.active}</p>
+              <p className="text-xs text-[#8C8062] font-medium">Active Referrals</p>
+              <p className="text-xl font-bold text-[#2C2820]">{stats.active}</p>
             </div>
           </CardBody>
         </Card>
@@ -189,8 +189,8 @@ export default function Referrals() {
           <CardBody className="flex items-center gap-3 py-4">
             <div className="bg-amber-100 p-2.5 rounded-xl"><DollarSign size={18} className="text-amber-700" /></div>
             <div>
-              <p className="text-xs text-gray-500 font-medium">Total Expected</p>
-              <p className="text-xl font-bold text-gray-900">{fmtLakh(stats.totalExpected)}</p>
+              <p className="text-xs text-[#8C8062] font-medium">Total Expected</p>
+              <p className="text-xl font-bold text-[#2C2820]">{fmtLakh(stats.totalExpected)}</p>
             </div>
           </CardBody>
         </Card>
@@ -198,20 +198,20 @@ export default function Referrals() {
           <CardBody className="flex items-center gap-3 py-4">
             <div className="bg-green-100 p-2.5 rounded-xl"><CheckCircle size={18} className="text-green-700" /></div>
             <div>
-              <p className="text-xs text-gray-500 font-medium">Commissions Paid</p>
-              <p className="text-xl font-bold text-gray-900">{fmtLakh(stats.totalPaid)}</p>
-              <p className="text-xs text-gray-400">{stats.commissionPaid} payments</p>
+              <p className="text-xs text-[#8C8062] font-medium">Commissions Paid</p>
+              <p className="text-xl font-bold text-[#2C2820]">{fmtLakh(stats.totalPaid)}</p>
+              <p className="text-xs text-[#ADA082]">{stats.commissionPaid} payments</p>
             </div>
           </CardBody>
         </Card>
         <Card>
           <CardBody className="flex items-center gap-3 py-4">
-            <div className={`p-2.5 rounded-xl ${stats.overduePendingPay > 0 ? 'bg-red-100' : 'bg-gray-100'}`}>
-              <AlertTriangle size={18} className={stats.overduePendingPay > 0 ? 'text-red-600' : 'text-gray-500'} />
+            <div className={`p-2.5 rounded-xl ${stats.overduePendingPay > 0 ? 'bg-red-100' : 'bg-[#EDE4D4]'}`}>
+              <AlertTriangle size={18} className={stats.overduePendingPay > 0 ? 'text-red-600' : 'text-[#8C8062]'} />
             </div>
             <div>
-              <p className="text-xs text-gray-500 font-medium">Pending Payment</p>
-              <p className={`text-xl font-bold ${stats.overduePendingPay > 0 ? 'text-red-600' : 'text-gray-900'}`}>
+              <p className="text-xs text-[#8C8062] font-medium">Pending Payment</p>
+              <p className={`text-xl font-bold ${stats.overduePendingPay > 0 ? 'text-red-600' : 'text-[#2C2820]'}`}>
                 {fmtLakh(stats.overduePendingPay)}
               </p>
             </div>
@@ -228,10 +228,10 @@ export default function Referrals() {
               return (
                 <React.Fragment key={stage}>
                   <div className={`flex-shrink-0 px-3 py-2 rounded-lg text-center min-w-[100px] ${
-                    count > 0 ? 'bg-[#0F6E56]/10 border border-[#0F6E56]/20' : 'bg-gray-50 border border-gray-100'
+                    count > 0 ? 'bg-[#567C45]/10 border border-[#567C45]/20' : 'bg-[#F6F1EA] border border-[#EDE4D4]'
                   }`}>
-                    <p className="text-xs font-semibold text-gray-700 leading-tight">{stage}</p>
-                    <p className={`text-lg font-bold mt-0.5 ${count > 0 ? 'text-[#0F6E56]' : 'text-gray-300'}`}>{count}</p>
+                    <p className="text-xs font-semibold text-[#463F2E] leading-tight">{stage}</p>
+                    <p className={`text-lg font-bold mt-0.5 ${count > 0 ? 'text-[#567C45]' : 'text-gray-300'}`}>{count}</p>
                   </div>
                   {idx < STATUS_OPTIONS.length - 1 && (
                     <ArrowRight size={14} className="text-gray-300 flex-shrink-0" />
@@ -263,13 +263,13 @@ export default function Referrals() {
             {enrichedReferrals.map(({ referral: r, building, manufacturer }) => (
               <TR key={r.id} onClick={() => openEdit(r)}>
                 <TD>
-                  <div className="font-medium text-gray-900">{building?.name || r.fromBuildingId}</div>
-                  <div className="text-xs text-gray-400">{building?.type}</div>
+                  <div className="font-medium text-[#2C2820]">{building?.name || r.fromBuildingId}</div>
+                  <div className="text-xs text-[#ADA082]">{building?.type}</div>
                 </TD>
                 <TD>
-                  <div className="font-medium text-gray-900">{r.referredName}</div>
+                  <div className="font-medium text-[#2C2820]">{r.referredName}</div>
                   {manufacturer && (
-                    <div className="text-xs text-[#0F6E56] font-medium">{manufacturer.name}</div>
+                    <div className="text-xs text-[#567C45] font-medium">{manufacturer.name}</div>
                   )}
                 </TD>
                 <TD className="text-sm whitespace-nowrap">
@@ -290,7 +290,7 @@ export default function Referrals() {
                   {r.status !== 'Commission Paid' && (
                     <button
                       onClick={() => advanceStatus(r)}
-                      className="px-2 py-1 bg-[#0F6E56]/10 text-[#0F6E56] rounded text-xs font-medium hover:bg-[#0F6E56]/20 transition-colors whitespace-nowrap"
+                      className="px-2 py-1 bg-[#567C45]/10 text-[#567C45] rounded text-xs font-medium hover:bg-[#567C45]/20 transition-colors whitespace-nowrap"
                     >
                       Advance →
                     </button>
@@ -305,7 +305,7 @@ export default function Referrals() {
             ))}
             {enrichedReferrals.length === 0 && (
               <TR>
-                <TD className="text-center text-gray-400 py-8" colSpan={9}>
+                <TD className="text-center text-[#ADA082] py-8" colSpan={9}>
                   No referrals logged yet. Click "Log Referral" to get started.
                 </TD>
               </TR>
@@ -317,7 +317,7 @@ export default function Referrals() {
       {/* Manufacturer panel */}
       <Card>
         <CardHeader>
-          <h2 className="font-semibold text-gray-900">Manufacturer Panel</h2>
+          <h2 className="font-semibold text-[#2C2820]">Manufacturer Panel</h2>
         </CardHeader>
         <Table>
           <THead>
@@ -338,18 +338,18 @@ export default function Referrals() {
               return (
                 <TR key={m.id}>
                   <TD>
-                    <div className="font-medium text-gray-900">{m.name}</div>
+                    <div className="font-medium text-[#2C2820]">{m.name}</div>
                     {m.website && <div className="text-xs text-blue-600">{m.website}</div>}
                   </TD>
                   <TD className="text-sm">{m.city}</TD>
-                  <TD><span className="font-semibold text-[#0F6E56]">{m.commissionRatePct}%</span></TD>
+                  <TD><span className="font-semibold text-[#567C45]">{m.commissionRatePct}%</span></TD>
                   <TD>
-                    <p className="text-xs text-gray-600 max-w-xs">{m.speciality}</p>
+                    <p className="text-xs text-[#5C5244] max-w-xs">{m.speciality}</p>
                   </TD>
                   <TD className="text-center font-semibold">{mReferrals.length}</TD>
                   <TD className="font-semibold text-green-700">{fmtLakh(earned)}</TD>
                   <TD>
-                    <div className="text-sm text-gray-700">{m.contactName}</div>
+                    <div className="text-sm text-[#463F2E]">{m.contactName}</div>
                     {m.contactPhone && (
                       <a href={`tel:${m.contactPhone}`} className="text-xs text-blue-600">{m.contactPhone}</a>
                     )}
@@ -421,7 +421,7 @@ export default function Referrals() {
               onChange={e => setForm({ ...form, commissionPct: e.target.value })}
             />
             {form.installationValue && form.commissionPct && (
-              <p className="text-xs text-[#0F6E56] font-semibold mt-1">
+              <p className="text-xs text-[#567C45] font-semibold mt-1">
                 Expected commission: {fmtCurrency((parseFloat(form.installationValue) * parseFloat(form.commissionPct)) / 100)}
               </p>
             )}
