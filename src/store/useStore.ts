@@ -33,7 +33,7 @@ const defaultSettings: AppSettings = {
   defaultMapLng: 77.1025,
   currentPhase: 1,
   reportFooter: 'This is an independent audit. The consultant has no commercial affiliation with any installation company or manufacturer.',
-  onboardingComplete: false,
+  onboardingComplete: true,
 };
 
 interface AppState {
@@ -113,7 +113,7 @@ type Action =
   | { type: 'LOAD_STATE'; payload: AppState }
   | { type: 'RESET_STATE' };
 
-const STORAGE_KEY = 'jaldrishti_state_v2';
+const STORAGE_KEY = 'jaldrishti_state_v3';
 
 function loadFromStorage(): AppState | null {
   try {
