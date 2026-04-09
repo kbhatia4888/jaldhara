@@ -1,4 +1,4 @@
-import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner } from '../types';
+import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry } from '../types';
 
 export const countries: Country[] = [
   { id: 'c1', name: 'India', code: 'IN' },
@@ -511,8 +511,6 @@ export const csrPartners: CsrPartner[] = [
     createdAt: new Date().toISOString(),
   },
 ];
-
-import type { JournalEntry } from '../types';
 
 export const journalEntries: JournalEntry[] = [
   {
