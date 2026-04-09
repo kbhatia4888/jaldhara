@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
-import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner } from '../types';
+import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry } from '../types';
 import {
   countries as seedCountries,
   states as seedStates,
@@ -18,6 +18,7 @@ import {
   waterBodies as seedWaterBodies,
   lakeRestorationLogs as seedLakeRestorationLogs,
   csrPartners as seedCsrPartners,
+  journalEntries as seedJournalEntries,
 } from '../data/seed';
 import React from 'react';
 
@@ -55,9 +56,13 @@ interface AppState {
   waterBodies: WaterBody[];
   lakeRestorationLogs: LakeRestorationLog[];
   csrPartners: CsrPartner[];
+  journalEntries: JournalEntry[];
 }
 
 type Action =
+  | { type: 'ADD_JOURNAL'; payload: JournalEntry }
+  | { type: 'UPDATE_JOURNAL'; payload: JournalEntry }
+  | { type: 'DELETE_JOURNAL'; payload: string }
   | { type: 'ADD_RWH'; payload: RwhAssessment }
   | { type: 'UPDATE_RWH'; payload: RwhAssessment }
   | { type: 'DELETE_RWH'; payload: string }
@@ -152,6 +157,7 @@ const seedState: AppState = {
   waterBodies: seedWaterBodies,
   lakeRestorationLogs: seedLakeRestorationLogs,
   csrPartners: seedCsrPartners,
+  journalEntries: seedJournalEntries,
 };
 
 const initialState: AppState = loadFromStorage() || seedState;
@@ -234,6 +240,13 @@ function reducer(state: AppState, action: Action): AppState {
       return { ...state, reminders: state.reminders.map(r => r.id === action.payload.id ? action.payload : r) };
     case 'DELETE_REMINDER':
       return { ...state, reminders: state.reminders.filter(r => r.id !== action.payload) };
+
+    case 'ADD_JOURNAL':
+      return { ...state, journalEntries: [...state.journalEntries, action.payload] };
+    case 'UPDATE_JOURNAL':
+      return { ...state, journalEntries: state.journalEntries.map(e => e.id === action.payload.id ? action.payload : e) };
+    case 'DELETE_JOURNAL':
+      return { ...state, journalEntries: state.journalEntries.filter(e => e.id !== action.payload) };
 
     case 'ADD_RWH':
       return { ...state, rwhAssessments: [...state.rwhAssessments, action.payload] };
@@ -364,6 +377,10 @@ interface StoreContextType {
   addCsrPartner: (c: Omit<CsrPartner, 'id'>) => void;
   updateCsrPartner: (c: CsrPartner) => void;
   deleteCsrPartner: (id: string) => void;
+  // Journal
+  addJournal: (e: Omit<JournalEntry, 'id'>) => void;
+  updateJournal: (e: JournalEntry) => void;
+  deleteJournal: (id: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | null>(null);
@@ -504,6 +521,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const deleteCsrPartner = useCallback((id: string) =>
     dispatch({ type: 'DELETE_CSR_PARTNER', payload: id }), []);
 
+  const addJournal = useCallback((e: Omit<JournalEntry, 'id'>) =>
+    dispatch({ type: 'ADD_JOURNAL', payload: { ...e, id: genId() } }), []);
+  const updateJournal = useCallback((e: JournalEntry) =>
+    dispatch({ type: 'UPDATE_JOURNAL', payload: e }), []);
+  const deleteJournal = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_JOURNAL', payload: id }), []);
+
   return React.createElement(
     StoreContext.Provider,
     {
@@ -528,6 +552,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         addWaterBody, updateWaterBody, deleteWaterBody,
         addLakeLog, updateLakeLog, deleteLakeLog,
         addCsrPartner, updateCsrPartner, deleteCsrPartner,
+        addJournal, updateJournal, deleteJournal,
       }
     },
     children

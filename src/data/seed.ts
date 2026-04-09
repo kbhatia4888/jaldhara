@@ -511,3 +511,29 @@ export const csrPartners: CsrPartner[] = [
     createdAt: new Date().toISOString(),
   },
 ];
+
+import type { JournalEntry } from '../types';
+
+export const journalEntries: JournalEntry[] = [
+  {
+    id: 'j1',
+    title: 'Why I started JalDhara',
+    body: `Delhi loses 40% of its treated water to leaks before it reaches homes. Most buildings pay for water they never use. The DJB rebate scheme exists but barely anyone knows about it.\n\nI want to be the person who fixes that — one building at a time. Starting with hospitals in Model Town because they have the highest pain and the clearest ROI.`,
+    category: 'Inspiration',
+    tags: ['origin', 'mission'],
+    pinned: true,
+    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'j2',
+    title: 'Meeting notes — New Durga Hospital',
+    body: `Met Rajesh Sharma, Facilities Manager. Warm conversation. Key pain: tanker dependency in summer. They spend ~₹28k/month on water but feel out of control.\n\nHe mentioned the RO reject water going to drain — this is a quick win. Estimate 1,500L/day wasted.\n\nFollow up: share DJB rebate calculation. Book audit date.`,
+    category: 'Meeting Notes',
+    tags: ['new-durga', 'hospital', 'model-town'],
+    pinned: false,
+    linkedBuildingId: 'b1',
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];

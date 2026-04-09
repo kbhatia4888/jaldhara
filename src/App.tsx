@@ -16,6 +16,7 @@ import Settings from './pages/Settings';
 import RainwaterHarvesting from './pages/RainwaterHarvesting';
 import UrbanTrees from './pages/UrbanTrees';
 import Lakes from './pages/Lakes';
+import Journal from './pages/Journal';
 
 function AppInner() {
   const { state } = useStore();
@@ -40,6 +41,7 @@ function AppInner() {
           <Route path="/rwh" element={<RainwaterHarvesting />} />
           <Route path="/trees" element={<UrbanTrees />} />
           <Route path="/lakes" element={<Lakes />} />
+          <Route path="/journal" element={<Journal />} />
         </Routes>
       </main>
     </div>

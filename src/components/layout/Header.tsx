@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   Droplets, Menu, X,
   LayoutDashboard, Building2, ClipboardList, FileText,
-  Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves,
+  Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves, NotebookPen,
 } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -17,6 +17,7 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { to: '/journal',   label: 'Journal',   icon: NotebookPen },
   { to: '/referrals', label: 'Referrals', icon: Users },
   { to: '/scripts',   label: 'Scripts',   icon: BookOpen },
   { to: '/geography', label: 'Geography', icon: Globe },

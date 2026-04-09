@@ -533,3 +533,26 @@ export interface FullAudit extends Audit {
 
 export type CityStage = City['stage'];
 export type DealStage = Deal['stage'];
+
+// ── JOURNAL ──────────────────────────────────────────────
+
+export type JournalCategory =
+  | 'Inspiration'
+  | 'Meeting Notes'
+  | 'Product Idea'
+  | 'Research'
+  | 'Observation'
+  | 'Personal'
+  | 'Other';
+
+export interface JournalEntry {
+  id: string;
+  title: string;
+  body: string;
+  category: JournalCategory;
+  tags: string[];
+  pinned: boolean;
+  linkedBuildingId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
