@@ -5,12 +5,19 @@ import { Button } from '../components/ui/Button';
 import { Input, TextArea } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Modal } from '../components/ui/Modal';
-import type { Manufacturer } from '../types';
-import { Settings as SettingsIcon, User, Map, FileText, Building2, Database, Plus, Edit2, Trash2, CheckCircle2 } from 'lucide-react';
+import type { Manufacturer, CsrPartner, CsrStatus } from '../types';
+import { Settings as SettingsIcon, User, Map, FileText, Building2, Database, Plus, Edit2, Trash2, CheckCircle2, Heart } from 'lucide-react';
+
+const CSR_STATUSES: CsrStatus[] = ['Prospect', 'Conversation', 'Proposal Sent', 'Active', 'Completed'];
+const CSR_FOCUS_OPTIONS = [
+  'Urban reforestation', 'Lake/water body restoration', 'Rainwater harvesting',
+  'Greywater recycling', 'Waste management', 'Community water access',
+  'Biodiversity', 'Carbon sequestration', 'Education', 'Other',
+];
 
 export default function Settings() {
-  const { state, updateSettings, addManufacturer, updateManufacturer, deleteManufacturer, resetState } = useStore();
-  const { settings, manufacturers } = state;
+  const { state, updateSettings, addManufacturer, updateManufacturer, deleteManufacturer, resetState, addCsrPartner, updateCsrPartner, deleteCsrPartner } = useStore();
+  const { settings, manufacturers, csrPartners } = state;
 
   const [saved, setSaved] = useState(false);
   const [localSettings, setLocalSettings] = useState({ ...settings });
@@ -20,6 +27,13 @@ export default function Settings() {
   const [mfrForm, setMfrForm] = useState<Omit<Manufacturer, 'id'>>({
     name: '', city: '', website: '', contactName: '', contactPhone: '', email: '',
     commissionRatePct: 12, speciality: '', citiesCovered: [], notes: '', active: true,
+  });
+  const [showCsrModal, setShowCsrModal] = useState(false);
+  const [editCsr, setEditCsr] = useState<CsrPartner | null>(null);
+  const [csrForm, setCsrForm] = useState<Omit<CsrPartner, 'id' | 'createdAt'>>({
+    companyName: '', contactName: '', contactEmail: '', contactPhone: '',
+    csrFocusAreas: [], typicalBudgetInr: undefined, preferredProjectTypes: '',
+    relationshipStatus: 'Prospect', notes: '',
   });
 
   function saveSettings() {
@@ -98,6 +112,28 @@ export default function Settings() {
 
   function handleDeleteMfr(id: string) {
     if (window.confirm('Delete this manufacturer?')) deleteManufacturer(id);
+  }
+
+  function openAddCsr() {
+    setEditCsr(null);
+    setCsrForm({ companyName: '', contactName: '', contactEmail: '', contactPhone: '', csrFocusAreas: [], preferredProjectTypes: '', relationshipStatus: 'Prospect', notes: '' });
+    setShowCsrModal(true);
+  }
+
+  function openEditCsr(c: CsrPartner) {
+    setEditCsr(c);
+    setCsrForm({ companyName: c.companyName, contactName: c.contactName ?? '', contactEmail: c.contactEmail ?? '', contactPhone: c.contactPhone ?? '', csrFocusAreas: c.csrFocusAreas, typicalBudgetInr: c.typicalBudgetInr, preferredProjectTypes: c.preferredProjectTypes ?? '', relationshipStatus: c.relationshipStatus, notes: c.notes ?? '' });
+    setShowCsrModal(true);
+  }
+
+  function saveCsr() {
+    if (!csrForm.companyName.trim()) return;
+    if (editCsr) {
+      updateCsrPartner({ ...editCsr, ...csrForm });
+    } else {
+      addCsrPartner({ ...csrForm, createdAt: new Date().toISOString() });
+    }
+    setShowCsrModal(false);
   }
 
   return (
@@ -283,6 +319,51 @@ export default function Settings() {
         </CardBody>
       </Card>
 
+      {/* CSR Partners */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Heart size={16} className="text-[#0F6E56]" />
+              <h2 className="font-semibold text-gray-900">CSR Partners</h2>
+            </div>
+            <Button size="sm" onClick={openAddCsr}>
+              <Plus size={14} className="mr-1" /> Add
+            </Button>
+          </div>
+        </CardHeader>
+        <CardBody className="space-y-3">
+          {csrPartners.length === 0 && (
+            <p className="text-sm text-gray-400 text-center py-4">No CSR partners yet. Add NGOs, foundations, and corporates who can co-fund environmental projects.</p>
+          )}
+          {csrPartners.map(c => (
+            <div key={c.id} className="flex items-start justify-between p-3 rounded-xl border border-gray-100 bg-gray-50">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="font-semibold text-gray-900 text-sm">{c.companyName}</p>
+                  <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-medium">{c.relationshipStatus}</span>
+                </div>
+                <p className="text-xs text-gray-500 mt-0.5">{c.contactName}{c.contactEmail ? ` · ${c.contactEmail}` : ''}</p>
+                {c.csrFocusAreas.length > 0 && (
+                  <p className="text-xs text-gray-600 mt-0.5 truncate max-w-md">{c.csrFocusAreas.join(', ')}</p>
+                )}
+                {c.typicalBudgetInr && (
+                  <p className="text-xs text-[#0F6E56] mt-0.5">Budget: ₹{c.typicalBudgetInr.toLocaleString('en-IN')}</p>
+                )}
+              </div>
+              <div className="flex gap-1.5 flex-shrink-0 ml-3">
+                <button onClick={() => openEditCsr(c)} className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-white transition-colors">
+                  <Edit2 size={13} />
+                </button>
+                <button onClick={() => { if (window.confirm('Delete this CSR partner?')) deleteCsrPartner(c.id); }} className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </CardBody>
+      </Card>
+
       {/* Data Management */}
       <Card>
         <CardHeader>
@@ -298,6 +379,13 @@ export default function Settings() {
             </Button>
             <Button variant="ghost" onClick={exportAnonymised}>
               Export Anonymised Dataset (CSV)
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => { updateSettings({ onboardingComplete: false }); window.location.reload(); }}
+              className="text-[#534AB7] hover:bg-purple-50 border-purple-200"
+            >
+              Start Welcome Tour Again
             </Button>
             <Button
               variant="ghost"
@@ -327,6 +415,51 @@ export default function Settings() {
             Yes, Reset Everything
           </Button>
           <Button variant="ghost" onClick={() => setShowResetConfirm(false)} className="flex-1">Cancel</Button>
+        </div>
+      </Modal>
+
+      {/* CSR Partner modal */}
+      <Modal open={showCsrModal} onClose={() => setShowCsrModal(false)} title={editCsr ? 'Edit CSR Partner' : 'Add CSR Partner'} size="lg">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input label="Company / Organisation Name *" value={csrForm.companyName} onChange={e => setCsrForm({ ...csrForm, companyName: e.target.value })} />
+          <Input label="Contact Name" value={csrForm.contactName ?? ''} onChange={e => setCsrForm({ ...csrForm, contactName: e.target.value })} />
+          <Input label="Contact Email" value={csrForm.contactEmail ?? ''} onChange={e => setCsrForm({ ...csrForm, contactEmail: e.target.value })} />
+          <Input label="Contact Phone" value={csrForm.contactPhone ?? ''} onChange={e => setCsrForm({ ...csrForm, contactPhone: e.target.value })} />
+          <Select
+            label="Relationship Status"
+            options={CSR_STATUSES.map(s => ({ value: s, label: s }))}
+            value={csrForm.relationshipStatus}
+            onChange={e => setCsrForm({ ...csrForm, relationshipStatus: e.target.value as CsrStatus })}
+          />
+          <Input label="Typical Annual Budget (₹)" type="number" value={csrForm.typicalBudgetInr?.toString() ?? ''} onChange={e => setCsrForm({ ...csrForm, typicalBudgetInr: parseFloat(e.target.value) || undefined })} placeholder="e.g. 500000" />
+        </div>
+        <div className="mt-4">
+          <p className="text-xs font-medium text-gray-700 mb-2">CSR Focus Areas</p>
+          <div className="grid grid-cols-2 gap-2">
+            {CSR_FOCUS_OPTIONS.map(opt => (
+              <label key={opt} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={csrForm.csrFocusAreas.includes(opt)}
+                  onChange={e => {
+                    const arr = e.target.checked
+                      ? [...csrForm.csrFocusAreas, opt]
+                      : csrForm.csrFocusAreas.filter(a => a !== opt);
+                    setCsrForm({ ...csrForm, csrFocusAreas: arr });
+                  }}
+                  className="rounded border-gray-300 text-[#0F6E56]"
+                />
+                <span className="text-xs text-gray-700">{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 sm:col-span-2">
+          <TextArea label="Notes / Preferred Project Types" value={csrForm.notes ?? ''} onChange={e => setCsrForm({ ...csrForm, notes: e.target.value })} rows={2} />
+        </div>
+        <div className="flex gap-3 mt-6">
+          <Button onClick={saveCsr} className="flex-1" disabled={!csrForm.companyName.trim()}>{editCsr ? 'Save Changes' : 'Add CSR Partner'}</Button>
+          <Button variant="ghost" onClick={() => setShowCsrModal(false)} className="flex-1">Cancel</Button>
         </div>
       </Modal>
 

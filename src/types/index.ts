@@ -219,6 +219,316 @@ export interface AppSettings {
   defaultMapLng: number;
   currentPhase: 1 | 2 | 3;
   reportFooter: string;
+  onboardingComplete: boolean;
+}
+
+// ── NEW STREAM TYPES ─────────────────────────────────
+
+export interface CityRainfallData {
+  annualRainfallMm: number;
+  monsoonMonths: string;
+}
+
+export interface CityPlaybookExtended extends CityPlaybook {
+  annualRainfallMm?: number;
+  monsoonMonths?: string;
+  majorWaterBodiesAtRisk?: string;
+  treePlantationPartners?: string;
+  dominantInvasiveSpecies?: string;
+  governmentSchemes?: string;
+}
+
+// RAINWATER HARVESTING
+
+export interface RwhAssessment {
+  id: string;
+  buildingId: string;
+  assessmentDate: string;
+  totalRoofAreaSqm: number;
+  usableCatchmentPct: number;   // default 75
+  roofMaterial: string;
+  roofCondition: string;
+  avgAnnualRainfallMm: number;  // from city playbook
+  monsoonMonths: string;
+  rwhSystemPresent: boolean;
+  rwhSystemFunctional?: boolean;
+  rwhSystemNotes?: string;
+  ngtMandateApplicable: boolean;
+  currentlyCompliant?: boolean;
+  // Calculated
+  annualHarvestPotentialLitres: number;
+  storageRecommendedLitres: number;
+  capexEstimateMin: number;
+  capexEstimateMax: number;
+  annualSavingInr: number;
+  paybackMonths: number;
+  combinedDjbRebatePct: number;  // 15% if with greywater, else 10%
+  combinedDjbRebateInr: number;
+  recommendedSystemType: string;
+  notes: string;
+  createdAt: string;
+}
+
+// URBAN TREES
+
+export type TreeProjectStatus = 'Planning' | 'Site Ready' | 'Plantation Done' | 'Monitoring' | 'Established';
+
+export interface TreeProject {
+  id: string;
+  buildingId?: string;
+  areaId?: string;
+  cityId: string;
+  projectName: string;
+  projectType: string;
+  availableLandSqm: number;
+  currentLandUse: string;
+  soilCondition: string;
+  sunlight: string;
+  waterSourceAvailable: boolean;
+  irrigationMethod: string;
+  isMiyawakiMethod: boolean;
+  miyawakiLayersPlanned?: number;
+  nativeSpeciesList: string;
+  treesPlanned: number;
+  treesPlanted: number;
+  tresSurviving: number;
+  survivalRatePct: number;
+  plantationDate?: string;
+  lastMonitoringDate?: string;
+  estimatedCo2PerYearKg: number;
+  biodiversityScore?: number;
+  canopyCoverSqm?: number;
+  ngoPartner?: string;
+  csrSponsor?: string;
+  volunteerCount?: number;
+  costPerTreeInr: number;
+  totalProjectCostInr: number;
+  fundingSource?: string;
+  status: TreeProjectStatus;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface TreeMonitoringLog {
+  id: string;
+  projectId: string;
+  logDate: string;
+  treesCounted: number;
+  treesSurviving: number;
+  healthNotes: string;
+  monitoredBy: string;
+  createdAt: string;
+}
+
+// LAKES & WATER BODIES
+
+export type WaterBodyCondition = 'Healthy' | 'Degraded' | 'Heavily Encroached' | 'Sewage Discharge' | 'Dry' | 'Polluted';
+export type WaterBodyStatus = 'Identified' | 'Assessment Done' | 'Partner Engaged' | 'Work Started' | 'Restoration Complete' | 'Monitoring';
+
+export interface WaterBody {
+  id: string;
+  areaId?: string;
+  cityId: string;
+  name: string;
+  localName?: string;
+  type: 'Natural Lake' | 'Johad' | 'Pond' | 'Nala' | 'Baoli' | 'Seasonal Wetland' | 'Check Dam';
+  lat?: number;
+  lng?: number;
+  address?: string;
+  surfaceAreaSqm?: number;
+  maxDepthM?: number;
+  currentWaterLevel?: 'Full' | 'Half' | 'Dry' | 'Encroached';
+  condition: WaterBodyCondition;
+  encroachmentPresent?: boolean;
+  sewageInflow?: boolean;
+  solidWasteDumping?: boolean;
+  invasiveSpecies?: string;
+  traditionalUse?: string;
+  lastKnownFunctionalYear?: number;
+  restorationFeasibility?: 'High' | 'Medium' | 'Low' | 'Not Feasible';
+  estimatedWaterHoldingLitres?: number;
+  restorationStatus: WaterBodyStatus;
+  responsibleAuthority?: string;
+  ngoPartner?: string;
+  csrSponsor?: string;
+  communityChampion?: string;
+  estimatedRestorationCostInr?: number;
+  fundingSecuredInr?: number;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface LakeRestorationLog {
+  id: string;
+  waterBodyId: string;
+  logDate: string;
+  workDone: string;
+  waterLevelChange?: string;
+  volunteersInvolved?: number;
+  notes?: string;
+  createdAt: string;
+}
+
+// CSR PARTNERS
+
+export type CsrStatus = 'Prospect' | 'Conversation' | 'Proposal Sent' | 'Active' | 'Completed';
+
+export interface CsrPartner {
+  id: string;
+  companyName: string;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  csrFocusAreas: string[];
+  typicalBudgetInr?: number;
+  preferredProjectTypes?: string;
+  relationshipStatus: CsrStatus;
+  notes?: string;
+  createdAt: string;
+}
+
+// Extended Audit type for multi-step form
+export interface AuditStep1 {
+  auditDate: string;
+  auditorName: string;
+  contactPresentName: string;
+  contactPresentDesignation: string;
+  djbBillShown: 'Yes' | 'No' | 'Partially';
+  walkedPremises: 'Yes' | 'No';
+  siteVisitNotes: string;
+}
+
+export interface AuditStep2 {
+  hasMunicipalConnection: boolean;
+  connectionSize?: string;
+  municipalHoursPerDay?: number;
+  municipalLitresPerDay?: number;
+  municipalAdequacy?: string;
+  hasOHT: boolean;
+  ohtCapacityLitres?: number;
+  ohtOverflows?: string;
+  ohtOverflowSensor?: boolean;
+  ohtOverflowTime?: string;
+  hasBorewell: boolean;
+  borewellDepthFt?: number;
+  borewellQuality?: string;
+  borewellLitresPerDay?: number;
+  usesTankers: boolean;
+  tankerCountPerMonth?: number;
+  tankerCapacityLitres?: number;
+  tankerCostPerTanker?: number;
+  tankerMonthlySpend?: number;
+  tankerMonthlyLitres?: number;
+  tankersSufficient?: string;
+  totalDailyConsumption?: number;
+  djbMonthlyBill?: number;
+  totalMonthlyWaterSpend?: number;
+}
+
+export interface AuditStep3 {
+  // Hospital
+  hospitalBeds?: number;
+  hospitalBedOccupancyPct?: number;
+  hospitalOpdPerDay?: number;
+  hospitalResidentialStaff?: boolean;
+  hospitalResidentialCount?: number;
+  hospitalHasKitchen?: boolean;
+  hospitalHasLaundry?: boolean;
+  // School
+  schoolStudents?: number;
+  schoolStaff?: number;
+  schoolHasHostel?: boolean;
+  schoolHostelCapacity?: number;
+  schoolHasPool?: boolean;
+  schoolHasKitchen?: boolean;
+  // Banquet
+  banquetHalls?: number;
+  banquetLargestHallCapacity?: number;
+  banquetEventsPerMonth?: number;
+  banquetHasKitchen?: boolean;
+  banquetHasRooms?: boolean;
+  banquetRoomCount?: number;
+  // Hostel
+  hostelResidents?: number;
+  hostelBathroomType?: string;
+  hostelHasMess?: boolean;
+  hostelToiletsPerFloor?: number;
+  // Hotel
+  hotelRooms?: number;
+  hotelOccupancyPct?: number;
+  hotelHasRestaurant?: boolean;
+  hotelHasPool?: boolean;
+  hotelHasLaundry?: boolean;
+  // Society
+  societyFlats?: number;
+  societyResidentsPerFlat?: number;
+  societyCommonAreas?: string;
+  societyHasSTP?: boolean;
+  societySTPFunctional?: boolean;
+  // Industrial
+  industrialType?: string;
+  industrialEmployees?: number;
+  industrialProcessWater?: boolean;
+  industrialCoolingTowers?: boolean;
+}
+
+export interface AuditStep4 {
+  wasteItems: {
+    type: string;
+    found: boolean;
+    description: string;
+    dailyLitres: number;
+    monthlyCost: number;
+  }[];
+  totalWasteLitresPerDay: number;
+  totalWasteMonthlyCost: number;
+}
+
+export interface AuditStep5 {
+  greywaterPotentialLpd: number;
+  recoverableLpd: number;
+  monthlyValueINR: number;
+  occupancyOverride?: number;
+}
+
+export interface AuditStep6 {
+  buildingAreaSqM?: number;
+  eligibleForDjbRebate: boolean;
+  djbRebateAnnual: number;
+  recommendedSizeKLD: number;
+  capexMin: number;
+  capexMax: number;
+  annualOpexEstimate: number;
+  annualAMC: number;
+  annualWaterSaving: number;
+  totalAnnualBenefit: number;
+  paybackMonths: number;
+  fiveYearNetBenefit: number;
+  tenYearNetBenefit: number;
+}
+
+export interface AuditStep7 {
+  recommendations: {
+    rank: number;
+    title: string;
+    description: string;
+    estimatedCostMin: number;
+    estimatedCostMax: number;
+    monthlySaving: number;
+    urgency: 'Quick win' | 'Medium' | 'Long term';
+  }[];
+}
+
+export interface FullAudit extends Audit {
+  step1?: AuditStep1;
+  step2?: AuditStep2;
+  step3?: AuditStep3;
+  step4?: AuditStep4;
+  step5?: AuditStep5;
+  step6?: AuditStep6;
+  step7?: AuditStep7;
+  isDraft?: boolean;
+  currentStep?: number;
 }
 
 export type CityStage = City['stage'];

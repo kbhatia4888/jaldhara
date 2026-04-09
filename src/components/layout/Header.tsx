@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Droplets, Menu, X, LayoutDashboard, Building2, ClipboardList, FileText, Users, BookOpen, Globe, Map, Bell, Settings } from 'lucide-react';
+import { Droplets, Menu, X, LayoutDashboard, Building2, ClipboardList, FileText, Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves } from 'lucide-react';
 import clsx from 'clsx';
 
 const primaryNav = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/crm', label: 'CRM', icon: Building2 },
   { to: '/audits', label: 'Audits', icon: ClipboardList },
-  { to: '/scripts', label: 'Scripts', icon: BookOpen },
-  { to: '/geography', label: 'Geography', icon: Globe },
-  { to: '/expansion', label: 'Expansion', icon: Map },
+  { to: '/rwh', label: 'Rainwater', icon: Droplets },
+  { to: '/trees', label: 'Trees', icon: Leaf },
+  { to: '/lakes', label: 'Lakes', icon: Waves },
 ];
 
 const secondaryNav = [
   { to: '/referrals', label: 'Referrals', icon: Users },
+  { to: '/scripts', label: 'Scripts', icon: BookOpen },
+  { to: '/geography', label: 'Geography', icon: Globe },
+  { to: '/expansion', label: 'Expansion', icon: Map },
   { to: '/reports', label: 'Reports', icon: FileText },
   { to: '/reminders', label: 'Reminders', icon: Bell },
   { to: '/settings', label: 'Settings', icon: Settings },
@@ -23,8 +26,8 @@ const mobileNav = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/crm', label: 'CRM', icon: Building2 },
   { to: '/audits', label: 'Audits', icon: ClipboardList },
-  { to: '/referrals', label: 'Referrals', icon: Users },
-  { to: '/geography', label: 'Geography', icon: Globe },
+  { to: '/trees', label: 'Trees', icon: Leaf },
+  { to: '/lakes', label: 'Lakes', icon: Waves },
 ];
 
 export function Header() {

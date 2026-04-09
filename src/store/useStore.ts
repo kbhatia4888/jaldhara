@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
-import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings } from '../types';
+import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner } from '../types';
 import {
   countries as seedCountries,
   states as seedStates,
@@ -12,13 +12,19 @@ import {
   manufacturers as seedManufacturers,
   scripts as seedScripts,
   reminders as seedReminders,
+  rwhAssessments as seedRwhAssessments,
+  treeProjects as seedTreeProjects,
+  treeMonitoringLogs as seedTreeMonitoringLogs,
+  waterBodies as seedWaterBodies,
+  lakeRestorationLogs as seedLakeRestorationLogs,
+  csrPartners as seedCsrPartners,
 } from '../data/seed';
 import React from 'react';
 
 const defaultSettings: AppSettings = {
-  consultantName: 'Your Name',
-  consultantPhone: '+91-98XXXXXXXX',
-  consultantEmail: 'you@example.com',
+  consultantName: '',
+  consultantPhone: '',
+  consultantEmail: '',
   businessAddress: 'Model Town, Delhi',
   msmeNumber: '',
   gstNumber: '',
@@ -27,6 +33,7 @@ const defaultSettings: AppSettings = {
   defaultMapLng: 77.1025,
   currentPhase: 1,
   reportFooter: 'This is an independent audit. The consultant has no commercial affiliation with any installation company or manufacturer.',
+  onboardingComplete: false,
 };
 
 interface AppState {
@@ -42,9 +49,33 @@ interface AppState {
   scripts: Script[];
   reminders: Reminder[];
   settings: AppSettings;
+  rwhAssessments: RwhAssessment[];
+  treeProjects: TreeProject[];
+  treeMonitoringLogs: TreeMonitoringLog[];
+  waterBodies: WaterBody[];
+  lakeRestorationLogs: LakeRestorationLog[];
+  csrPartners: CsrPartner[];
 }
 
 type Action =
+  | { type: 'ADD_RWH'; payload: RwhAssessment }
+  | { type: 'UPDATE_RWH'; payload: RwhAssessment }
+  | { type: 'DELETE_RWH'; payload: string }
+  | { type: 'ADD_TREE_PROJECT'; payload: TreeProject }
+  | { type: 'UPDATE_TREE_PROJECT'; payload: TreeProject }
+  | { type: 'DELETE_TREE_PROJECT'; payload: string }
+  | { type: 'ADD_TREE_LOG'; payload: TreeMonitoringLog }
+  | { type: 'UPDATE_TREE_LOG'; payload: TreeMonitoringLog }
+  | { type: 'DELETE_TREE_LOG'; payload: string }
+  | { type: 'ADD_WATER_BODY'; payload: WaterBody }
+  | { type: 'UPDATE_WATER_BODY'; payload: WaterBody }
+  | { type: 'DELETE_WATER_BODY'; payload: string }
+  | { type: 'ADD_LAKE_LOG'; payload: LakeRestorationLog }
+  | { type: 'UPDATE_LAKE_LOG'; payload: LakeRestorationLog }
+  | { type: 'DELETE_LAKE_LOG'; payload: string }
+  | { type: 'ADD_CSR_PARTNER'; payload: CsrPartner }
+  | { type: 'UPDATE_CSR_PARTNER'; payload: CsrPartner }
+  | { type: 'DELETE_CSR_PARTNER'; payload: string }
   | { type: 'ADD_COUNTRY'; payload: Country }
   | { type: 'UPDATE_COUNTRY'; payload: Country }
   | { type: 'DELETE_COUNTRY'; payload: string }
@@ -115,6 +146,12 @@ const seedState: AppState = {
   scripts: seedScripts,
   reminders: seedReminders,
   settings: defaultSettings,
+  rwhAssessments: seedRwhAssessments,
+  treeProjects: seedTreeProjects,
+  treeMonitoringLogs: seedTreeMonitoringLogs,
+  waterBodies: seedWaterBodies,
+  lakeRestorationLogs: seedLakeRestorationLogs,
+  csrPartners: seedCsrPartners,
 };
 
 const initialState: AppState = loadFromStorage() || seedState;
@@ -198,6 +235,48 @@ function reducer(state: AppState, action: Action): AppState {
     case 'DELETE_REMINDER':
       return { ...state, reminders: state.reminders.filter(r => r.id !== action.payload) };
 
+    case 'ADD_RWH':
+      return { ...state, rwhAssessments: [...state.rwhAssessments, action.payload] };
+    case 'UPDATE_RWH':
+      return { ...state, rwhAssessments: state.rwhAssessments.map(r => r.id === action.payload.id ? action.payload : r) };
+    case 'DELETE_RWH':
+      return { ...state, rwhAssessments: state.rwhAssessments.filter(r => r.id !== action.payload) };
+
+    case 'ADD_TREE_PROJECT':
+      return { ...state, treeProjects: [...state.treeProjects, action.payload] };
+    case 'UPDATE_TREE_PROJECT':
+      return { ...state, treeProjects: state.treeProjects.map(t => t.id === action.payload.id ? action.payload : t) };
+    case 'DELETE_TREE_PROJECT':
+      return { ...state, treeProjects: state.treeProjects.filter(t => t.id !== action.payload) };
+
+    case 'ADD_TREE_LOG':
+      return { ...state, treeMonitoringLogs: [...state.treeMonitoringLogs, action.payload] };
+    case 'UPDATE_TREE_LOG':
+      return { ...state, treeMonitoringLogs: state.treeMonitoringLogs.map(l => l.id === action.payload.id ? action.payload : l) };
+    case 'DELETE_TREE_LOG':
+      return { ...state, treeMonitoringLogs: state.treeMonitoringLogs.filter(l => l.id !== action.payload) };
+
+    case 'ADD_WATER_BODY':
+      return { ...state, waterBodies: [...state.waterBodies, action.payload] };
+    case 'UPDATE_WATER_BODY':
+      return { ...state, waterBodies: state.waterBodies.map(w => w.id === action.payload.id ? action.payload : w) };
+    case 'DELETE_WATER_BODY':
+      return { ...state, waterBodies: state.waterBodies.filter(w => w.id !== action.payload) };
+
+    case 'ADD_LAKE_LOG':
+      return { ...state, lakeRestorationLogs: [...state.lakeRestorationLogs, action.payload] };
+    case 'UPDATE_LAKE_LOG':
+      return { ...state, lakeRestorationLogs: state.lakeRestorationLogs.map(l => l.id === action.payload.id ? action.payload : l) };
+    case 'DELETE_LAKE_LOG':
+      return { ...state, lakeRestorationLogs: state.lakeRestorationLogs.filter(l => l.id !== action.payload) };
+
+    case 'ADD_CSR_PARTNER':
+      return { ...state, csrPartners: [...state.csrPartners, action.payload] };
+    case 'UPDATE_CSR_PARTNER':
+      return { ...state, csrPartners: state.csrPartners.map(c => c.id === action.payload.id ? action.payload : c) };
+    case 'DELETE_CSR_PARTNER':
+      return { ...state, csrPartners: state.csrPartners.filter(c => c.id !== action.payload) };
+
     case 'UPDATE_SETTINGS':
       return { ...state, settings: { ...state.settings, ...action.payload } };
 
@@ -261,6 +340,30 @@ interface StoreContextType {
   // Settings
   updateSettings: (s: Partial<AppSettings>) => void;
   resetState: () => void;
+  // RWH
+  addRwh: (r: Omit<RwhAssessment, 'id'>) => void;
+  updateRwh: (r: RwhAssessment) => void;
+  deleteRwh: (id: string) => void;
+  // Tree Projects
+  addTreeProject: (t: Omit<TreeProject, 'id'>) => void;
+  updateTreeProject: (t: TreeProject) => void;
+  deleteTreeProject: (id: string) => void;
+  // Tree Logs
+  addTreeLog: (l: Omit<TreeMonitoringLog, 'id'>) => void;
+  updateTreeLog: (l: TreeMonitoringLog) => void;
+  deleteTreeLog: (id: string) => void;
+  // Water Bodies
+  addWaterBody: (w: Omit<WaterBody, 'id'>) => void;
+  updateWaterBody: (w: WaterBody) => void;
+  deleteWaterBody: (id: string) => void;
+  // Lake Logs
+  addLakeLog: (l: Omit<LakeRestorationLog, 'id'>) => void;
+  updateLakeLog: (l: LakeRestorationLog) => void;
+  deleteLakeLog: (id: string) => void;
+  // CSR Partners
+  addCsrPartner: (c: Omit<CsrPartner, 'id'>) => void;
+  updateCsrPartner: (c: CsrPartner) => void;
+  deleteCsrPartner: (id: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | null>(null);
@@ -359,6 +462,48 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const resetState = useCallback(() =>
     dispatch({ type: 'RESET_STATE' }), []);
 
+  const addRwh = useCallback((r: Omit<RwhAssessment, 'id'>) =>
+    dispatch({ type: 'ADD_RWH', payload: { ...r, id: genId() } }), []);
+  const updateRwh = useCallback((r: RwhAssessment) =>
+    dispatch({ type: 'UPDATE_RWH', payload: r }), []);
+  const deleteRwh = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_RWH', payload: id }), []);
+
+  const addTreeProject = useCallback((t: Omit<TreeProject, 'id'>) =>
+    dispatch({ type: 'ADD_TREE_PROJECT', payload: { ...t, id: genId() } }), []);
+  const updateTreeProject = useCallback((t: TreeProject) =>
+    dispatch({ type: 'UPDATE_TREE_PROJECT', payload: t }), []);
+  const deleteTreeProject = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_TREE_PROJECT', payload: id }), []);
+
+  const addTreeLog = useCallback((l: Omit<TreeMonitoringLog, 'id'>) =>
+    dispatch({ type: 'ADD_TREE_LOG', payload: { ...l, id: genId() } }), []);
+  const updateTreeLog = useCallback((l: TreeMonitoringLog) =>
+    dispatch({ type: 'UPDATE_TREE_LOG', payload: l }), []);
+  const deleteTreeLog = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_TREE_LOG', payload: id }), []);
+
+  const addWaterBody = useCallback((w: Omit<WaterBody, 'id'>) =>
+    dispatch({ type: 'ADD_WATER_BODY', payload: { ...w, id: genId() } }), []);
+  const updateWaterBody = useCallback((w: WaterBody) =>
+    dispatch({ type: 'UPDATE_WATER_BODY', payload: w }), []);
+  const deleteWaterBody = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_WATER_BODY', payload: id }), []);
+
+  const addLakeLog = useCallback((l: Omit<LakeRestorationLog, 'id'>) =>
+    dispatch({ type: 'ADD_LAKE_LOG', payload: { ...l, id: genId() } }), []);
+  const updateLakeLog = useCallback((l: LakeRestorationLog) =>
+    dispatch({ type: 'UPDATE_LAKE_LOG', payload: l }), []);
+  const deleteLakeLog = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_LAKE_LOG', payload: id }), []);
+
+  const addCsrPartner = useCallback((c: Omit<CsrPartner, 'id'>) =>
+    dispatch({ type: 'ADD_CSR_PARTNER', payload: { ...c, id: genId() } }), []);
+  const updateCsrPartner = useCallback((c: CsrPartner) =>
+    dispatch({ type: 'UPDATE_CSR_PARTNER', payload: c }), []);
+  const deleteCsrPartner = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_CSR_PARTNER', payload: id }), []);
+
   return React.createElement(
     StoreContext.Provider,
     {
@@ -377,6 +522,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         addReminder, updateReminder, deleteReminder,
         updateSettings,
         resetState,
+        addRwh, updateRwh, deleteRwh,
+        addTreeProject, updateTreeProject, deleteTreeProject,
+        addTreeLog, updateTreeLog, deleteTreeLog,
+        addWaterBody, updateWaterBody, deleteWaterBody,
+        addLakeLog, updateLakeLog, deleteLakeLog,
+        addCsrPartner, updateCsrPartner, deleteCsrPartner,
       }
     },
     children
