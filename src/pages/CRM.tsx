@@ -24,12 +24,81 @@ const fmtLakh = (n: number) => {
 };
 
 const BUILDING_TYPES = [
-  'House', 'Apartment', 'Housing Society', 'Hospital', 'Private Hospital',
-  'Hotel', 'Hotel/Guest House', 'Hostel', 'Coaching Hostel',
-  'School', 'Private School', 'Banquet Hall',
-  'Commercial', 'Corporate Office', 'Industrial Unit', 'Other',
+  'Private Hospital',
+  'Private School / College',
+  'Banquet Hall / Marriage Venue',
+  'Coaching Institute / Hostel',
+  'Hotel / Guest House',
+  'Housing Society (Gated / DDA)',
+  'Individual Bungalow / Villa',
+  'Industrial Unit / Factory',
+  'Corporate Office / Business Park',
+  'Government Institution',
+  'Restaurant / Food Business',
+  'Gym / Sports Facility',
+  'Other',
 ];
 const BUILDING_STATUSES = ['Cold', 'Warm Lead', 'Prospect', 'Won', 'Lost'];
+
+const INDIAN_STATES = [
+  { code: 'AN', name: 'Andaman and Nicobar Islands' },
+  { code: 'AP', name: 'Andhra Pradesh' },
+  { code: 'AR', name: 'Arunachal Pradesh' },
+  { code: 'AS', name: 'Assam' },
+  { code: 'BR', name: 'Bihar' },
+  { code: 'CH', name: 'Chandigarh' },
+  { code: 'CG', name: 'Chhattisgarh' },
+  { code: 'DN', name: 'Dadra and Nagar Haveli and Daman and Diu' },
+  { code: 'DL', name: 'Delhi' },
+  { code: 'GA', name: 'Goa' },
+  { code: 'GJ', name: 'Gujarat' },
+  { code: 'HR', name: 'Haryana' },
+  { code: 'HP', name: 'Himachal Pradesh' },
+  { code: 'JK', name: 'Jammu and Kashmir' },
+  { code: 'JH', name: 'Jharkhand' },
+  { code: 'KA', name: 'Karnataka' },
+  { code: 'KL', name: 'Kerala' },
+  { code: 'LA', name: 'Ladakh' },
+  { code: 'LD', name: 'Lakshadweep' },
+  { code: 'MP', name: 'Madhya Pradesh' },
+  { code: 'MH', name: 'Maharashtra' },
+  { code: 'MN', name: 'Manipur' },
+  { code: 'ML', name: 'Meghalaya' },
+  { code: 'MZ', name: 'Mizoram' },
+  { code: 'NL', name: 'Nagaland' },
+  { code: 'OD', name: 'Odisha' },
+  { code: 'PY', name: 'Puducherry' },
+  { code: 'PB', name: 'Punjab' },
+  { code: 'RJ', name: 'Rajasthan' },
+  { code: 'SK', name: 'Sikkim' },
+  { code: 'TN', name: 'Tamil Nadu' },
+  { code: 'TS', name: 'Telangana' },
+  { code: 'TR', name: 'Tripura' },
+  { code: 'UP', name: 'Uttar Pradesh' },
+  { code: 'UK', name: 'Uttarakhand' },
+  { code: 'WB', name: 'West Bengal' },
+];
+
+const INDIAN_CITIES_SUGGESTIONS = [
+  'Delhi', 'New Delhi', 'Noida', 'Gurgaon', 'Gurugram', 'Faridabad', 'Ghaziabad', 'Greater Noida',
+  'Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Aurangabad', 'Solapur', 'Kolhapur', 'Thane', 'Navi Mumbai',
+  'Bengaluru', 'Bangalore', 'Mysuru', 'Hubli', 'Mangaluru', 'Belagavi', 'Davangere',
+  'Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli', 'Salem', 'Tirunelveli', 'Vellore',
+  'Hyderabad', 'Warangal', 'Nizamabad', 'Karimnagar',
+  'Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar', 'Jamnagar',
+  'Jaipur', 'Jodhpur', 'Udaipur', 'Kota', 'Bikaner', 'Ajmer',
+  'Lucknow', 'Kanpur', 'Varanasi', 'Agra', 'Prayagraj', 'Meerut', 'Bareilly', 'Aligarh', 'Moradabad',
+  'Kolkata', 'Howrah', 'Asansol', 'Siliguri', 'Durgapur',
+  'Bhopal', 'Indore', 'Gwalior', 'Jabalpur', 'Ujjain',
+  'Patna', 'Gaya', 'Bhagalpur', 'Muzaffarpur',
+  'Chandigarh', 'Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala', 'Rohtak', 'Panipat', 'Ambala',
+  'Visakhapatnam', 'Vijayawada', 'Guntur', 'Nellore', 'Kurnool',
+  'Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Thrissur', 'Kollam',
+  'Bhubaneswar', 'Cuttack', 'Rourkela',
+  'Guwahati', 'Silchar', 'Dibrugarh',
+  'Dehradun', 'Haridwar', 'Shimla', 'Jammu', 'Srinagar', 'Ranchi', 'Jamshedpur',
+  'Raipur', 'Puducherry',
+];
 const DEAL_STAGES = ['New', 'Contacted', 'Audit Scheduled', 'Audit Done', 'Proposal Sent', 'Negotiation', 'Won', 'Lost'];
 
 export default function CRM() {
@@ -50,8 +119,8 @@ export default function CRM() {
 
   // New building form
   const [bForm, setBForm] = useState({
-    name: '', address: '', cityId: '', state: '', zip: '',
-    type: 'Apartment' as Building['type'],
+    name: '', address: '', city: '', state: '', zip: '',
+    type: '' as Building['type'] | '',
     status: 'Cold' as Building['status'],
     contactName: '', contactPhone: '', notes: '',
   });
@@ -69,11 +138,6 @@ export default function CRM() {
   const filteredAreas = useMemo(() =>
     filterCity ? areas.filter(a => a.cityId === filterCity) : areas,
     [areas, filterCity]
-  );
-
-  const bFormAreas = useMemo(() =>
-    bForm.cityId ? areas.filter(a => a.cityId === bForm.cityId) : areas,
-    [areas, bForm.cityId]
   );
 
   const filteredBuildings = useMemo(() => {
@@ -102,15 +166,16 @@ export default function CRM() {
 
   function handleAddBuilding() {
     if (!bForm.address && !bForm.name) return;
-    const city = cities.find(c => c.id === bForm.cityId) ?? cities[0];
+    // Try to match free-text city to an existing city record
+    const matchedCity = cities.find(c => c.name.toLowerCase() === bForm.city.toLowerCase());
     addBuilding({
       name: bForm.name || bForm.address || 'Unnamed Building',
       address: bForm.address,
       zip: bForm.zip || undefined,
-      areaId: areas.find(a => a.cityId === city?.id)?.id ?? '',
-      cityId: city?.id ?? '',
-      stateId: city?.stateId ?? '',
-      type: bForm.type,
+      areaId: matchedCity ? (areas.find(a => a.cityId === matchedCity.id)?.id ?? '') : '',
+      cityId: matchedCity?.id ?? '',
+      stateId: matchedCity?.stateId ?? '',
+      type: (bForm.type || 'Other') as Building['type'],
       lat: 28.7041,
       lng: 77.1025,
       status: bForm.status,
@@ -120,7 +185,7 @@ export default function CRM() {
       createdAt: new Date().toISOString(),
     });
     setShowAddBuilding(false);
-    setBForm({ name: '', address: '', cityId: '', state: '', zip: '', type: 'Apartment', status: 'Cold', contactName: '', contactPhone: '', notes: '' });
+    setBForm({ name: '', address: '', city: '', state: '', zip: '', type: '', status: 'Cold', contactName: '', contactPhone: '', notes: '' });
   }
 
   function handleAddDeal() {
@@ -471,12 +536,20 @@ export default function CRM() {
             placeholder="e.g. Sunrise Apartments"
           />
           <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="State"
-              value={bForm.state}
-              onChange={e => setBForm({ ...bForm, state: e.target.value })}
-              placeholder="e.g. Delhi"
-            />
+            {/* State — full static list of all Indian states & UTs */}
+            <div>
+              <label className="text-sm font-medium text-[#463F2E] block mb-1">State</label>
+              <select
+                value={bForm.state}
+                onChange={e => setBForm({ ...bForm, state: e.target.value })}
+                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]"
+              >
+                <option value="">— Select state —</option>
+                {INDIAN_STATES.map(s => (
+                  <option key={s.code} value={s.name}>{s.name}</option>
+                ))}
+              </select>
+            </div>
             <Input
               label="ZIP / PIN Code"
               value={bForm.zip}
@@ -485,18 +558,36 @@ export default function CRM() {
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Select
-              label="City"
-              options={[{ value: '', label: '— Select city —' }, ...cities.map(c => ({ value: c.id, label: c.name }))]}
-              value={bForm.cityId}
-              onChange={e => setBForm({ ...bForm, cityId: e.target.value })}
-            />
-            <Select
-              label="Building Type"
-              options={BUILDING_TYPES.map(t => ({ value: t, label: t }))}
-              value={bForm.type}
-              onChange={e => setBForm({ ...bForm, type: e.target.value as Building['type'] })}
-            />
+            {/* City — free text with datalist autocomplete */}
+            <div>
+              <label className="text-sm font-medium text-[#463F2E] block mb-1">City</label>
+              <input
+                list="city-suggestions"
+                value={bForm.city}
+                onChange={e => setBForm({ ...bForm, city: e.target.value })}
+                placeholder="e.g. Mumbai"
+                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820] placeholder-[#BFB39E]"
+              />
+              <datalist id="city-suggestions">
+                {INDIAN_CITIES_SUGGESTIONS.map(c => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
+            </div>
+            {/* Building Type */}
+            <div>
+              <label className="text-sm font-medium text-[#463F2E] block mb-1">Building Type</label>
+              <select
+                value={bForm.type}
+                onChange={e => setBForm({ ...bForm, type: e.target.value as Building['type'] })}
+                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]"
+              >
+                <option value="">— Select type —</option>
+                {BUILDING_TYPES.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
           </div>
           <Select
             label="Status"
