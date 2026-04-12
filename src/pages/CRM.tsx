@@ -50,7 +50,7 @@ export default function CRM() {
 
   // New building form
   const [bForm, setBForm] = useState({
-    name: '', address: '', cityId: '',
+    name: '', address: '', cityId: '', state: '', zip: '',
     type: 'Apartment' as Building['type'],
     status: 'Cold' as Building['status'],
     contactName: '', contactPhone: '', notes: '',
@@ -106,6 +106,7 @@ export default function CRM() {
     addBuilding({
       name: bForm.name || bForm.address || 'Unnamed Building',
       address: bForm.address,
+      zip: bForm.zip || undefined,
       areaId: areas.find(a => a.cityId === city?.id)?.id ?? '',
       cityId: city?.id ?? '',
       stateId: city?.stateId ?? '',
@@ -119,7 +120,7 @@ export default function CRM() {
       createdAt: new Date().toISOString(),
     });
     setShowAddBuilding(false);
-    setBForm({ name: '', address: '', cityId: '', type: 'Apartment', status: 'Cold', contactName: '', contactPhone: '', notes: '' });
+    setBForm({ name: '', address: '', cityId: '', state: '', zip: '', type: 'Apartment', status: 'Cold', contactName: '', contactPhone: '', notes: '' });
   }
 
   function handleAddDeal() {
@@ -469,6 +470,20 @@ export default function CRM() {
             onChange={e => setBForm({ ...bForm, name: e.target.value })}
             placeholder="e.g. Sunrise Apartments"
           />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="State"
+              value={bForm.state}
+              onChange={e => setBForm({ ...bForm, state: e.target.value })}
+              placeholder="e.g. Delhi"
+            />
+            <Input
+              label="ZIP / PIN Code"
+              value={bForm.zip}
+              onChange={e => setBForm({ ...bForm, zip: e.target.value })}
+              placeholder="e.g. 110009"
+            />
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <Select
               label="City"

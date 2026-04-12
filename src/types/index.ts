@@ -74,6 +74,7 @@ export type BuildingType =
 export interface Building {
   // address replaces area/state dropdowns for quick entry
   address?: string;
+  zip?: string;
   id: string;
   name: string;
   areaId: string;
