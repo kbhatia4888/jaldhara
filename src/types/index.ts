@@ -68,9 +68,12 @@ export type BuildingType =
   | 'Commercial'
   | 'Industrial Unit'
   | 'Corporate Office'
+  | 'House'
   | 'Other';
 
 export interface Building {
+  // address replaces area/state dropdowns for quick entry
+  address?: string;
   id: string;
   name: string;
   areaId: string;

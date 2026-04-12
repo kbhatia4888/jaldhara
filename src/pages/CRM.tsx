@@ -23,7 +23,12 @@ const fmtLakh = (n: number) => {
   return `₹${(n / 1000).toFixed(0)}K`;
 };
 
-const BUILDING_TYPES = ['Apartment', 'Hospital', 'Hotel', 'Hostel', 'Commercial', 'School', 'Other'];
+const BUILDING_TYPES = [
+  'House', 'Apartment', 'Housing Society', 'Hospital', 'Private Hospital',
+  'Hotel', 'Hotel/Guest House', 'Hostel', 'Coaching Hostel',
+  'School', 'Private School', 'Banquet Hall',
+  'Commercial', 'Corporate Office', 'Industrial Unit', 'Other',
+];
 const BUILDING_STATUSES = ['Cold', 'Warm Lead', 'Prospect', 'Won', 'Lost'];
 const DEAL_STAGES = ['New', 'Contacted', 'Audit Scheduled', 'Audit Done', 'Proposal Sent', 'Negotiation', 'Won', 'Lost'];
 
@@ -45,12 +50,10 @@ export default function CRM() {
 
   // New building form
   const [bForm, setBForm] = useState({
-    name: '', areaId: '', cityId: '', stateId: '',
+    name: '', address: '', cityId: '',
     type: 'Apartment' as Building['type'],
-    lat: '28.7041', lng: '77.1025',
-    tankerCostAnnual: '', status: 'Cold' as Building['status'],
-    contactName: '', contactPhone: '', contactEmail: '', notes: '',
-    floors: '', flats: '', dailyWaterConsumption: '',
+    status: 'Cold' as Building['status'],
+    contactName: '', contactPhone: '', notes: '',
   });
 
   // New deal form
@@ -98,34 +101,25 @@ export default function CRM() {
   };
 
   function handleAddBuilding() {
-    if (!bForm.name || !bForm.cityId || !bForm.areaId) return;
+    if (!bForm.address && !bForm.name) return;
+    const city = cities.find(c => c.id === bForm.cityId) ?? cities[0];
     addBuilding({
-      name: bForm.name,
-      areaId: bForm.areaId,
-      cityId: bForm.cityId,
-      stateId: bForm.stateId || cities.find(c => c.id === bForm.cityId)?.stateId || '',
+      name: bForm.name || bForm.address || 'Unnamed Building',
+      address: bForm.address,
+      areaId: areas.find(a => a.cityId === city?.id)?.id ?? '',
+      cityId: city?.id ?? '',
+      stateId: city?.stateId ?? '',
       type: bForm.type,
-      lat: parseFloat(bForm.lat) || 28.7041,
-      lng: parseFloat(bForm.lng) || 77.1025,
-      tankerCostAnnual: parseInt(bForm.tankerCostAnnual) || 0,
+      lat: 28.7041,
+      lng: 77.1025,
       status: bForm.status,
       contactName: bForm.contactName,
       contactPhone: bForm.contactPhone,
-      contactEmail: bForm.contactEmail,
       notes: bForm.notes,
-      createdAt: new Date().toISOString().split('T')[0],
-      floors: parseInt(bForm.floors) || 0,
-      flats: parseInt(bForm.flats) || 0,
-      dailyWaterConsumption: parseInt(bForm.dailyWaterConsumption) || 0,
+      createdAt: new Date().toISOString(),
     });
     setShowAddBuilding(false);
-    setBForm({
-      name: '', areaId: '', cityId: '', stateId: '',
-      type: 'Apartment', lat: '28.7041', lng: '77.1025',
-      tankerCostAnnual: '', status: 'Cold',
-      contactName: '', contactPhone: '', contactEmail: '', notes: '',
-      floors: '', flats: '', dailyWaterConsumption: '',
-    });
+    setBForm({ name: '', address: '', cityId: '', type: 'Apartment', status: 'Cold', contactName: '', contactPhone: '', notes: '' });
   }
 
   function handleAddDeal() {
@@ -462,32 +456,63 @@ export default function CRM() {
 
       {/* Add Building Modal */}
       <Modal open={showAddBuilding} onClose={() => setShowAddBuilding(false)} title="Add New Building" size="lg">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="sm:col-span-2">
-            <Input label="Building Name *" value={bForm.name} onChange={e => setBForm({ ...bForm, name: e.target.value })} placeholder="e.g. Sunrise Apartments" />
+        <div className="space-y-4">
+          <Input
+            label="Address *"
+            value={bForm.address}
+            onChange={e => setBForm({ ...bForm, address: e.target.value })}
+            placeholder="e.g. 12 Model Town, Delhi 110009"
+          />
+          <Input
+            label="Building Name (optional)"
+            value={bForm.name}
+            onChange={e => setBForm({ ...bForm, name: e.target.value })}
+            placeholder="e.g. Sunrise Apartments"
+          />
+          <div className="grid grid-cols-2 gap-4">
+            <Select
+              label="City"
+              options={[{ value: '', label: '— Select city —' }, ...cities.map(c => ({ value: c.id, label: c.name }))]}
+              value={bForm.cityId}
+              onChange={e => setBForm({ ...bForm, cityId: e.target.value })}
+            />
+            <Select
+              label="Building Type"
+              options={BUILDING_TYPES.map(t => ({ value: t, label: t }))}
+              value={bForm.type}
+              onChange={e => setBForm({ ...bForm, type: e.target.value as Building['type'] })}
+            />
           </div>
-          <Select label="State *" options={statesData.map(s => ({ value: s.id, label: s.name }))} placeholder="Select state" value={bForm.stateId} onChange={e => setBForm({ ...bForm, stateId: e.target.value, cityId: '', areaId: '' })} />
-          <Select label="City *" options={cities.filter(c => !bForm.stateId || c.stateId === bForm.stateId).map(c => ({ value: c.id, label: c.name }))} placeholder="Select city" value={bForm.cityId} onChange={e => setBForm({ ...bForm, cityId: e.target.value, areaId: '' })} />
-          <Select label="Area *" options={bFormAreas.map(a => ({ value: a.id, label: a.name }))} placeholder="Select area" value={bForm.areaId} onChange={e => setBForm({ ...bForm, areaId: e.target.value })} />
-          <Select label="Building Type" options={BUILDING_TYPES.map(t => ({ value: t, label: t }))} value={bForm.type} onChange={e => setBForm({ ...bForm, type: e.target.value as Building['type'] })} />
-          <Input label="Latitude" type="number" value={bForm.lat} onChange={e => setBForm({ ...bForm, lat: e.target.value })} />
-          <Input label="Longitude" type="number" value={bForm.lng} onChange={e => setBForm({ ...bForm, lng: e.target.value })} />
-          <Input label="Annual Tanker Cost (₹)" type="number" value={bForm.tankerCostAnnual} onChange={e => setBForm({ ...bForm, tankerCostAnnual: e.target.value })} placeholder="e.g. 400000" />
-          <Select label="Status" options={BUILDING_STATUSES.map(s => ({ value: s, label: s }))} value={bForm.status} onChange={e => setBForm({ ...bForm, status: e.target.value as Building['status'] })} />
-          <Input label="Floors" type="number" value={bForm.floors} onChange={e => setBForm({ ...bForm, floors: e.target.value })} />
-          <Input label="Flats" type="number" value={bForm.flats} onChange={e => setBForm({ ...bForm, flats: e.target.value })} />
-          <Input label="Daily Water Consumption (KLD)" type="number" value={bForm.dailyWaterConsumption} onChange={e => setBForm({ ...bForm, dailyWaterConsumption: e.target.value })} />
-          <Input label="Contact Name" value={bForm.contactName} onChange={e => setBForm({ ...bForm, contactName: e.target.value })} />
-          <Input label="Contact Phone" value={bForm.contactPhone} onChange={e => setBForm({ ...bForm, contactPhone: e.target.value })} />
-          <div className="sm:col-span-2">
-            <Input label="Contact Email" type="email" value={bForm.contactEmail} onChange={e => setBForm({ ...bForm, contactEmail: e.target.value })} />
+          <Select
+            label="Status"
+            options={BUILDING_STATUSES.map(s => ({ value: s, label: s }))}
+            value={bForm.status}
+            onChange={e => setBForm({ ...bForm, status: e.target.value as Building['status'] })}
+          />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Contact Name"
+              value={bForm.contactName}
+              onChange={e => setBForm({ ...bForm, contactName: e.target.value })}
+              placeholder="e.g. Ramesh Sharma"
+            />
+            <Input
+              label="Contact Phone"
+              value={bForm.contactPhone}
+              onChange={e => setBForm({ ...bForm, contactPhone: e.target.value })}
+              placeholder="e.g. 98101 00000"
+            />
           </div>
-          <div className="sm:col-span-2">
-            <TextArea label="Notes" value={bForm.notes} onChange={e => setBForm({ ...bForm, notes: e.target.value })} rows={3} />
-          </div>
+          <TextArea
+            label="Notes"
+            value={bForm.notes}
+            onChange={e => setBForm({ ...bForm, notes: e.target.value })}
+            rows={3}
+            placeholder="Any context — how you heard about them, key concerns, etc."
+          />
         </div>
         <div className="flex gap-3 mt-6">
-          <Button onClick={handleAddBuilding} className="flex-1">Add Building</Button>
+          <Button onClick={handleAddBuilding} className="flex-1" disabled={!bForm.address.trim() && !bForm.name.trim()}>Add Building</Button>
           <Button variant="ghost" onClick={() => setShowAddBuilding(false)} className="flex-1">Cancel</Button>
         </div>
       </Modal>
