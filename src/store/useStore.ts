@@ -160,7 +160,9 @@ async function loadFromFirestore(): Promise<AppState | null> {
 async function saveToFirestore(state: AppState): Promise<void> {
   try {
     const ref = doc(db, 'jaldrishti', 'app_state');
-    await setDoc(ref, state);
+    // JSON round-trip strips undefined values which Firestore rejects
+    const cleaned = JSON.parse(JSON.stringify(state));
+    await setDoc(ref, cleaned);
   } catch (err) {
     console.warn('Firestore save failed:', err);
   }
