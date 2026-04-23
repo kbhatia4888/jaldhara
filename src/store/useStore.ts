@@ -1,4 +1,6 @@
-import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useRef, useState } from 'react';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry } from '../types';
 import {
   countries as seedCountries,
@@ -118,9 +120,10 @@ type Action =
   | { type: 'LOAD_STATE'; payload: AppState }
   | { type: 'RESET_STATE' };
 
+// ── localStorage (fast local cache) ─────────────────────
 const STORAGE_KEY = 'jaldrishti_state_v3';
 
-function loadFromStorage(): AppState | null {
+function loadFromLocalStorage(): AppState | null {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) return JSON.parse(stored);
@@ -130,7 +133,7 @@ function loadFromStorage(): AppState | null {
   return null;
 }
 
-function saveToStorage(state: AppState) {
+function saveToLocalStorage(state: AppState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {
@@ -138,6 +141,32 @@ function saveToStorage(state: AppState) {
   }
 }
 
+// ── Firestore helpers ────────────────────────────────────
+const FIRESTORE_DOC = 'jaldrishti/app_state';
+
+async function loadFromFirestore(): Promise<AppState | null> {
+  try {
+    const ref = doc(db, 'jaldrishti', 'app_state');
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      return snap.data() as AppState;
+    }
+  } catch (err) {
+    console.warn('Firestore load failed, using local cache:', err);
+  }
+  return null;
+}
+
+async function saveToFirestore(state: AppState): Promise<void> {
+  try {
+    const ref = doc(db, 'jaldrishti', 'app_state');
+    await setDoc(ref, state);
+  } catch (err) {
+    console.warn('Firestore save failed:', err);
+  }
+}
+
+// ── Seed & initial state ─────────────────────────────────
 const seedState: AppState = {
   countries: seedCountries,
   states: seedStates,
@@ -160,8 +189,10 @@ const seedState: AppState = {
   journalEntries: seedJournalEntries,
 };
 
-const initialState: AppState = loadFromStorage() || seedState;
+// Start with localStorage for instant first paint; Firestore replaces it on load
+const initialState: AppState = loadFromLocalStorage() || seedState;
 
+// ── Reducer ──────────────────────────────────────────────
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'ADD_COUNTRY':
@@ -304,8 +335,10 @@ function reducer(state: AppState, action: Action): AppState {
   }
 }
 
+// ── Context ──────────────────────────────────────────────
 interface StoreContextType {
   state: AppState;
+  isLoading: boolean;
   // Countries
   addCountry: (country: Omit<Country, 'id'>) => void;
   updateCountry: (country: Country) => void;
@@ -391,10 +424,41 @@ function genId(): string {
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Track whether current state change came from Firestore (to avoid re-saving it)
+  const fromFirestore = useRef(false);
+  // Debounce timer for Firestore saves
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // On mount: load from Firestore (source of truth)
   useEffect(() => {
-    saveToStorage(state);
-  }, [state]);
+    loadFromFirestore().then(firestoreState => {
+      if (firestoreState) {
+        fromFirestore.current = true;
+        dispatch({ type: 'LOAD_STATE', payload: firestoreState });
+      }
+      setIsLoading(false);
+    });
+  }, []);
+
+  // On state change: save to localStorage immediately, Firestore debounced
+  useEffect(() => {
+    if (isLoading) return; // don't save while initial load is in progress
+
+    saveToLocalStorage(state);
+
+    if (fromFirestore.current) {
+      // This change came from Firestore — don't write back
+      fromFirestore.current = false;
+      return;
+    }
+
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => {
+      saveToFirestore(state);
+    }, 1500); // debounce 1.5s to batch rapid changes
+  }, [state, isLoading]);
 
   const addCountry = useCallback((c: Omit<Country, 'id'>) =>
     dispatch({ type: 'ADD_COUNTRY', payload: { ...c, id: genId() } }), []);
@@ -533,6 +597,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     {
       value: {
         state,
+        isLoading,
         addCountry, updateCountry, deleteCountry,
         addState, updateState, deleteState,
         addCity, updateCity, deleteCity,

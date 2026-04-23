@@ -19,7 +19,19 @@ import Lakes from './pages/Lakes';
 import Journal from './pages/Journal';
 
 function AppInner() {
-  const { state } = useStore();
+  const { state, isLoading } = useStore();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#F6F1EA] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-gray-500 text-sm">Loading your data…</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!state.settings.onboardingComplete) {
     return <Onboarding />;
   }
