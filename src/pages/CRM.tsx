@@ -104,7 +104,7 @@ export default function CRM() {
   const [editDeal, setEditDeal] = useState<Deal | null>(null);
 
   const [bForm, setBForm] = useState({
-    name: '', address: '', city: '', state: '', zip: '',
+    name: '', address: '', cityId: '', stateId: '', zip: '',
     type: '' as Building['type'] | '',
     status: 'Cold' as Building['status'],
     contactName: '', contactPhone: '', contactEmail: '', notes: '',
@@ -180,14 +180,14 @@ export default function CRM() {
   // ── handlers ─────────────────────────────────────────────
   function handleAddBuilding() {
     if (!bForm.address.trim() && !bForm.name.trim()) return;
-    const matchedCity = cities.find(c => c.name.toLowerCase() === bForm.city.toLowerCase());
+    const matchedCity = cities.find(c => c.id === bForm.cityId);
     addBuilding({
       name: bForm.name || bForm.address || 'Unnamed Building',
       address: bForm.address || undefined,
       zip: bForm.zip || undefined,
       areaId: matchedCity ? (areas.find(a => a.cityId === matchedCity.id)?.id ?? '') : '',
-      cityId: matchedCity?.id ?? '',
-      stateId: matchedCity?.stateId ?? '',
+      cityId: bForm.cityId,
+      stateId: bForm.stateId || matchedCity?.stateId || '',
       type: (bForm.type || 'Other') as Building['type'],
       lat: 28.7041, lng: 77.1025,
       status: bForm.status,
@@ -199,7 +199,7 @@ export default function CRM() {
       createdAt: new Date().toISOString(),
     });
     setShowAddBuilding(false);
-    setBForm({ name:'', address:'', city:'', state:'', zip:'', type:'', status:'Cold', contactName:'', contactPhone:'', contactEmail:'', notes:'', monthlyWaterSpend:'' });
+    setBForm({ name:'', address:'', cityId:'', stateId:'', zip:'', type:'', status:'Cold', contactName:'', contactPhone:'', contactEmail:'', notes:'', monthlyWaterSpend:'' });
     toast('Building added');
   }
 
@@ -468,20 +468,39 @@ export default function CRM() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-[#463F2E] block mb-1">State</label>
-              <select value={bForm.state} onChange={e => setBForm({ ...bForm, state: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]">
-                <option value="">— Select state —</option>
-                {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
+              {statesData.length > 0 ? (
+                <select value={bForm.stateId}
+                  onChange={e => setBForm({ ...bForm, stateId: e.target.value, cityId: '' })}
+                  className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]">
+                  <option value="">— Select state —</option>
+                  {statesData.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </select>
+              ) : (
+                <p className="text-xs text-[#ADA082] px-3 py-2 border border-[#D8CEBC] rounded-xl bg-[#FDFAF4]">
+                  Add states in Geography first
+                </p>
+              )}
             </div>
             <div>
               <label className="text-sm font-medium text-[#463F2E] block mb-1">City</label>
-              <input list="city-suggestions" value={bForm.city} onChange={e => setBForm({ ...bForm, city: e.target.value })}
-                placeholder="e.g. Delhi"
-                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]" />
-              <datalist id="city-suggestions">
-                {INDIAN_CITIES_SUGGESTIONS.map(c => <option key={c} value={c} />)}
-              </datalist>
+              {cities.length > 0 ? (
+                <select value={bForm.cityId}
+                  onChange={e => {
+                    const city = cities.find(c => c.id === e.target.value);
+                    setBForm({ ...bForm, cityId: e.target.value, stateId: city?.stateId ?? bForm.stateId });
+                  }}
+                  className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]">
+                  <option value="">— Select city —</option>
+                  {(bForm.stateId
+                    ? cities.filter(c => c.stateId === bForm.stateId)
+                    : cities
+                  ).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              ) : (
+                <p className="text-xs text-[#ADA082] px-3 py-2 border border-[#D8CEBC] rounded-xl bg-[#FDFAF4]">
+                  Add cities in Geography first
+                </p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">

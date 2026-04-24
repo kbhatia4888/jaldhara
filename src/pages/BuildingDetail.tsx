@@ -122,7 +122,7 @@ export default function BuildingDetail() {
 
   // Edit form
   const [eForm, setEForm] = useState({
-    name: '', address: '', city: '', state: '', zip: '',
+    name: '', address: '', cityId: '', stateId: '', zip: '',
     type: '' as Building['type'] | '',
     status: 'Cold' as Building['status'],
     contactName: '', contactPhone: '', contactEmail: '', notes: '',
@@ -226,8 +226,8 @@ export default function BuildingDetail() {
     setEForm({
       name: building.name,
       address: building.address ?? '',
-      city: getCityName(building.cityId),
-      state: building.stateId,
+      cityId: building.cityId,
+      stateId: building.stateId,
       zip: building.zip ?? '',
       type: building.type,
       status: building.status,
@@ -245,15 +245,15 @@ export default function BuildingDetail() {
 
   function handleSaveEdit() {
     if (!building || (!eForm.name.trim() && !eForm.address.trim())) return;
-    const matchedCity = cities.find(c => c.name.toLowerCase() === eForm.city.toLowerCase());
+    const selectedCity = cities.find(c => c.id === eForm.cityId);
     updateBuilding({
       ...(building as Building),
       name: eForm.name || eForm.address || building.name,
       address: eForm.address || undefined,
       zip: eForm.zip || undefined,
-      cityId: matchedCity?.id ?? building.cityId,
-      stateId: matchedCity?.stateId ?? building.stateId,
-      areaId: matchedCity ? (areas.find(a => a.cityId === matchedCity.id)?.id ?? building.areaId) : building.areaId,
+      cityId: eForm.cityId,
+      stateId: eForm.stateId || selectedCity?.stateId || building.stateId,
+      areaId: selectedCity ? (areas.find(a => a.cityId === selectedCity.id)?.id ?? building.areaId) : building.areaId,
       type: (eForm.type || building.type) as Building['type'],
       status: eForm.status,
       contactName: eForm.contactName,
@@ -772,20 +772,35 @@ export default function BuildingDetail() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-[#463F2E] block mb-1">State</label>
-              <select value={eForm.state} onChange={e => setEForm({ ...eForm, state: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]">
-                <option value="">— Select state —</option>
-                {INDIAN_STATES.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
+              {state.states.length > 0 ? (
+                <select value={eForm.stateId}
+                  onChange={e => setEForm({ ...eForm, stateId: e.target.value, cityId: '' })}
+                  className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]">
+                  <option value="">— Select state —</option>
+                  {state.states.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </select>
+              ) : (
+                <p className="text-xs text-[#ADA082] px-3 py-2 border border-[#D8CEBC] rounded-xl bg-[#FDFAF4]">Add states in Geography first</p>
+              )}
             </div>
             <div>
               <label className="text-sm font-medium text-[#463F2E] block mb-1">City</label>
-              <input list="edit-city-suggestions" value={eForm.city} onChange={e => setEForm({ ...eForm, city: e.target.value })}
-                placeholder="e.g. Delhi"
-                className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]" />
-              <datalist id="edit-city-suggestions">
-                {INDIAN_CITIES_SUGGESTIONS.map(c => <option key={c} value={c} />)}
-              </datalist>
+              {cities.length > 0 ? (
+                <select value={eForm.cityId}
+                  onChange={e => {
+                    const city = cities.find(c => c.id === e.target.value);
+                    setEForm({ ...eForm, cityId: e.target.value, stateId: city?.stateId ?? eForm.stateId });
+                  }}
+                  className="w-full px-3 py-2 text-sm bg-[#FDFAF4] border border-[#D8CEBC] rounded-xl outline-none focus:border-[#567C45] focus:ring-1 focus:ring-[#567C45]/20 text-[#2C2820]">
+                  <option value="">— Select city —</option>
+                  {(eForm.stateId
+                    ? cities.filter(c => c.stateId === eForm.stateId)
+                    : cities
+                  ).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              ) : (
+                <p className="text-xs text-[#ADA082] px-3 py-2 border border-[#D8CEBC] rounded-xl bg-[#FDFAF4]">Add cities in Geography first</p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">

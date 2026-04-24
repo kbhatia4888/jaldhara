@@ -81,11 +81,19 @@ export default function Geography() {
   // Playbook form
   const [playbookForm, setPlaybookForm] = useState<City['playbook'] | null>(null);
 
-  // Compute city stats
+  // Compute city stats — a building belongs to a city if:
+  // 1. building.cityId === city.id (direct link), OR
+  // 2. its area belongs to this city (area.cityId === city.id)
+  const getBuildingsForCity = (cityId: string) =>
+    buildings.filter(b =>
+      b.cityId === cityId ||
+      (b.areaId && areas.some(a => a.id === b.areaId && a.cityId === cityId))
+    );
+
   const cityStats = useMemo(() => {
     return cities.map(city => {
       const cityAreas = areas.filter(a => a.cityId === city.id);
-      const cityBuildings = buildings.filter(b => b.cityId === city.id);
+      const cityBuildings = getBuildingsForCity(city.id);
       const cityDeals = deals.filter(d => cityBuildings.some(b => b.id === d.buildingId));
       const wonDeals = cityDeals.filter(d => d.stage === 'Won');
       const revenue = wonDeals.reduce((s, d) => s + d.value, 0);
@@ -97,7 +105,21 @@ export default function Geography() {
       const st = statesData.find(s => s.id === city.stateId);
       return { city, state: st, areas: cityAreas, buildings: cityBuildings, wonDeals, revenue, waterSaved, hotProspects, convRate };
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cities, statesData, areas, buildings, deals]);
+
+  // Buildings not linked to any city (for data-health display)
+  const unassignedBuildings = useMemo(() => {
+    const assignedIds = new Set(
+      cities.flatMap(city =>
+        buildings.filter(b =>
+          b.cityId === city.id ||
+          (b.areaId && areas.some(a => a.id === b.areaId && a.cityId === city.id))
+        ).map(b => b.id)
+      )
+    );
+    return buildings.filter(b => !assignedIds.has(b.id));
+  }, [cities, buildings, areas]);
 
   // Area breakdown for selected city
   const areaBreakdown = useMemo(() => {
@@ -515,6 +537,21 @@ export default function Geography() {
           </Button>
         </div>
       </div>
+
+      {/* Unassigned buildings warning */}
+      {unassignedBuildings.length > 0 && (
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+          <Building2 size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-amber-800">
+              {unassignedBuildings.length} building{unassignedBuildings.length > 1 ? 's' : ''} not linked to a city
+            </p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              {unassignedBuildings.map(b => b.name).join(', ')} — open each building in CRM and edit to assign a city.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Active states (with cities) */}
       {statesWithCities.length > 0 && (
