@@ -8,11 +8,11 @@ import { Button } from '../components/ui/Button';
 import { Input, TextArea } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Modal } from '../components/ui/Modal';
-import type { Building, ContactLog, ContactLogType, Script } from '../types';
+import type { Building, ContactLog, ContactLogType, Script, Manufacturer, City } from '../types';
 import {
   ArrowLeft, Edit2, Plus, Phone, Mail, MapPin, Building2, Droplets,
   Calendar, MessageCircle, FileText, Users, ClipboardList, BookOpen,
-  Clock, CheckCircle2, ChevronRight, Trash2, Copy, Check,
+  Clock, CheckCircle2, ChevronRight, Trash2, Copy, Check, Factory, Star,
 } from 'lucide-react';
 import { format, formatDistanceToNow, isPast, isToday, parseISO } from 'date-fns';
 
@@ -627,12 +627,16 @@ export default function BuildingDetail() {
               <Button size="sm"><Plus size={14} className="mr-1" /> New Referral</Button>
             </Link>
           </div>
+
+          {/* Provider Matching Widget */}
+          <ProviderMatchWidget building={building} manufacturers={state.manufacturers} cities={cities} navigate={navigate} />
+
           {buildingReferrals.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-[#E2D5BE]">
+            <div className="text-center py-12 bg-white rounded-2xl border border-[#E2D5BE]">
               <Users size={40} className="text-[#ADA082] mx-auto mb-3" />
               <h3 className="font-semibold text-[#2C2820] mb-1">No referrals yet</h3>
               <p className="text-sm text-[#8C8062] mb-4">
-                When the building is ready, refer them to a vetted manufacturer to earn commission.
+                Use the suggestions above to match this building with the right provider.
               </p>
               <Link to="/referrals">
                 <Button>Create referral</Button>
@@ -878,6 +882,115 @@ function Row({ icon: Icon, label, value }: { icon: React.ElementType; label: str
         <span className="text-xs text-[#ADA082]">{label}</span>
         <div className="text-sm text-[#463F2E] font-medium truncate">{value}</div>
       </div>
+    </div>
+  );
+}
+
+// ── Provider Matching Widget ──────────────────────────────
+function ProviderMatchWidget({
+  building,
+  manufacturers,
+  cities,
+  navigate,
+}: {
+  building: Building;
+  manufacturers: Manufacturer[];
+  cities: City[];
+  navigate: ReturnType<typeof useNavigate>;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  const cityName = cities.find(c => c.id === building.cityId)?.name ?? '';
+  const greywaterKLD = building.greywaterPotentialLpd
+    ? building.greywaterPotentialLpd / 1000
+    : (building.monthlyWaterSpend ? building.monthlyWaterSpend * 12 / 365 / 1000 * 0.4 : 0);
+
+  const topMatches = React.useMemo(() => {
+    const active = manufacturers.filter(m => !m.isFlagged && (m.providerStatus !== 'Flagged') && m.active);
+    const scored = active.map(m => {
+      let score = 0;
+      // Stream: greywater preferred for most buildings
+      if ((m.stream ?? 'greywater') === 'greywater') score += 20;
+      // Building type match
+      const buildingBestFor = m.bestFor ?? [];
+      if (buildingBestFor.some(b => building.type.toLowerCase().includes(b.toLowerCase()) || b.toLowerCase().includes(building.type.split(' ')[0].toLowerCase()))) score += 20;
+      // Capacity match
+      const minK = m.capacityMinKld ?? 0;
+      const maxK = m.capacityMaxKld ?? 9999;
+      if (greywaterKLD >= minK && greywaterKLD <= maxK) score += 20;
+      // Coverage
+      const coverage = [...(m.geographicCoverage ?? []), ...(m.citiesCovered ?? [])];
+      if (cityName && coverage.some(c => c.toLowerCase().includes(cityName.toLowerCase()) || c.toLowerCase().includes('pan-india'))) score += 20;
+      // Star rating
+      score += (m.starRating ?? 0) * 4;
+      // Preferred
+      if (m.isPreferred) score += 10;
+      return { m, score };
+    });
+    return scored.sort((a, b) => b.score - a.score).slice(0, 3).filter(s => s.score > 0);
+  }, [manufacturers, building, cityName, greywaterKLD]);
+
+  if (topMatches.length === 0) return null;
+
+  const STREAM_LABELS: Record<string, string> = {
+    greywater: 'Greywater', rainwater: 'Rainwater', trees: 'Trees', lakes: 'Lakes',
+  };
+
+  return (
+    <div className="bg-[#FDFAF4] border border-[#EDE4D4] rounded-2xl overflow-hidden">
+      <button
+        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-[#F6F1EA] transition-colors"
+        onClick={() => setOpen(o => !o)}
+      >
+        <div className="flex items-center gap-2">
+          <Factory size={16} className="text-[#567C45]" />
+          <span className="font-semibold text-sm text-[#2C2820]">Suggested Providers</span>
+          <span className="text-xs bg-[#567C45] text-white px-1.5 py-0.5 rounded-full">{topMatches.length}</span>
+        </div>
+        <ChevronRight size={14} className={`text-[#ADA082] transition-transform ${open ? 'rotate-90' : ''}`} />
+      </button>
+      {open && (
+        <div className="border-t border-[#EDE4D4] divide-y divide-[#F0E8D8]">
+          {topMatches.map(({ m, score }) => {
+            const coverage = [...(m.geographicCoverage ?? []), ...(m.citiesCovered ?? [])];
+            const matchReasons = [
+              m.stream && STREAM_LABELS[m.stream],
+              m.capacityMinKld != null && m.capacityMaxKld != null ? `${m.capacityMinKld}–${m.capacityMaxKld} KLD` : null,
+              coverage.some(c => c.toLowerCase().includes(cityName.toLowerCase())) ? `Covers ${cityName}` : coverage.some(c => c.toLowerCase().includes('pan-india')) ? 'Pan-India' : null,
+              m.providerType,
+            ].filter(Boolean);
+            return (
+              <div key={m.id} className="px-4 py-3 flex items-center justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-sm text-[#2C2820] truncate">{m.name}</p>
+                  <p className="text-xs text-[#8C8062] mt-0.5">{m.city}</p>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {matchReasons.map((r, i) => (
+                      <span key={i} className="text-[10px] bg-[#EDE4D4] text-[#5C5244] px-1.5 py-0.5 rounded-full">{r}</span>
+                    ))}
+                    {m.starRating && (
+                      <span className="text-[10px] flex items-center gap-0.5 text-amber-600">
+                        <Star size={9} className="fill-amber-400 text-amber-400" /> {m.starRating}/5
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigate(`/providers/${m.id}`)}
+                  className="flex-shrink-0 text-xs font-medium text-[#567C45] border border-[#567C45]/30 rounded-lg px-3 py-1.5 hover:bg-[#567C45]/5 transition-colors whitespace-nowrap"
+                >
+                  View provider →
+                </button>
+              </div>
+            );
+          })}
+          <div className="px-4 py-2.5 bg-[#F6F1EA]">
+            <button onClick={() => navigate('/providers')} className="text-xs text-[#567C45] hover:underline">
+              Browse all providers →
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -145,6 +145,12 @@ export interface Audit {
   priorityActions?: { description: string; estimatedCost: number; monthlySaving: number; urgency: 'Quick win' | 'Medium' | 'Long term' }[];
 }
 
+export type ProviderStream = 'greywater' | 'rainwater' | 'trees' | 'lakes';
+export type ProviderType = 'Manufacturer' | 'NGO' | 'EPC Contractor' | 'Consultant' | 'Component Supplier';
+export type CommissionStatus = 'Not discussed' | 'In conversation' | 'Verbally agreed' | 'Signed agreement';
+export type ProviderStatus = 'Pending contact' | 'Active' | 'Commission agreed' | 'Flagged' | 'Paused';
+export type FlagReason = 'Commission dispute' | 'Poor quality' | 'Unresponsive' | 'Geographic mismatch' | 'Conflict of interest' | 'Other';
+
 export interface Manufacturer {
   id: string;
   name: string;
@@ -158,6 +164,35 @@ export interface Manufacturer {
   citiesCovered: string[];
   notes?: string;
   active: boolean;
+  // ── Extended Provider fields ──────────────────────────
+  stream?: ProviderStream;
+  providerType?: ProviderType;
+  capacityMinKld?: number;
+  capacityMaxKld?: number;
+  capacityNotes?: string;
+  technology?: string;
+  certifications?: string;
+  bestFor?: string[];
+  geographicCoverage?: string[];
+  commissionStatus?: CommissionStatus;
+  commissionNotes?: string;
+  starRating?: number;
+  internalReview?: string;
+  isPreferred?: boolean;
+  isFlagged?: boolean;
+  flagReason?: FlagReason;
+  flagNotes?: string;
+  lastContactedAt?: string;
+  providerStatus?: ProviderStatus;
+  createdAt?: string;
+}
+
+export interface ProviderNote {
+  id: string;
+  providerId: string;
+  noteText: string;
+  notedBy?: string;
+  createdAt: string;
 }
 
 export type ReferralStatus =

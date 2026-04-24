@@ -3,17 +3,18 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   Droplets, Menu, X,
   LayoutDashboard, Building2, ClipboardList, FileText,
-  Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves, NotebookPen,
+  Users, BookOpen, Globe, Map, Bell, Settings, Leaf, Waves, NotebookPen, Factory,
 } from 'lucide-react';
 import clsx from 'clsx';
 
 const primaryNav = [
-  { to: '/',        label: 'Dashboard',  icon: LayoutDashboard },
-  { to: '/crm',     label: 'CRM',        icon: Building2 },
-  { to: '/audits',  label: 'Audits',     icon: ClipboardList },
-  { to: '/rwh',     label: 'Rainwater',  icon: Droplets },
-  { to: '/trees',   label: 'Trees',      icon: Leaf },
-  { to: '/lakes',   label: 'Lakes',      icon: Waves },
+  { to: '/',          label: 'Dashboard',  icon: LayoutDashboard },
+  { to: '/crm',       label: 'CRM',        icon: Building2 },
+  { to: '/audits',    label: 'Audits',     icon: ClipboardList },
+  { to: '/rwh',       label: 'Rainwater',  icon: Droplets },
+  { to: '/trees',     label: 'Trees',      icon: Leaf },
+  { to: '/lakes',     label: 'Lakes',      icon: Waves },
+  { to: '/providers', label: 'Providers',  icon: Factory },
 ];
 
 const moreNav = [

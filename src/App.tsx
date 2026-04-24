@@ -19,6 +19,8 @@ import UrbanTrees from './pages/UrbanTrees';
 import Lakes from './pages/Lakes';
 import Journal from './pages/Journal';
 import BuildingDetail from './pages/BuildingDetail';
+import Providers from './pages/Providers';
+import ProviderDetail from './pages/ProviderDetail';
 
 function AppInner() {
   const { state, isLoading } = useStore();
@@ -57,6 +59,8 @@ function AppInner() {
           <Route path="/lakes" element={<Lakes />} />
           <Route path="/journal" element={<Journal />} />
           <Route path="/buildings/:id" element={<BuildingDetail />} />
+          <Route path="/providers" element={<Providers />} />
+          <Route path="/providers/:id" element={<ProviderDetail />} />
         </Routes>
       </main>
     </div>

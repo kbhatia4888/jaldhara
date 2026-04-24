@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer, useEffect, useCallback, useRef, useState } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry, ContactLog } from '../types';
+import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry, ContactLog, ProviderNote } from '../types';
 import {
   countries as seedCountries,
   states as seedStates,
@@ -21,6 +21,7 @@ import {
   lakeRestorationLogs as seedLakeRestorationLogs,
   csrPartners as seedCsrPartners,
   journalEntries as seedJournalEntries,
+  providerNotes as seedProviderNotes,
 } from '../data/seed';
 import React from 'react';
 
@@ -60,6 +61,7 @@ interface AppState {
   csrPartners: CsrPartner[];
   journalEntries: JournalEntry[];
   contactLogs: ContactLog[];
+  providerNotes: ProviderNote[];
 }
 
 type Action =
@@ -120,12 +122,15 @@ type Action =
   | { type: 'ADD_CONTACT_LOG'; payload: ContactLog }
   | { type: 'UPDATE_CONTACT_LOG'; payload: ContactLog }
   | { type: 'DELETE_CONTACT_LOG'; payload: string }
+  | { type: 'ADD_PROVIDER_NOTE'; payload: ProviderNote }
+  | { type: 'UPDATE_PROVIDER_NOTE'; payload: ProviderNote }
+  | { type: 'DELETE_PROVIDER_NOTE'; payload: string }
   | { type: 'UPDATE_SETTINGS'; payload: Partial<AppSettings> }
   | { type: 'LOAD_STATE'; payload: AppState }
   | { type: 'RESET_STATE' };
 
 // ── localStorage (fast local cache) ─────────────────────
-const STORAGE_KEY = 'jaldrishti_state_v3';
+const STORAGE_KEY = 'jaldrishti_state_v4';
 
 function loadFromLocalStorage(): AppState | null {
   try {
@@ -194,6 +199,7 @@ const seedState: AppState = {
   csrPartners: seedCsrPartners,
   journalEntries: seedJournalEntries,
   contactLogs: [],
+  providerNotes: seedProviderNotes,
 };
 
 // Start with localStorage for instant first paint; Firestore replaces it on load
@@ -335,6 +341,13 @@ function reducer(state: AppState, action: Action): AppState {
     case 'DELETE_CONTACT_LOG':
       return { ...state, contactLogs: state.contactLogs.filter(l => l.id !== action.payload) };
 
+    case 'ADD_PROVIDER_NOTE':
+      return { ...state, providerNotes: [...(state.providerNotes ?? []), action.payload] };
+    case 'UPDATE_PROVIDER_NOTE':
+      return { ...state, providerNotes: (state.providerNotes ?? []).map(n => n.id === action.payload.id ? action.payload : n) };
+    case 'DELETE_PROVIDER_NOTE':
+      return { ...state, providerNotes: (state.providerNotes ?? []).filter(n => n.id !== action.payload) };
+
     case 'UPDATE_SETTINGS':
       return { ...state, settings: { ...state.settings, ...action.payload } };
 
@@ -432,6 +445,10 @@ interface StoreContextType {
   addContactLog: (l: Omit<ContactLog, 'id'>) => void;
   updateContactLog: (l: ContactLog) => void;
   deleteContactLog: (id: string) => void;
+  // Provider Notes
+  addProviderNote: (n: Omit<ProviderNote, 'id'>) => void;
+  updateProviderNote: (n: ProviderNote) => void;
+  deleteProviderNote: (id: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | null>(null);
@@ -617,6 +634,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const deleteContactLog = useCallback((id: string) =>
     dispatch({ type: 'DELETE_CONTACT_LOG', payload: id }), []);
 
+  const addProviderNote = useCallback((n: Omit<ProviderNote, 'id'>) =>
+    dispatch({ type: 'ADD_PROVIDER_NOTE', payload: { ...n, id: genId() } }), []);
+  const updateProviderNote = useCallback((n: ProviderNote) =>
+    dispatch({ type: 'UPDATE_PROVIDER_NOTE', payload: n }), []);
+  const deleteProviderNote = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_PROVIDER_NOTE', payload: id }), []);
+
   return React.createElement(
     StoreContext.Provider,
     {
@@ -644,6 +668,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         addCsrPartner, updateCsrPartner, deleteCsrPartner,
         addJournal, updateJournal, deleteJournal,
         addContactLog, updateContactLog, deleteContactLog,
+        addProviderNote, updateProviderNote, deleteProviderNote,
       }
     },
     children
