@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer, useEffect, useCallback, useRef, useState } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry } from '../types';
+import type { Country, State, City, Area, Building, Deal, Audit, Referral, Manufacturer, Script, Reminder, AppSettings, RwhAssessment, TreeProject, TreeMonitoringLog, WaterBody, LakeRestorationLog, CsrPartner, JournalEntry, ContactLog } from '../types';
 import {
   countries as seedCountries,
   states as seedStates,
@@ -59,6 +59,7 @@ interface AppState {
   lakeRestorationLogs: LakeRestorationLog[];
   csrPartners: CsrPartner[];
   journalEntries: JournalEntry[];
+  contactLogs: ContactLog[];
 }
 
 type Action =
@@ -116,6 +117,9 @@ type Action =
   | { type: 'ADD_REMINDER'; payload: Reminder }
   | { type: 'UPDATE_REMINDER'; payload: Reminder }
   | { type: 'DELETE_REMINDER'; payload: string }
+  | { type: 'ADD_CONTACT_LOG'; payload: ContactLog }
+  | { type: 'UPDATE_CONTACT_LOG'; payload: ContactLog }
+  | { type: 'DELETE_CONTACT_LOG'; payload: string }
   | { type: 'UPDATE_SETTINGS'; payload: Partial<AppSettings> }
   | { type: 'LOAD_STATE'; payload: AppState }
   | { type: 'RESET_STATE' };
@@ -189,6 +193,7 @@ const seedState: AppState = {
   lakeRestorationLogs: seedLakeRestorationLogs,
   csrPartners: seedCsrPartners,
   journalEntries: seedJournalEntries,
+  contactLogs: [],
 };
 
 // Start with localStorage for instant first paint; Firestore replaces it on load
@@ -323,6 +328,13 @@ function reducer(state: AppState, action: Action): AppState {
     case 'DELETE_CSR_PARTNER':
       return { ...state, csrPartners: state.csrPartners.filter(c => c.id !== action.payload) };
 
+    case 'ADD_CONTACT_LOG':
+      return { ...state, contactLogs: [...state.contactLogs, action.payload] };
+    case 'UPDATE_CONTACT_LOG':
+      return { ...state, contactLogs: state.contactLogs.map(l => l.id === action.payload.id ? action.payload : l) };
+    case 'DELETE_CONTACT_LOG':
+      return { ...state, contactLogs: state.contactLogs.filter(l => l.id !== action.payload) };
+
     case 'UPDATE_SETTINGS':
       return { ...state, settings: { ...state.settings, ...action.payload } };
 
@@ -416,6 +428,10 @@ interface StoreContextType {
   addJournal: (e: Omit<JournalEntry, 'id'>) => void;
   updateJournal: (e: JournalEntry) => void;
   deleteJournal: (id: string) => void;
+  // Contact Logs
+  addContactLog: (l: Omit<ContactLog, 'id'>) => void;
+  updateContactLog: (l: ContactLog) => void;
+  deleteContactLog: (id: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | null>(null);
@@ -594,6 +610,13 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const deleteJournal = useCallback((id: string) =>
     dispatch({ type: 'DELETE_JOURNAL', payload: id }), []);
 
+  const addContactLog = useCallback((l: Omit<ContactLog, 'id'>) =>
+    dispatch({ type: 'ADD_CONTACT_LOG', payload: { ...l, id: genId() } }), []);
+  const updateContactLog = useCallback((l: ContactLog) =>
+    dispatch({ type: 'UPDATE_CONTACT_LOG', payload: l }), []);
+  const deleteContactLog = useCallback((id: string) =>
+    dispatch({ type: 'DELETE_CONTACT_LOG', payload: id }), []);
+
   return React.createElement(
     StoreContext.Provider,
     {
@@ -620,6 +643,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         addLakeLog, updateLakeLog, deleteLakeLog,
         addCsrPartner, updateCsrPartner, deleteCsrPartner,
         addJournal, updateJournal, deleteJournal,
+        addContactLog, updateContactLog, deleteContactLog,
       }
     },
     children

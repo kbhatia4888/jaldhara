@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { StoreProvider, useStore } from './store/useStore';
+import { ToastProvider } from './components/ui/Toast';
 import { Header } from './components/layout/Header';
 import Onboarding from './components/Onboarding';
 import Dashboard from './pages/Dashboard';
@@ -17,6 +18,7 @@ import RainwaterHarvesting from './pages/RainwaterHarvesting';
 import UrbanTrees from './pages/UrbanTrees';
 import Lakes from './pages/Lakes';
 import Journal from './pages/Journal';
+import BuildingDetail from './pages/BuildingDetail';
 
 function AppInner() {
   const { state, isLoading } = useStore();
@@ -54,6 +56,7 @@ function AppInner() {
           <Route path="/trees" element={<UrbanTrees />} />
           <Route path="/lakes" element={<Lakes />} />
           <Route path="/journal" element={<Journal />} />
+          <Route path="/buildings/:id" element={<BuildingDetail />} />
         </Routes>
       </main>
     </div>
@@ -63,9 +66,11 @@ function AppInner() {
 export default function App() {
   return (
     <StoreProvider>
-      <BrowserRouter>
-        <AppInner />
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <AppInner />
+        </BrowserRouter>
+      </ToastProvider>
     </StoreProvider>
   );
 }

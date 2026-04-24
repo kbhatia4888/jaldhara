@@ -560,3 +560,25 @@ export interface JournalEntry {
   createdAt: string;
   updatedAt: string;
 }
+
+// ── CONTACT LOG ───────────────────────────────────────────
+
+export type ContactLogType =
+  | 'Meeting'
+  | 'Phone call'
+  | 'WhatsApp'
+  | 'Email sent'
+  | 'No response'
+  | 'Follow-up set'
+  | 'Other';
+
+export interface ContactLog {
+  id: string;
+  buildingId: string;
+  date: string;
+  type: ContactLogType;
+  notes: string;
+  nextAction?: string;
+  followUpDate?: string;
+  createdAt: string;
+}

@@ -149,7 +149,7 @@ const JOURNEY_STAGES = [
 
 export default function Dashboard() {
   const { state, updateReminder } = useStore();
-  const { buildings, deals, areas, audits, referrals, reminders, settings, rwhAssessments, treeProjects, waterBodies } = state;
+  const { buildings, deals, areas, audits, referrals, reminders, settings, rwhAssessments, treeProjects, waterBodies, contactLogs } = state;
 
   const [phasesOpen, setPhasesOpen] = useState(false);
   const [journeyOpen, setJourneyOpen] = useState(false);
@@ -351,14 +351,14 @@ export default function Dashboard() {
           <p className="text-[#8C8062] text-sm mt-0.5">Water Business Expansion OS</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Link to="/crm" className="flex items-center gap-1.5 px-3 py-1.5 bg-[#567C45] text-white rounded-lg text-sm font-medium hover:bg-[#436036] transition-colors">
-            <Plus size={14} /> New Building
+          <Link to="/crm" className="flex items-center gap-1.5 px-3 py-2 bg-[#567C45] text-white rounded-xl text-sm font-semibold hover:bg-[#436036] transition-colors shadow-sm">
+            <Plus size={15} /> New visit
           </Link>
-          <Link to="/audits" className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2D5BE] text-[#463F2E] rounded-lg text-sm font-medium hover:bg-[#F6F1EA] transition-colors">
-            <ClipboardList size={14} /> New Audit
+          <Link to="/crm" className="flex items-center gap-1.5 px-3 py-2 bg-white border border-[#E2D5BE] text-[#463F2E] rounded-xl text-sm font-semibold hover:bg-[#F6F1EA] transition-colors">
+            <ClipboardList size={15} /> Log activity
           </Link>
-          <Link to="/referrals" className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2D5BE] text-[#463F2E] rounded-lg text-sm font-medium hover:bg-[#F6F1EA] transition-colors">
-            <Users size={14} /> Log Referral
+          <Link to="/referrals" className="flex items-center gap-1.5 px-3 py-2 bg-white border border-[#E2D5BE] text-[#463F2E] rounded-xl text-sm font-semibold hover:bg-[#F6F1EA] transition-colors">
+            <Users size={15} /> New referral
           </Link>
         </div>
       </div>
@@ -422,6 +422,91 @@ export default function Dashboard() {
           </Card>
         ))}
       </div>
+
+      {/* ── OVERDUE FOLLOW-UPS ──────────────────────────── */}
+      {(() => {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const overdue = buildings.filter(b => b.followUpDate && b.followUpDate <= todayStr);
+        if (!overdue.length) return null;
+        return (
+          <Card className="border-l-4 border-l-red-500">
+            <CardBody className="py-3">
+              <div className="flex items-center gap-2 mb-3">
+                <Bell size={16} className="text-red-500" />
+                <h2 className="font-semibold text-[#2C2820] text-sm">Due today / Overdue ({overdue.length})</h2>
+              </div>
+              <div className="space-y-2">
+                {overdue.slice(0, 5).map(b => {
+                  const isOD = b.followUpDate! < todayStr;
+                  return (
+                    <Link key={b.id} to={`/buildings/${b.id}`}
+                      className="flex items-center justify-between gap-3 p-2.5 rounded-xl hover:bg-[#F6F1EA] transition-colors group">
+                      <div className="min-w-0">
+                        <p className="font-medium text-sm text-[#2C2820] truncate">{b.name}</p>
+                        <p className="text-xs text-[#8C8062]">{b.contactName}{b.contactPhone ? ` · ${b.contactPhone}` : ''}</p>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${isOD ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>
+                          {isOD ? 'Overdue' : 'Today'}
+                        </span>
+                        <ChevronRight size={14} className="text-[#ADA082] group-hover:text-[#567C45]" />
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </CardBody>
+          </Card>
+        );
+      })()}
+
+      {/* ── RECENT ACTIVITY ──────────────────────────────── */}
+      {contactLogs.length > 0 && (() => {
+        const recent = [...contactLogs]
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+          .slice(0, 10);
+        const LOG_COLORS: Record<string, string> = {
+          'Meeting':       'bg-blue-100 text-blue-700',
+          'Phone call':    'bg-teal-100 text-teal-700',
+          'WhatsApp':      'bg-green-100 text-green-700',
+          'Email sent':    'bg-purple-100 text-purple-700',
+          'No response':   'bg-gray-100 text-gray-600',
+          'Follow-up set': 'bg-amber-100 text-amber-700',
+          'Other':         'bg-[#EDE4D4] text-[#5C5244]',
+        };
+        return (
+          <Card>
+            <CardBody className="py-3">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-semibold text-[#2C2820] text-sm">Recent Activity</h2>
+                <Link to="/crm" className="text-xs text-[#567C45] hover:underline">View CRM →</Link>
+              </div>
+              <div className="space-y-2">
+                {recent.map(log => {
+                  const building = buildings.find(b => b.id === log.buildingId);
+                  return (
+                    <Link key={log.id} to={`/buildings/${log.buildingId}`}
+                      className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[#F6F1EA] transition-colors group">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium flex-shrink-0 mt-0.5 ${LOG_COLORS[log.type] ?? 'bg-gray-100 text-gray-600'}`}>
+                        {log.type}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-[#2C2820] truncate">
+                          {building?.name ?? 'Unknown building'}
+                        </p>
+                        <p className="text-xs text-[#8C8062] truncate">{log.notes}</p>
+                      </div>
+                      <span className="text-xs text-[#ADA082] flex-shrink-0">
+                        {format(new Date(log.date), 'dd MMM')}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </CardBody>
+          </Card>
+        );
+      })()}
 
       {/* ── 4-STREAM IMPACT PANEL ─────────────────────── */}
       <div>
