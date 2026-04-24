@@ -130,7 +130,7 @@ const STORAGE_KEY = 'jaldrishti_state_v3';
 function loadFromLocalStorage(): AppState | null {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
+    if (stored) return { ...seedState, ...JSON.parse(stored) };
   } catch {
     // ignore
   }
@@ -153,7 +153,7 @@ async function loadFromFirestore(): Promise<AppState | null> {
     const ref = doc(db, 'jaldrishti', 'app_state');
     const snap = await getDoc(ref);
     if (snap.exists()) {
-      return snap.data() as AppState;
+      return { ...seedState, ...snap.data() };
     }
   } catch (err) {
     console.warn('Firestore load failed, using local cache:', err);
